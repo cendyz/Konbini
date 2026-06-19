@@ -1,4 +1,6 @@
 #pragma once
+#include "KonbiniUI.h"
+#include <memory>
 
 class Konbini {
 public:
@@ -12,5 +14,9 @@ public:
     }
 
 private:
-    Konbini();
+
+    std::unique_ptr<KonbiniUI> ui;
+    Konbini() {
+        ui = std::make_unique<KonbiniUI>();
+    }
 };
