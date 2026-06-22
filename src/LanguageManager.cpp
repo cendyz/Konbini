@@ -11,10 +11,11 @@ LanguageManager::LanguageManager() {
 
 std::string LanguageManager::getUserLang() {
     std::string input;
-    std::cin >> input;
+    getline(std::cin, input);
     return input;
 }
 
-bool LanguageManager::isUserLangOk() {
-    return std::regex_match(getUserLang(), langRegex);
+
+bool LanguageManager::checkUserLang(const std::string &input) {
+    return std::regex_match(input, lngRegex);
 }

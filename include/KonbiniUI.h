@@ -1,27 +1,24 @@
 #pragma once
 #include <LanguageManager.h>
-#include <memory>
+#include <array>
 #include <string_view>
 
 class KonbiniUI {
 public:
-    KonbiniUI() {
-        lng = std::make_unique<LanguageManager>();
-        printChooseLangMsg();
-        userSelectingLanguage();
-    }
+    KonbiniUI() = default;
 
-private:
-    std::unique_ptr<LanguageManager> lng;
-
+    static void printUserCanChangeLNG();
 
     static void printChooseLangMsg();
 
-    static constexpr std::string_view langMsg{"Which language you prefer? (jp | en):"};
-
-    void userSelectingLanguage();
-
     static void printWrongLngInput();
+
+    static void printLngMenu() ;
+
+private:
+    static constexpr std::string_view possibilityToChoseLng{"You can chose the language for konbini store."};
+    static constexpr std::string_view langMsg{"Which language you prefer?:"};
+    static constexpr std::array<std::string_view, 2> lngMenu{"Japanese", "English"};
 
     static constexpr std::string_view wrongInputMsg{"Unknown language."};
 };

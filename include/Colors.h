@@ -1,6 +1,8 @@
+#pragma once
 #include <string_view>
 
 namespace COLORS {
-    static constexpr std::string_view RED{"\033[91m"};
-    static constexpr std::string_view RESET{"\033[0m"};
+    inline constexpr std::string_view RED{"\033[91m"};
+    inline constexpr std::string_view BLU{"\033[96m"};
+    inline constexpr std::string_view RESET{"\033[0m"};
 }

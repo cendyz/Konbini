@@ -4,12 +4,17 @@
 
 class LanguageManager {
 public:
+    enum class lang {
+        JP = 1,
+        EN = 2
+    };
+
     LanguageManager();
 
-    [[nodiscard]] static bool isUserLangOk();
-
-private:
     [[nodiscard]] static std::string getUserLang();
 
-    inline static const std::regex langRegex{"^(jp|en)$", std::regex::icase};
+    [[nodiscard]] static bool checkUserLang(const std::string &input);
+
+private:
+    inline static const std::regex lngRegex{"^(japanese|english)$", std::regex::icase};
 };

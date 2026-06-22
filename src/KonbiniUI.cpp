@@ -1,21 +1,23 @@
 #include "KonbiniUI.h"
 #include "Utils.h"
+#include "Colors.h"
+#include <print>
 
-
-void KonbiniUI::printChooseLangMsg() {
-    Utils::printMsgSpace(langMsg);
+void KonbiniUI::printUserCanChangeLNG() {
+    Utils::printMsgNLine(possibilityToChoseLng);
 }
 
-void KonbiniUI::userSelectingLanguage() {
-    while (true) {
-        if (lng->isUserLangOk()) {
-            return;
-        }
-        printWrongLngInput();
-    }
+void KonbiniUI::printChooseLangMsg() {
+    Utils::printMsg(langMsg);
 }
 
 
 void KonbiniUI::printWrongLngInput() {
     Utils::printWrongMsgNLine(wrongInputMsg);
+}
+
+void KonbiniUI::printLngMenu() {
+    for (size_t i{}; i < lngMenu.size(); ++i) {
+        std::println("\t{}. {}{}{}", i + 1, COLORS::BLU, lngMenu[i], COLORS::RESET);
+    }
 }

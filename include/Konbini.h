@@ -14,9 +14,9 @@ public:
     }
 
 private:
-
+    Konbini();
     std::unique_ptr<KonbiniUI> ui;
-    Konbini() {
-        ui = std::make_unique<KonbiniUI>();
-    }
+    std::unique_ptr<LanguageManager> lng;
+
+    [[nodiscard]] static std::string userSelectingLanguage();
 };
