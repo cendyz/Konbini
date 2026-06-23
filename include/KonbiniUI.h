@@ -13,11 +13,13 @@ public:
 
     static void printWrongLngInput();
 
-    static void printLngMenu() ;
+    static void printLngMenu();
 
 private:
-    static constexpr std::string_view possibilityToChoseLng{"You can chose the language for konbini store."};
-    static constexpr std::string_view langMsg{"Which language you prefer?:"};
+    static constexpr std::string_view possibilityToChoseLng{
+        "You can choose the Konbini language, control is done using numbers."
+    };
+    static constexpr std::string_view langMsg{"Which language do you prefer?"};
     static constexpr std::array<std::string_view, 2> lngMenu{"Japanese", "English"};
 
     static constexpr std::string_view wrongInputMsg{"Unknown language."};

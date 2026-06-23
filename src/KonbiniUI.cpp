@@ -8,9 +8,8 @@ void KonbiniUI::printUserCanChangeLNG() {
 }
 
 void KonbiniUI::printChooseLangMsg() {
-    Utils::printMsg(langMsg);
+    Utils::printMsgSpace(langMsg);
 }
-
 
 void KonbiniUI::printWrongLngInput() {
     Utils::printWrongMsgNLine(wrongInputMsg);
@@ -18,6 +17,6 @@ void KonbiniUI::printWrongLngInput() {
 
 void KonbiniUI::printLngMenu() {
     for (size_t i{}; i < lngMenu.size(); ++i) {
-        std::println("\t{}. {}{}{}", i + 1, COLORS::BLU, lngMenu[i], COLORS::RESET);
+        std::println("\t{}. {}{}{}", i + 1, COLORS::PURPLE, lngMenu[i], COLORS::RESET);
     }
 }

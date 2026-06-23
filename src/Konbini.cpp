@@ -1,25 +1,23 @@
 #include <Konbini.h>
-#include <print>
+#include "Utils.h"
 
 Konbini::Konbini() {
     lng = std::make_unique<LanguageManager>();
     ui = std::make_unique<KonbiniUI>();
-
-    if (userSelectingLanguage() == "japanese") {
-        std::println("jp");
-    } else {
-        std::println("en");
-    }
 }
 
-std::string Konbini::userSelectingLanguage() {
+void Konbini::run() {
+    userSelectingLanguage();
+}
+
+void Konbini::userSelectingLanguage() const {
     KonbiniUI::printUserCanChangeLNG();
     while (true) {
         KonbiniUI::printLngMenu();
         KonbiniUI::printChooseLangMsg();
-        if (std::string val = LanguageManager::getUserLang();
-            LanguageManager::checkUserLang(val)) {
-            return val;
+        if (std::string val{Utils::getInput()}; LanguageManager::checkUserLang(val) &&
+                                                lng->getUserLang(stoi(val))) {
+            return;
         }
         KonbiniUI::printWrongLngInput();
     }

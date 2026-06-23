@@ -13,10 +13,12 @@ public:
         return obj;
     }
 
+    void run();
+
 private:
     Konbini();
     std::unique_ptr<KonbiniUI> ui;
     std::unique_ptr<LanguageManager> lng;
 
-    [[nodiscard]] static std::string userSelectingLanguage();
+    void userSelectingLanguage() const;
 };

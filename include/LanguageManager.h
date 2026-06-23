@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
-#include <regex>
+#include <map>
+#include <unordered_map>
 
 class LanguageManager {
 public:
@@ -11,10 +12,16 @@ public:
 
     LanguageManager();
 
-    [[nodiscard]] static std::string getUserLang();
+    [[nodiscard]] bool getUserLang(int val);
 
     [[nodiscard]] static bool checkUserLang(const std::string &input);
 
+    void loadDict(const std::string & lang);
+
+    [[nodiscard]] std::string_view getText(const std::string& text);
+
 private:
-    inline static const std::regex lngRegex{"^(japanese|english)$", std::regex::icase};
+    static constexpr std::string_view dictPath{"/data"};
+    static constexpr std::string_view dictFormat{".txt"};
+    std::unordered_map<std::string, std::string> dict;
 };
