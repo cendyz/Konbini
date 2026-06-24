@@ -1,5 +1,6 @@
 #pragma once
 #include "KonbiniUI.h"
+#include "LanguageManager.h"
 #include <memory>
 
 class Konbini {
@@ -17,8 +18,13 @@ public:
 
 private:
     Konbini();
+
     std::unique_ptr<KonbiniUI> ui;
     std::unique_ptr<LanguageManager> lng;
 
-    void userSelectingLanguage() const;
+    [[nodiscard]] static std::string userSelectingLanguage();
+
+    [[nodiscard]] static bool checkUserLang(const std::string &input);
+
+    void setSystemLang(const std::string &lang) const;
 };

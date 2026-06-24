@@ -1,0 +1,9 @@
+MENU_WELCOME;Welcome to the store!;
+M_OPT_1;Browse the store;
+M_OPT_2;Check cart;
+M_OPT_3;Finalize purchase;
+M_OPT_4;Login;
+M_OPT_5;Register;
+M_OPT_6;Become a employee;
+M_OPT_7;Remind password;
+M_OPT_8;Exit;

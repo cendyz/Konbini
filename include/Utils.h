@@ -6,23 +6,21 @@
 #include "Colors.h"
 
 
-
 namespace Utils {
-
-    inline void printMsgNLine(std::string_view msg) {
-        std::println("{}", msg);
+    inline void printMsgNLine(const std::string_view msg) {
+        std::cout << msg << '\n';
     }
 
-    inline void printMsg(std::string_view msg) {
-        std::print("{}", msg);
+    inline void printMsg(const std::string_view msg) {
+        std::cout << msg;
     }
 
     inline void printMsgSpace(std::string_view msg) {
         std::print("{} ", msg);
     }
 
-    inline void printWrongMsgNLine(std::string_view msg) {
-        std::println("{}{}{}", COLORS::RED, msg, COLORS::RESET);
+    inline void printWrongMsgNLine(const std::string_view msg) {
+        std::cout << COLORS::RED << msg << COLORS::RESET << '\n';
     }
 
     [[nodiscard]] inline std::string getInput() {
@@ -35,5 +33,10 @@ namespace Utils {
         return std::ranges::all_of(input, [](const char c) {
             return isdigit(c);
         });
+    }
+
+    inline void printTabOptionNLine(const std::string_view msg, const size_t numOption, const std::string_view color) {
+        std::cout << '\t' << numOption + 1 << ". " <<
+                color << msg << COLORS::RESET << '\n';
     }
 };

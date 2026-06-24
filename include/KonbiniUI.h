@@ -1,12 +1,10 @@
 #pragma once
-#include <LanguageManager.h>
 #include <array>
 #include <string_view>
+#include <vector>
 
 class KonbiniUI {
 public:
-    KonbiniUI() = default;
-
     static void printUserCanChangeLNG();
 
     static void printChooseLangMsg();
@@ -14,6 +12,9 @@ public:
     static void printWrongLngInput();
 
     static void printLngMenu();
+
+    static void printMenu(const std::vector<std::string_view> &arr) ;
+
 
 private:
     static constexpr std::string_view possibilityToChoseLng{
@@ -23,4 +24,5 @@ private:
     static constexpr std::array<std::string_view, 2> lngMenu{"Japanese", "English"};
 
     static constexpr std::string_view wrongInputMsg{"Unknown language."};
+
 };

@@ -1,33 +1,18 @@
 #include <LanguageManager.h>
 #include <ios>
-#include <iostream>
 #include <fstream>
 #include <filesystem>
 #include <sstream>
-
 #include "Utils.h"
 
-LanguageManager::LanguageManager() {
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-}
-
-bool LanguageManager::getUserLang(int val) {
+std::optional<std::string> LanguageManager::isCorrectUserLang(int val) {
     switch (static_cast<lang>(val)) {
         case lang::JP:
-            loadDict("jp");
-            break;
+            return "jp";
         case lang::EN:
-            loadDict("en");
-            break;
-        default:
-            return false;
+            return "en";
     }
-    return true;
-}
-
-bool LanguageManager::checkUserLang(const std::string &input) {
-    return !input.empty() && Utils::isInputANumber(input);
+    return std::nullopt;
 }
 
 void LanguageManager::loadDict(const std::string &lang) {
@@ -36,9 +21,9 @@ void LanguageManager::loadDict(const std::string &lang) {
     std::string line;
     std::string key;
     std::string text;
-    std::istringstream ss;
 
     while (getline(dictionary, line)) {
+        std::istringstream ss(line);
         getline(ss, key, ';');
         getline(ss, text, ';');
 
@@ -48,4 +33,14 @@ void LanguageManager::loadDict(const std::string &lang) {
 
 std::string_view LanguageManager::getText(const std::string &text) {
     return dict[text];
+}
+
+void LanguageManager::fullfillMainMenu() {
+    for (size_t i{}; i < 8; ++i) {
+        mainMenu.emplace_back(dict["M_OPT_" + std::to_string(i + 1)]);
+    }
+}
+
+std::vector<std::string_view> LanguageManager::getMainMenu() {
+    return mainMenu;
 }
