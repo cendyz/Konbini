@@ -7,3 +7,7 @@ M_OPT_5;Register;
 M_OPT_6;Become a employee;
 M_OPT_7;Remind password;
 M_OPT_8;Exit;
+OPT_SELECT;What you want to do now?:;
+WRN_M_COMMAND;Wrong command.;
+STORE_EMPT;Sorry, the store is empty!;
+BYE;We look forward to seeing you again!;

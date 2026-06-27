@@ -18,6 +18,8 @@ public:
 
     [[nodiscard]] std::vector<std::string_view> getMainMenu();
 
+
+
 private:
     enum class lang {
         JP = 1,

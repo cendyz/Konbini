@@ -39,4 +39,14 @@ namespace Utils {
         std::cout << '\t' << numOption + 1 << ". " <<
                 color << msg << COLORS::RESET << '\n';
     }
+
+    inline void printWarningMsg(const std::string_view msg) {
+        std::cout << COLORS::YELLOW << msg << COLORS::RESET << '\n';
+    }
+
+    inline void printSuccessMsg(const std::string_view msg) {
+        std::cout << COLORS::GREEN << msg << COLORS::RESET << '\n';
+    }
 };
+
+
