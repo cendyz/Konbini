@@ -33,17 +33,17 @@ private:
 
     std::unique_ptr<KonbiniUI> ui;
     std::unique_ptr<LanguageManager> lng;
-    std::unique_ptr<Products> items;
+    std::unique_ptr<Products> products;
 
     [[nodiscard]] static std::string userSelectingLanguage();
 
     [[nodiscard]] static bool checkUserLang(const std::string &input);
 
-    void setSystemLang(const std::string &lang) const;
+    static void setSystemLang(const std::string &lang) ;
 
     [[nodiscard]] bool executeMainMenuTaks(int userOption);
 
     [[nodiscard]] static bool isUserCommandOk(const std::string &input);
 
-    void browseTheStore();
+    static void browseTheStore();
 };

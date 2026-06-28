@@ -10,13 +10,15 @@ public:
 
     [[nodiscard]] static std::optional<std::string> isCorrectUserLang(int val);
 
-    void loadDict(const std::string &lang);
+    static void loadDict(const std::string &lang);
 
-    [[nodiscard]] std::string_view getText(const std::string &text);
+    [[nodiscard]] static std::string getUserLang();
 
-    void fullfillMainMenu();
+    [[nodiscard]] static std::string_view getText(const std::string &text);
 
-    [[nodiscard]] std::vector<std::string_view> getMainMenu();
+    static void fullfillMainMenu();
+
+    [[nodiscard]] static std::vector<std::string_view> getMainMenu();
 
 
 
@@ -27,7 +29,8 @@ private:
     };
 
     static constexpr std::string_view dictPath{"data/"};
+    inline static std::string userLang;
     static constexpr std::string_view dictFormat{".txt"};
-    std::unordered_map<std::string, std::string> dict;
-    std::vector<std::string_view> mainMenu;
+    inline static std::unordered_map<std::string, std::string> dict;
+    inline static std::vector<std::string_view> mainMenu;
 };

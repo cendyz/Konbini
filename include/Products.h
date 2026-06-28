@@ -2,12 +2,26 @@
 #include <unordered_map>
 #include <array>
 #include <string>
+#include <filesystem>
 
 class Products {
-public:
-    Products() = default;
+    enum class Product {
+        Name = 0,
+        Price,
+        Quantity
+    };
 
-    [[nodiscard]] bool isStoreEmpty() const;
+public:
+    explicit Products(const std::string &finalLang);
+
+    [[nodiscard]] static bool isStoreEmpty() ;
+
+    [[nodiscard]] static std::unordered_map<std::string, std::array<std::string, 3>> &getProducts();
+
+    [[nodiscard]] static std::string_view getCurrency() ;
 private:
-    std::unordered_map<std::string, std::array<std::string, 3>> items;
+    std::filesystem::path productsPath{"data/products"};
+    inline static std::unordered_map<std::string, std::array<std::string, 3>> products;
+    inline static std::string currency;
+    void loadProducts() const;
 };

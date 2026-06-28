@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
-#include <string_view>
+#include <string>
+#include <unordered_map>
 #include <vector>
 
 class KonbiniUI {
@@ -20,6 +21,9 @@ public:
     static void printWrongExecuteCommand(std::string_view msg);
 
     static void printStoreIsEmpty(std::string_view msg);
+
+    static void printStoreProducts(std::unordered_map<std::string,
+        std::array<std::string, 3> > &products, std::string_view currency, std::string_view qnt);
 
     static void printGoodbye(std::string_view msg);
 

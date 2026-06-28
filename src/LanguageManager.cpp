@@ -1,5 +1,4 @@
 #include <LanguageManager.h>
-#include <ios>
 #include <fstream>
 #include <filesystem>
 #include <sstream>
@@ -8,11 +7,17 @@
 std::optional<std::string> LanguageManager::isCorrectUserLang(int val) {
     switch (static_cast<lang>(val)) {
         case lang::JP:
+            userLang = "JP";
             return "jp";
         case lang::EN:
+            userLang = "EN";
             return "en";
     }
     return std::nullopt;
+}
+
+std::string LanguageManager::getUserLang() {
+    return userLang;
 }
 
 void LanguageManager::loadDict(const std::string &lang) {

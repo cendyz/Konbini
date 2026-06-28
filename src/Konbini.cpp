@@ -1,25 +1,27 @@
 #include <Konbini.h>
 #include "LanguageManager.h"
 #include "Utils.h"
-#include <iostream>
+#include "windows.h"
 
 Konbini::Konbini() {
     lng = std::make_unique<LanguageManager>();
     ui = std::make_unique<KonbiniUI>();
-    items = std::make_unique<Products>();
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
 }
 
 void Konbini::run() {
     setSystemLang(userSelectingLanguage());
+    products = std::make_unique<Products>(LanguageManager::getUserLang());
     while (true) {
-        KonbiniUI::printMenu(lng->getMainMenu());
-        KonbiniUI::printWhatUserWantToDo(lng->getText("OPT_SELECT"));
+        KonbiniUI::printMenu(LanguageManager::getMainMenu());
+        KonbiniUI::printWhatUserWantToDo(LanguageManager::getText("OPT_SELECT"));
         if (std::string input = Utils::getInput(); isUserCommandOk(input)) {
             if (!executeMainMenuTaks(stoi(input))) {
                 return;
             }
         } else {
-            KonbiniUI::printWrongExecuteCommand(lng->getText("WRN_M_COMMAND"));
+            KonbiniUI::printWrongExecuteCommand(LanguageManager::getText("WRN_M_COMMAND"));
         }
     }
 }
@@ -43,9 +45,9 @@ bool Konbini::checkUserLang(const std::string &input) {
     return !input.empty() && Utils::isInputANumber(input);
 }
 
-void Konbini::setSystemLang(const std::string &lang) const {
-    lng->loadDict(lang);
-    lng->fullfillMainMenu();
+void Konbini::setSystemLang(const std::string &lang) {
+    LanguageManager::loadDict(lang);
+    LanguageManager::fullfillMainMenu();
 }
 
 bool Konbini::executeMainMenuTaks(int userOption) {
@@ -65,10 +67,10 @@ bool Konbini::executeMainMenuTaks(int userOption) {
         case MainMenuOPTS::RemindPassword:
             break;
         case MainMenuOPTS::Exit:
-            KonbiniUI::printGoodbye(lng->getText("BYE"));
+            KonbiniUI::printGoodbye(LanguageManager::getText("BYE"));
             return false;
         default:
-            KonbiniUI::printWrongExecuteCommand(lng->getText("WRN_M_COMMAND"));
+            KonbiniUI::printWrongExecuteCommand(LanguageManager::getText("WRN_M_COMMAND"));
     }
     return true;
 }
@@ -80,7 +82,11 @@ bool Konbini::isUserCommandOk(const std::string &input) {
 }
 
 void Konbini::browseTheStore() {
-    if (items->isStoreEmpty()) {
-        KonbiniUI::printStoreIsEmpty(lng->getText("STORE_EMPT"));
+    if (Products::isStoreEmpty()) {
+        KonbiniUI::printStoreIsEmpty(LanguageManager::getText("STORE_EMPT"));
+        return;
     }
+
+    KonbiniUI::printStoreProducts(Products::getProducts(), Products::getCurrency(),
+                                  LanguageManager::getText("QNT"));
 }
