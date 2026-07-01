@@ -1,7 +1,6 @@
 #include "Products.h"
 #include <fstream>
 #include <istream>
-#include <iostream>
 
 Products::Products(const std::string &finalLang) {
     productsPath += finalLang + ".txt";
@@ -18,7 +17,7 @@ bool Products::isStoreEmpty() {
     return products.empty();
 }
 
-void Products::loadProducts() const {
+void Products::loadProducts() {
     std::ifstream filePath{productsPath};
     std::string line, id, name, price, quantity;
 

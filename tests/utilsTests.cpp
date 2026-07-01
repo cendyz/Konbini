@@ -10,6 +10,4 @@ TEST(isNumber, RecognizesVariousFormatsCorrectly) {
     EXPECT_FALSE(Utils::isInputANumber("78 "));
     EXPECT_FALSE(Utils::isInputANumber("ww"));
     EXPECT_FALSE(Utils::isInputANumber("ske$2a"));
-
-
 }

@@ -26,6 +26,7 @@ add_library(CoreLogic
         src/KonbiniUI.cpp
         src/LanguageManager.cpp
         src/Products.cpp
+        src/Cart.cpp
 )
 
 target_include_directories(CoreLogic PUBLIC include)
@@ -33,10 +34,8 @@ target_include_directories(CoreLogic PUBLIC include)
 add_executable(konbini src/main.cpp)
 target_link_libraries(konbini PRIVATE CoreLogic)
 
-add_custom_command(TARGET konbini POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_CURRENT_SOURCE_DIR}/data
-        $<TARGET_FILE_DIR:konbini>/data
+target_compile_definitions(CoreLogic PUBLIC
+        DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/data/"
 )
 
 enable_testing()

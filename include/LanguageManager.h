@@ -3,6 +3,7 @@
 #include <vector>
 #include <unordered_map>
 #include <optional>
+#include <filesystem>
 
 class LanguageManager {
 public:
@@ -16,11 +17,9 @@ public:
 
     [[nodiscard]] static std::string_view getText(const std::string &text);
 
-    static void fullfillMainMenu();
+    static void fullfillMainMenu(size_t mainMenuSize);
 
     [[nodiscard]] static std::vector<std::string_view> getMainMenu();
-
-
 
 private:
     enum class lang {
@@ -28,7 +27,7 @@ private:
         EN = 2
     };
 
-    static constexpr std::string_view dictPath{"data/"};
+    inline static std::filesystem::path dictPath{DATA_DIR};
     inline static std::string userLang;
     static constexpr std::string_view dictFormat{".txt"};
     inline static std::unordered_map<std::string, std::string> dict;

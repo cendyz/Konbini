@@ -21,7 +21,7 @@ std::string LanguageManager::getUserLang() {
 }
 
 void LanguageManager::loadDict(const std::string &lang) {
-    std::filesystem::path path{dictPath.data() + lang + dictFormat.data()};
+    std::filesystem::path path{dictPath.string() + lang + dictFormat.data()};
     std::ifstream dictionary{path};
     std::string line;
     std::string key;
@@ -40,8 +40,8 @@ std::string_view LanguageManager::getText(const std::string &text) {
     return dict[text];
 }
 
-void LanguageManager::fullfillMainMenu() {
-    for (size_t i{}; i < 8; ++i) {
+void LanguageManager::fullfillMainMenu(const size_t mainMenuSize) {
+    for (size_t i{}; i < mainMenuSize; ++i) {
         mainMenu.emplace_back(dict["M_OPT_" + std::to_string(i + 1)]);
     }
 }

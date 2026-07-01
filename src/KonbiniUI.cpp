@@ -54,7 +54,11 @@ void KonbiniUI::printStoreProducts(std::unordered_map<std::string,
         label += COLORS::BLU;
         label += name;
         label += COLORS::RESET;
-        std::cout << std::format("{:<30}", label) << " | " << price << currency
-                << " | " << quantity << '\n';
+        std::cout << std::format("{:<10}", label) << " | " << price << currency
+                << " | " << qnt << quantity << '\n';
     }
+}
+
+size_t KonbiniUI::getMainMenuSize() {
+    return static_cast<size_t>(menuSizes::MainMenu);
 }

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/konbini.iml" filepath="$PROJECT_DIR$/.idea/konbini.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Konbini.iml" filepath="$PROJECT_DIR$/.idea/Konbini.iml" />
     </modules>
   </component>
 </project>

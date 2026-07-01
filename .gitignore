@@ -1,3 +1,6 @@
 build/
 cmake-build-konbini/
 .idea/
+compile_commands.json
+.cache/
+.clang-tidy
