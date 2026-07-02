@@ -1,4 +1,5 @@
 MENU_WELCOME;Welcome to the store!
+M_BACK_OPT;You can back to menu by command "0"
 M_OPT_1;Browse the store
 M_OPT_2;Check cart
 M_OPT_3;Finalize purchase
@@ -12,3 +13,4 @@ WRN_M_COMMAND;Wrong command.
 STORE_EMPT;Sorry, the store is empty!
 BYE;We look forward to seeing you again!
 QNT;Quantity:
+MENU_BACK;Returning to menu...

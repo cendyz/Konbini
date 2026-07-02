@@ -28,6 +28,10 @@ void KonbiniUI::printMenu(const std::vector<std::string_view> &arr) {
     }
 }
 
+void KonbiniUI::printCanBackToMenu(const std::string_view msg) {
+    Utils::printMsgNLine(msg);
+}
+
 void KonbiniUI::printWhatUserWantToDo(const std::string_view msg) {
     Utils::printMsgSpace(msg);
 }

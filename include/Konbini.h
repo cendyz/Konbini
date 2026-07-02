@@ -50,13 +50,19 @@ private:
 
   [[nodiscard]] static bool isUserCommandOk(const std::string &input);
 
+  [[nodiscard]] static bool returnToMenu(const std::string &input);
+
+  static constexpr std::string_view backToMenuKey{"0"};
+
   static void browseTheStore();
 
   static void checkCart();
 
   static void registerPerson();
 
-  [[nodiscard]] static std::string getCorrectName();
+  [[nodiscard]] static std::optional<std::string> getCorrectName();
 
-  inline static std::wregex nameRegex{L"^[a-zA-Z\\u3040-\\u309F\\u30A0-\\u30FF\\u4E00-\\u9FAF]{2,15}$"};
+  inline static std::regex nameRegex{"^[a-zA-Z]{2,15}$"};
+
+  [[nodiscard]] static bool isCorrectName(const std::string &input);
 };

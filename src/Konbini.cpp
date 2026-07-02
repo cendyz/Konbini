@@ -20,6 +20,7 @@ void Konbini::run() {
   products = std::make_unique<Products>(LanguageManager::getUserLang());
   while (true) {
     KonbiniUI::printMenu(LanguageManager::getMainMenu());
+    KonbiniUI::printCanBackToMenu(LanguageManager::getText("M_BACK_OPT"));
     KonbiniUI::printWhatUserWantToDo(LanguageManager::getText("OPT_SELECT"));
     if (std::string input = Utils::getInput(); isUserCommandOk(input)) {
       if (!executeMainMenuTaks(stoi(input))) {
@@ -87,6 +88,14 @@ bool Konbini::isUserCommandOk(const std::string &input) {
          std::ranges::all_of(input, [](const char c) { return isdigit(c); });
 }
 
+bool Konbini::returnToMenu(const std::string &input) {
+  if (input == backToMenuKey) {
+    Utils::printWarningMsg(LanguageManager::getText("MENU_BACK"));
+    return true;
+  }
+  return false;
+}
+
 void Konbini::browseTheStore() {
   if (Products::isStoreEmpty()) {
     KonbiniUI::printStoreIsEmpty(LanguageManager::getText("STORE_EMPT"));
@@ -104,5 +113,31 @@ void Konbini::checkCart() {
   }
 }
 
+std::optional<std::string> Konbini::getCorrectName() {
+  while (true) {
+    std::string input = Utils::getInput();
+
+    if (returnToMenu(input)) {
+      return std::nullopt;
+    }
+
+    if (isCorrectName(input)) {
+      return input;
+    }
+  }
+}
+
+bool Konbini::isCorrectName(const std::string &input) {
+  return std::regex_match(input, nameRegex);
+}
+
 void Konbini::registerPerson() {
+  std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> newAcc;
+
+  const auto name{getCorrectName()};
+  if (!name.has_value()) {
+    return;
+  }
+
+  newAcc[static_cast<size_t>(Accounts::AccInfo::Name)] = name.value();
 }

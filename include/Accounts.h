@@ -6,6 +6,7 @@
 #include <filesystem>
 
 class Accounts {
+public:
     enum class AccInfo : uint8_t {
         Name = 0,
         Email,
@@ -14,8 +15,9 @@ class Accounts {
         Size
     };
 
-public:
     Accounts();
+
+    static void clearAccInfo();
 
 private:
     inline static std::array<std::string, static_cast<size_t>(AccInfo::Size)> singleAcc;

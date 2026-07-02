@@ -20,6 +20,8 @@ public:
 
     static void printMenu(const std::vector<std::string_view> &arr);
 
+    static void printCanBackToMenu(std::string_view msg);
+
     static void printWhatUserWantToDo(std::string_view msg);
 
     static void printWrongExecuteCommand(std::string_view msg);
