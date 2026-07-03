@@ -14,3 +14,10 @@ STORE_EMPT;Sorry, the store is empty!
 BYE;We look forward to seeing you again!
 QNT;Quantity:
 MENU_BACK;Returning to menu...
+NAME;Your name:
+NAME_ERR;The name must contain only letters, from 2 to 15 characters.
+PSWD;Password:
+PSWD_ERR;Password must contain between 6 and 20 characters, at least one letter, one digit, and one special character.
+EMAIL;Enter email:
+EMAIL_ERR;This is not a valid email.
+ACC_CREATED;Account successfully created!

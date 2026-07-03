@@ -63,6 +63,10 @@ void KonbiniUI::printStoreProducts(std::unordered_map<std::string,
     }
 }
 
+void KonbiniUI::printAccountCreated(const std::string_view msg) {
+    Utils::printSuccessMsg(msg);
+}
+
 size_t KonbiniUI::getMainMenuSize() {
     return static_cast<size_t>(menuSizes::MainMenu);
 }

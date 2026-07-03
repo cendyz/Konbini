@@ -33,6 +33,8 @@ public:
 
     static void printGoodbye(std::string_view msg);
 
+    static void printAccountCreated(std::string_view msg);
+
     [[nodiscard]] static size_t getMainMenuSize();
 
 private:

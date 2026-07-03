@@ -16,11 +16,9 @@ public:
     };
 
     Accounts();
-
-    static void clearAccInfo();
+    static void addAccToDB(const std::array<std::string, static_cast<size_t>(AccInfo::Size)> &arr);
 
 private:
-    inline static std::array<std::string, static_cast<size_t>(AccInfo::Size)> singleAcc;
     inline static std::unordered_map<std::string, std::array<std::string,
         static_cast<size_t>(AccInfo::Size)> > accs;
 
@@ -28,7 +26,7 @@ private:
 
     inline static std::filesystem::path accsFile{DATA_DIR "accounts.txt"};
 
-    static void addAccToVar(const std::array<std::string, static_cast<size_t>(AccInfo::Size)> &arr);
 
-    static void addAccToFile();
+    static void addAccToVar(const std::array<std::string, static_cast<size_t>(AccInfo::Size)> &arr);
+    static void addAccToFile(const std::array<std::string, static_cast<size_t>(AccInfo::Size)> &arr);
 };

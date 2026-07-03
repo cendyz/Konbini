@@ -60,9 +60,18 @@ private:
 
   static void registerPerson();
 
-  [[nodiscard]] static std::optional<std::string> getCorrectName();
+  [[nodiscard]] static std::optional<std::string> getCorrectRegisterInfo(
+    const std::string &inputMsg, const std::regex &inputRegex, const std::string &wrongInput);
 
-  inline static std::regex nameRegex{"^[a-zA-Z]{2,15}$"};
+  inline static const std::array<std::string, 3> inputMsgs{"NAME", "PSWD", "EMAIL"};
+  inline static const std::array<std::string, 3> wrongInputsMsgs{"NAME_ERR", "PSWD_ERR", "EMAIL_ERR"};
+  inline static const std::array<std::regex, 3> registerRegexes{
+    std::regex{"^[a-zA-Z]{2,15}$"},
+    std::regex{"(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,20}$"},
+    std::regex{"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.][a-zA-Z]{2,}$"}
+  };
+  inline static const std::string userAccType{"user"};
 
-  [[nodiscard]] static bool isCorrectName(const std::string &input);
+  [[nodiscard]] static std::optional<std::array<std::string,
+    static_cast<size_t>(Accounts::AccInfo::Size)> > getnewAcc();
 };

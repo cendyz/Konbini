@@ -21,7 +21,6 @@ FetchContent_MakeAvailable(googletest)
 add_library(CoreLogic
         src/main.cpp
         src/Accounts.cpp
-        src/Cart.cpp
         src/Konbini.cpp
         src/KonbiniUI.cpp
         src/LanguageManager.cpp

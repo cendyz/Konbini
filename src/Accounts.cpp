@@ -28,14 +28,19 @@ void Accounts::addAccToVar(const std::array<std::string,
     accs.try_emplace(arr[static_cast<size_t>(AccInfo::Email)], arr);
 }
 
-void Accounts::addAccToFile() {
+void Accounts::addAccToFile(const std::array<std::string, static_cast<size_t>(AccInfo::Size)> &arr) {
     std::ofstream file{accsFile, std::ios::app};
 
     for (size_t i{}; i < static_cast<size_t>(AccInfo::Size); ++i) {
         if (i == static_cast<size_t>(AccInfo::Size) - 1) {
-            file << singleAcc[i] << '\n';
+            file << arr[i] << '\n';
         } else {
-            file << singleAcc[i] << ';';
+            file << arr[i] << ';';
         }
     }
+}
+
+void Accounts::addAccToDB(const std::array<std::string, static_cast<size_t>(AccInfo::Size)> &arr) {
+    addAccToVar(arr);
+    addAccToFile(arr);
 }

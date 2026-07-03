@@ -4,6 +4,7 @@
 #include "LanguageManager.h"
 #include "Utils.h"
 #include <memory>
+#include <functional>
 #include <windows.h>
 
 Konbini::Konbini() {
@@ -68,6 +69,7 @@ bool Konbini::executeMainMenuTaks(int userOption) {
     case MainMenuOPTS::Login:
       break;
     case MainMenuOPTS::Register:
+      registerPerson();
       break;
     case MainMenuOPTS::BecomAEmployee:
       break;
@@ -113,31 +115,44 @@ void Konbini::checkCart() {
   }
 }
 
-std::optional<std::string> Konbini::getCorrectName() {
+std::optional<std::string> Konbini::getCorrectRegisterInfo(const std::string &inputMsg, const std::regex &inputRegex,
+                                                           const std::string &wrongInput) {
   while (true) {
+    Utils::printMsgSpace(LanguageManager::getText(inputMsg));
     std::string input = Utils::getInput();
 
     if (returnToMenu(input)) {
       return std::nullopt;
     }
 
-    if (isCorrectName(input)) {
+    if (std::regex_match(input, inputRegex)) {
       return input;
     }
+
+    Utils::printWrongMsgNLine(LanguageManager::getText(wrongInput));
   }
 }
 
-bool Konbini::isCorrectName(const std::string &input) {
-  return std::regex_match(input, nameRegex);
+std::optional<std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> > Konbini::getnewAcc() {
+  std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> newAcc;
+
+  for (size_t i{}; i < static_cast<size_t>(Accounts::AccInfo::Size) - 1; ++i) {
+    const auto input{
+      getCorrectRegisterInfo(inputMsgs[i],
+                             registerRegexes[i], wrongInputsMsgs[i])
+    };
+    if (!input.has_value()) {
+      return std::nullopt;
+    }
+    newAcc[i] = input.value();
+  }
+  newAcc[static_cast<size_t>(Accounts::AccInfo::AccType)] = userAccType;
+  return newAcc;
 }
 
 void Konbini::registerPerson() {
-  std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> newAcc;
-
-  const auto name{getCorrectName()};
-  if (!name.has_value()) {
-    return;
+  if (const auto newAcc{getnewAcc()}; newAcc.has_value()) {
+    Accounts::addAccToDB(newAcc.value());
+    KonbiniUI::printAccountCreated(LanguageManager::getText("ACC_CREATED"));
   }
-
-  newAcc[static_cast<size_t>(Accounts::AccInfo::Name)] = name.value();
 }
