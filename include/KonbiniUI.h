@@ -7,8 +7,9 @@
 
 class KonbiniUI {
     enum class menuSizes : uint8_t {
-        MainMenu = 8
+        MainMenu = 9
     };
+
 public:
     static void printUserCanChangeLNG();
 
@@ -17,6 +18,8 @@ public:
     static void printWrongLngInput();
 
     static void printLngMenu();
+
+    [[nodiscard]] static size_t getMainMenuSize();
 
     static void printMenu(const std::vector<std::string_view> &arr);
 
@@ -29,13 +32,14 @@ public:
     static void printStoreIsEmpty(std::string_view msg);
 
     static void printStoreProducts(std::unordered_map<std::string,
-        std::array<std::string, 3> > &products, std::string_view currency, std::string_view qnt);
+                                       std::array<std::string, 3> > &products, std::string_view currency,
+                                   std::string_view qnt);
 
     static void printGoodbye(std::string_view msg);
 
     static void printAccountCreated(std::string_view msg);
 
-    [[nodiscard]] static size_t getMainMenuSize();
+    static void printPassword(std::string_view msg, std::string_view password);
 
 private:
     static constexpr std::string_view possibilityToChoseLng{

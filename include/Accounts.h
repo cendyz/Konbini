@@ -18,6 +18,13 @@ public:
     Accounts();
     static void addAccToDB(const std::array<std::string, static_cast<size_t>(AccInfo::Size)> &arr);
 
+    [[nodiscard]] static std::string_view getAdminAccType();
+    [[nodiscard]] static std::string_view getUserAccType();
+
+    [[nodiscard]] static bool isCorrectNameEmail(const std::string &email, const std::string &name);
+
+    [[nodiscard]] static std::string getAccPassword(const std::string &email);
+
 private:
     inline static std::unordered_map<std::string, std::array<std::string,
         static_cast<size_t>(AccInfo::Size)> > accs;
@@ -26,6 +33,8 @@ private:
 
     inline static std::filesystem::path accsFile{DATA_DIR "accounts.txt"};
 
+    static constexpr std::string_view userAccType{"user"};
+    static constexpr std::string_view adminAccType{"admin"};
 
     static void addAccToVar(const std::array<std::string, static_cast<size_t>(AccInfo::Size)> &arr);
     static void addAccToFile(const std::array<std::string, static_cast<size_t>(AccInfo::Size)> &arr);

@@ -11,12 +11,13 @@ class Konbini {
   enum class MainMenuOPTS : std::uint8_t {
     BrowseTheStore = 1,
     CheckCart = 2,
-    FinalizePurchase = 3,
-    Login = 4,
-    Register = 5,
-    BecomAEmployee = 6,
-    RemindPassword = 7,
-    Exit = 8
+    AddItemToCart = 3,
+    FinalizePurchase = 4,
+    Login = 5,
+    Register = 6,
+    BecomAEmployee = 7,
+    RemindPassword = 8,
+    Exit = 9
   };
 
 public:
@@ -58,20 +59,24 @@ private:
 
   static void checkCart();
 
-  static void registerPerson();
+  static void registerNew(std::string_view accType);
 
-  [[nodiscard]] static std::optional<std::string> getCorrectRegisterInfo(
-    const std::string &inputMsg, const std::regex &inputRegex, const std::string &wrongInput);
+  [[nodiscard]] static std::optional<std::string> getOptionalCorrectInput(
+    const std::string &inputMsg , const std::regex &inputRegex, const std::string &wrongInput);
 
-  inline static const std::array<std::string, 3> inputMsgs{"NAME", "PSWD", "EMAIL"};
-  inline static const std::array<std::string, 3> wrongInputsMsgs{"NAME_ERR", "PSWD_ERR", "EMAIL_ERR"};
+  inline static const std::array<std::string, 3> inputMsgs{"NAME", "EMAIL", "PSWD"};
+  inline static const std::array<std::string, 3> wrongInputsMsgs{"NAME_ERR", "EMAIL_ERR", "PSWD_ERR"};
   inline static const std::array<std::regex, 3> registerRegexes{
     std::regex{"^[a-zA-Z]{2,15}$"},
-    std::regex{"(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,20}$"},
-    std::regex{"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.][a-zA-Z]{2,}$"}
+    std::regex{"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.][a-zA-Z]{2,}$"},
+    std::regex{"(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,20}$"}
   };
-  inline static const std::string userAccType{"user"};
 
   [[nodiscard]] static std::optional<std::array<std::string,
-    static_cast<size_t>(Accounts::AccInfo::Size)> > getnewAcc();
+    static_cast<size_t>(Accounts::AccInfo::Size)> > getnewAcc(std::string_view accType);
+
+  static void remindPassword();
+
+  [[nodiscard]] static std::optional<std::string> getOptionalInput(std::string_view inputMsg);
+
 };

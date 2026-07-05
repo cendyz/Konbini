@@ -1,13 +1,14 @@
 MENU_WELCOME;Welcome to the store!
-M_BACK_OPT;You can back to menu by command "0"
+M_BACK_OPT;You can back to menu by command '0'
 M_OPT_1;Browse the store
 M_OPT_2;Check cart
-M_OPT_3;Finalize purchase
-M_OPT_4;Login
-M_OPT_5;Register
-M_OPT_6;Become a employee
-M_OPT_7;Remind password
-M_OPT_8;Exit
+M_OPT_3;Add item to cart
+M_OPT_4;Finalize purchase
+M_OPT_5;Login
+M_OPT_6;Register
+M_OPT_7;Become a employee
+M_OPT_8;Remind password
+M_OPT_9;Exit
 OPT_SELECT;What you want to do now?:
 WRN_M_COMMAND;Wrong command.
 STORE_EMPT;Sorry, the store is empty!
@@ -21,3 +22,5 @@ PSWD_ERR;Password must contain between 6 and 20 characters, at least one letter,
 EMAIL;Enter email:
 EMAIL_ERR;This is not a valid email.
 ACC_CREATED;Account successfully created!
+WRN_NAME_EMAIL;Wrong e-mail or name.
+YOUR_PASS;Your password:

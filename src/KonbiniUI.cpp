@@ -70,3 +70,7 @@ void KonbiniUI::printAccountCreated(const std::string_view msg) {
 size_t KonbiniUI::getMainMenuSize() {
     return static_cast<size_t>(menuSizes::MainMenu);
 }
+
+void KonbiniUI::printPassword(const std::string_view msg, const std::string_view password) {
+    std::cout << COLORS::YELLOW << msg << COLORS::RESET << " " << password << '\n';
+}

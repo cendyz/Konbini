@@ -64,16 +64,20 @@ bool Konbini::executeMainMenuTaks(int userOption) {
       browseTheStore();
     case MainMenuOPTS::CheckCart:
       break;
+    case MainMenuOPTS::AddItemToCart:
+      break;
     case MainMenuOPTS::FinalizePurchase:
       break;
     case MainMenuOPTS::Login:
       break;
     case MainMenuOPTS::Register:
-      registerPerson();
+      registerNew(Accounts::getUserAccType());
       break;
     case MainMenuOPTS::BecomAEmployee:
+      registerNew(Accounts::getAdminAccType());
       break;
     case MainMenuOPTS::RemindPassword:
+      remindPassword();
       break;
     case MainMenuOPTS::Exit:
       KonbiniUI::printGoodbye(LanguageManager::getText("BYE"));
@@ -115,8 +119,8 @@ void Konbini::checkCart() {
   }
 }
 
-std::optional<std::string> Konbini::getCorrectRegisterInfo(const std::string &inputMsg, const std::regex &inputRegex,
-                                                           const std::string &wrongInput) {
+std::optional<std::string> Konbini::getOptionalCorrectInput(const std::string &inputMsg, const std::regex &inputRegex,
+                                                            const std::string &wrongInput) {
   while (true) {
     Utils::printMsgSpace(LanguageManager::getText(inputMsg));
     std::string input = Utils::getInput();
@@ -133,26 +137,64 @@ std::optional<std::string> Konbini::getCorrectRegisterInfo(const std::string &in
   }
 }
 
-std::optional<std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> > Konbini::getnewAcc() {
+std::optional<std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> > Konbini::getnewAcc(
+  const std::string_view accType) {
   std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> newAcc;
 
   for (size_t i{}; i < static_cast<size_t>(Accounts::AccInfo::Size) - 1; ++i) {
     const auto input{
-      getCorrectRegisterInfo(inputMsgs[i],
-                             registerRegexes[i], wrongInputsMsgs[i])
+      getOptionalCorrectInput(inputMsgs[i],
+                              registerRegexes[i], wrongInputsMsgs[i])
     };
     if (!input.has_value()) {
       return std::nullopt;
     }
     newAcc[i] = input.value();
   }
-  newAcc[static_cast<size_t>(Accounts::AccInfo::AccType)] = userAccType;
+  newAcc[static_cast<size_t>(Accounts::AccInfo::AccType)] = static_cast<std::string>(accType);
   return newAcc;
 }
 
-void Konbini::registerPerson() {
-  if (const auto newAcc{getnewAcc()}; newAcc.has_value()) {
+void Konbini::registerNew(const std::string_view accType) {
+  if (const auto newAcc{getnewAcc(accType)}; newAcc.has_value()) {
     Accounts::addAccToDB(newAcc.value());
     KonbiniUI::printAccountCreated(LanguageManager::getText("ACC_CREATED"));
   }
+}
+
+void Konbini::remindPassword() {
+  std::array<std::string, 2> acc;
+
+  while (true) {
+    for (size_t i{}; i < 2; ++i) {
+      auto input{getOptionalInput(LanguageManager::getText(inputMsgs[i]))};
+
+      if (!input.has_value()) {
+        return;
+      }
+      acc[i] = input.value();
+    }
+
+    if (Accounts::isCorrectNameEmail(acc[static_cast<size_t>(Accounts::AccInfo::Email)],
+                                     acc[static_cast<size_t>(Accounts::AccInfo::Name)])) {
+      KonbiniUI::printPassword(LanguageManager::getText("YOUR_PASS"),
+                               Accounts::getAccPassword(acc[static_cast<size_t>(Accounts::AccInfo::Email)]));
+      return;
+    }
+
+    Utils::printWrongMsgNLine(LanguageManager::getText("WRN_NAME_EMAIL"));
+  }
+}
+
+std::optional<std::string> Konbini::getOptionalInput(const std::string_view inputMsg) {
+  std::string input;
+  Utils::printMsgSpace(inputMsg);
+
+  getline(std::cin, input);
+
+  if (returnToMenu(input)) {
+    return std::nullopt;
+  }
+
+  return input;
 }

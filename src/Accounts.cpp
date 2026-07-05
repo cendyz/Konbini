@@ -44,3 +44,20 @@ void Accounts::addAccToDB(const std::array<std::string, static_cast<size_t>(AccI
     addAccToVar(arr);
     addAccToFile(arr);
 }
+
+std::string_view Accounts::getAdminAccType() {
+    return adminAccType;
+}
+
+std::string_view Accounts::getUserAccType() {
+    return userAccType;
+}
+
+
+bool Accounts::isCorrectNameEmail(const std::string &email, const std::string &name) {
+    return accs.contains(email) && accs[email][static_cast<size_t>(AccInfo::Name)] == name;
+}
+
+std::string Accounts::getAccPassword(const std::string &email) {
+    return accs[email][static_cast<size_t>(AccInfo::Password)];
+}
