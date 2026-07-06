@@ -1,8 +1,9 @@
 #pragma once
 #include <array>
-#include <cstdint>
 #include <string>
 #include <unordered_map>
+#include "Utils.h"
+#include <cstdint>
 #include <vector>
 
 class KonbiniUI {
@@ -31,8 +32,7 @@ public:
 
     static void printStoreIsEmpty(std::string_view msg);
 
-    static void printStoreProducts(std::unordered_map<std::string,
-                                       std::array<std::string, 3> > &products, std::string_view currency,
+    static void printStoreProducts(std::unordered_map<std::string, ProductData> &products, std::string_view currency,
                                    std::string_view qnt);
 
     static void printGoodbye(std::string_view msg);
@@ -40,6 +40,8 @@ public:
     static void printAccountCreated(std::string_view msg);
 
     static void printPassword(std::string_view msg, std::string_view password);
+
+    static void printCartIsEmpty(std::string_view msg);
 
 private:
     static constexpr std::string_view possibilityToChoseLng{

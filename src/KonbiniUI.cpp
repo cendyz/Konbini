@@ -41,19 +41,18 @@ void KonbiniUI::printWrongExecuteCommand(const std::string_view msg) {
 }
 
 void KonbiniUI::printStoreIsEmpty(const std::string_view msg) {
-    Utils::printWarningMsg(msg);
+    Utils::printWarningMsgNLine(msg);
 }
 
 void KonbiniUI::printGoodbye(const std::string_view msg) {
     Utils::printSuccessMsg(msg);
 }
 
-void KonbiniUI::printStoreProducts(std::unordered_map<std::string,
-                                       std::array<std::string, 3> > &products,
+void KonbiniUI::printStoreProducts(std::unordered_map<std::string, ProductData>& products,
                                    const std::string_view currency, const std::string_view qnt) {
     std::string label;
-    for (const auto &[name, price, quantity]:
-         products | std::views::values) {
+    for (const auto &[name, quantity, price]:
+         products | std::views::values ) {
         label.reserve(name.size());
         label += COLORS::BLU;
         label += name;
@@ -73,4 +72,8 @@ size_t KonbiniUI::getMainMenuSize() {
 
 void KonbiniUI::printPassword(const std::string_view msg, const std::string_view password) {
     std::cout << COLORS::YELLOW << msg << COLORS::RESET << " " << password << '\n';
+}
+
+void KonbiniUI::printCartIsEmpty(const std::string_view msg) {
+    Utils::printWarningMsgNLine(msg);
 }

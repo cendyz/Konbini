@@ -30,16 +30,20 @@ void Products::loadProducts() {
         getline(ss, quantity, ';');
 
         products.try_emplace(id);
-        products[id][static_cast<int>(Product::Name)] = name;
-        products[id][static_cast<int>(Product::Price)] = price;
-        products[id][static_cast<int>(Product::Quantity)] = quantity;
+        products[id].name = name;
+        products[id].price = stoi(price);
+        products[id].qnt = stod(quantity);
     }
 }
 
-std::unordered_map<std::string, std::array<std::string, 3>> &Products::getProducts() {
+std::unordered_map<std::string, ProductData> &Products::getProducts() {
     return products;
 }
 
 std::string_view Products::getCurrency() {
     return currency;
+}
+
+bool Products::isProductExists(const std::string &str) {
+    return products.contains(str);
 }
