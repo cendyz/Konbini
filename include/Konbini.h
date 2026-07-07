@@ -44,13 +44,9 @@ private:
 
   [[nodiscard]] static std::string userSelectingLanguage();
 
-  [[nodiscard]] static bool checkUserLang(const std::string &input);
-
   static void setSystemLang(const std::string &lang);
 
   [[nodiscard]] bool executeMainMenuTaks(int userOption);
-
-  [[nodiscard]] static bool isUserCommandOk(const std::string &input);
 
   [[nodiscard]] static bool returnToMenu(const std::string &input);
 
@@ -87,12 +83,12 @@ private:
 
   static void addItemToCart();
 
-  [[nodiscard]] static bool isValidUserProduct(std::string &product);
+  [[nodiscard]] static std::optional<std::string> isValidUserProduct(std::string &product);
 
-  [[nodiscard]] static std::optional<std::string>
-  getUserProductFromStore(const std::string &inputMsg,
-                          const std::function<bool(std::string&)> &inputValidatingFunc,
-                          const std::string &wrongInputMsg);
+  [[nodiscard]] static std::optional<std::string> getUserProductId();
 
-  [[nodiscard]] static bool isValidUserQnt(const std::string &userQnt);
+  [[nodiscard]] static std::optional<int> getUserQnt(const std::string &id);
+
+  [[nodiscard]] static bool isValidUserQnt(const std::string &id,
+                                           const std::string &userQnt);
 };

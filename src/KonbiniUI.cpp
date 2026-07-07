@@ -1,79 +1,55 @@
 #include "KonbiniUI.h"
-#include "Utils.h"
 #include "Colors.h"
-#include "ranges"
+#include "Utils.h"
 #include "format"
+#include "ranges"
 
 void KonbiniUI::printUserCanChangeLNG() {
-    Utils::printMsgNLine(possibilityToChoseLng);
+  Utils::printMsgNLine(possibilityToChoseLng);
 }
 
-void KonbiniUI::printChooseLangMsg() {
-    Utils::printMsgSpace(langMsg);
-}
+std::string KonbiniUI::getLangMsg() { return langMsg; }
 
 void KonbiniUI::printWrongLngInput() {
-    Utils::printWrongMsgNLine(wrongInputMsg);
+  Utils::printWrongMsgNLine(wrongInputMsg);
 }
 
 void KonbiniUI::printLngMenu() {
-    for (size_t i{}; i < lngMenu.size(); ++i) {
-        Utils::printTabOptionNLine(lngMenu[i], i, COLORS::PURPLE);
-    }
+  for (size_t i{}; i < lngMenu.size(); ++i) {
+    Utils::printTabOptionNLine(lngMenu[i], i, COLORS::PURPLE);
+  }
 }
 
 void KonbiniUI::printMenu(const std::vector<std::string_view> &arr) {
-    for (size_t i{}; i < arr.size(); ++i) {
-        Utils::printTabOptionNLine(arr[i], i, COLORS::BLU);
-    }
+  for (size_t i{}; i < arr.size(); ++i) {
+    Utils::printTabOptionNLine(arr[i], i, COLORS::BLU);
+  }
 }
 
-void KonbiniUI::printCanBackToMenu(const std::string_view msg) {
-    Utils::printMsgNLine(msg);
+void KonbiniUI::printStoreProducts(
+    std::unordered_map<std::string, ProductData> &products,
+    const std::string_view currency, const std::string_view qnt) {
+  for (const auto &[name, price, quantity] : products | std::views::values) {
+    std::cout << COLORS::BLU << name << COLORS::RESET << " | " << price
+              << currency << " | " << qnt << quantity << '\n';
+  }
 }
 
-void KonbiniUI::printWhatUserWantToDo(const std::string_view msg) {
-    Utils::printMsgSpace(msg);
-}
-
-void KonbiniUI::printWrongExecuteCommand(const std::string_view msg) {
-    Utils::printWrongMsgNLine(msg);
-}
-
-void KonbiniUI::printStoreIsEmpty(const std::string_view msg) {
-    Utils::printWarningMsgNLine(msg);
-}
-
-void KonbiniUI::printGoodbye(const std::string_view msg) {
-    Utils::printSuccessMsg(msg);
-}
-
-void KonbiniUI::printStoreProducts(std::unordered_map<std::string, ProductData>& products,
-                                   const std::string_view currency, const std::string_view qnt) {
-    std::string label;
-    for (const auto &[name, quantity, price]:
-         products | std::views::values ) {
-        label.reserve(name.size());
-        label += COLORS::BLU;
-        label += name;
-        label += COLORS::RESET;
-        std::cout << std::format("{:<10}", label) << " | " << price << currency
-                << " | " << qnt << quantity << '\n';
-    }
-}
-
-void KonbiniUI::printAccountCreated(const std::string_view msg) {
-    Utils::printSuccessMsg(msg);
+void KonbiniUI::printCartItems(
+    const std::unordered_map<std::string, ProductData> &cartItems,
+    const std::string_view currency) {
+  for (const auto &[name, price, qnt] : cartItems | std::views::values) {
+    std::cout << COLORS::BLU << name << COLORS::RESET << " | " << qnt << " | "
+              << price << currency << '\n';
+  }
 }
 
 size_t KonbiniUI::getMainMenuSize() {
-    return static_cast<size_t>(menuSizes::MainMenu);
+  return static_cast<size_t>(menuSizes::MainMenu);
 }
 
-void KonbiniUI::printPassword(const std::string_view msg, const std::string_view password) {
-    std::cout << COLORS::YELLOW << msg << COLORS::RESET << " " << password << '\n';
-}
-
-void KonbiniUI::printCartIsEmpty(const std::string_view msg) {
-    Utils::printWarningMsgNLine(msg);
+void KonbiniUI::printPassword(const std::string_view msg,
+                              const std::string_view password) {
+  std::cout << COLORS::YELLOW << msg << COLORS::RESET << " " << password
+            << '\n';
 }

@@ -1,2 +1,2 @@
-001;Bread;1.75;8
-002;Orange juice;2.50;10
+001;bread;1.75;8
+002;orange juice;2.50;10

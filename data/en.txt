@@ -13,7 +13,9 @@ OPT_SELECT;What you want to do now?:
 WRN_M_COMMAND;Wrong command.
 STORE_EMPT;Sorry, the store is empty!
 BYE;We look forward to seeing you again!
-QNT;Quantity:
+PRD_QNT;Quantity:
+WRN_QNT;Illegal product quantity.
+PRD_ADD_CART;Product added to cart!
 MENU_BACK;Returning to menu...
 NAME;Your name:
 NAME_ERR;The name must contain only letters, from 2 to 15 characters.

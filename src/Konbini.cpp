@@ -21,15 +21,15 @@ void Konbini::run() {
   products = std::make_unique<Products>(LanguageManager::getUserLang());
   while (true) {
     KonbiniUI::printMenu(LanguageManager::getMainMenu());
-    KonbiniUI::printCanBackToMenu(LanguageManager::getText("M_BACK_OPT"));
-    KonbiniUI::printWhatUserWantToDo(LanguageManager::getText("OPT_SELECT"));
-    if (std::string input = Utils::getInput(); isUserCommandOk(input)) {
+    Utils::printWarningMsgNLine(LanguageManager::getText("M_BACK_OPT"));
+    if (std::string input = Utils::getInput(
+            static_cast<std::string>(LanguageManager::getText("OPT_SELECT")));
+        Utils::isInt(input)) {
       if (!executeMainMenuTaks(stoi(input))) {
         return;
       }
     } else {
-      KonbiniUI::printWrongExecuteCommand(
-          LanguageManager::getText("WRN_M_COMMAND"));
+      Utils::printWrongMsgNLine(LanguageManager::getText("WRN_M_COMMAND"));
     }
   }
 }
@@ -38,8 +38,8 @@ std::string Konbini::userSelectingLanguage() {
   KonbiniUI::printUserCanChangeLNG();
   while (true) {
     KonbiniUI::printLngMenu();
-    KonbiniUI::printChooseLangMsg();
-    if (std::string val = Utils::getInput(); checkUserLang(val)) {
+    if (std::string val = Utils::getInput(KonbiniUI::getLangMsg());
+        Utils::isInt(val)) {
       if (auto lang{LanguageManager::isCorrectUserLang(stoi(val))};
           lang.has_value()) {
         return lang.value();
@@ -47,10 +47,6 @@ std::string Konbini::userSelectingLanguage() {
     }
     KonbiniUI::printWrongLngInput();
   }
-}
-
-bool Konbini::checkUserLang(const std::string &input) {
-  return !input.empty() && Utils::isInputANumber(input);
 }
 
 void Konbini::setSystemLang(const std::string &lang) {
@@ -83,18 +79,12 @@ bool Konbini::executeMainMenuTaks(int userOption) {
     remindPassword();
     break;
   case MainMenuOPTS::Exit:
-    KonbiniUI::printGoodbye(LanguageManager::getText("BYE"));
+    Utils::printSuccessMsg(LanguageManager::getText("BYE"));
     return false;
   default:
-    KonbiniUI::printWrongExecuteCommand(
-        LanguageManager::getText("WRN_M_COMMAND"));
+    Utils::printWrongMsgNLine(LanguageManager::getText("WRN_M_COMMAND"));
   }
   return true;
-}
-
-bool Konbini::isUserCommandOk(const std::string &input) {
-  return !input.empty() &&
-         std::ranges::all_of(input, [](const char c) { return isdigit(c); });
 }
 
 bool Konbini::returnToMenu(const std::string &input) {
@@ -107,7 +97,7 @@ bool Konbini::returnToMenu(const std::string &input) {
 
 void Konbini::browseTheStore() {
   if (Products::isStoreEmpty()) {
-    KonbiniUI::printStoreIsEmpty(LanguageManager::getText("STORE_EMPT"));
+    Utils::printWarningMsgNLine(LanguageManager::getText("STORE_EMPT"));
     return;
   }
 
@@ -118,8 +108,9 @@ void Konbini::browseTheStore() {
 
 void Konbini::checkCart() {
   if (Cart::isCartEmpty()) {
-    KonbiniUI::printCartIsEmpty(LanguageManager::getText("EMP_CART"));
+    Utils::printWarningMsgNLine(LanguageManager::getText("EMP_CART"));
   } else {
+    KonbiniUI::printCartItems(Cart::getCartItems(), Products::getCurrency());
   }
 }
 
@@ -128,8 +119,8 @@ Konbini::getOptionalCorrectInput(const std::string &inputMsg,
                                  const std::regex &inputRegex,
                                  const std::string &wrongInput) {
   while (true) {
-    Utils::printMsgSpace(LanguageManager::getText(inputMsg));
-    std::string input = Utils::getInput();
+    std::string input = Utils::getInput(
+        static_cast<std::string>(LanguageManager::getText(inputMsg)));
 
     if (returnToMenu(input)) {
       return std::nullopt;
@@ -164,7 +155,7 @@ Konbini::getnewAcc(const std::string_view accType) {
 void Konbini::registerNew(const std::string_view accType) {
   if (const auto newAcc{getnewAcc(accType)}; newAcc.has_value()) {
     Accounts::addAccToDB(newAcc.value());
-    KonbiniUI::printAccountCreated(LanguageManager::getText("ACC_CREATED"));
+    Utils::printSuccessMsg(LanguageManager::getText("ACC_CREATED"));
   }
 }
 
@@ -211,51 +202,79 @@ Konbini::getOptionalInput(const std::string_view inputMsg) {
 
 void Konbini::addItemToCart() {
   if (Products::isStoreEmpty()) {
-    KonbiniUI::printStoreIsEmpty(LanguageManager::getText("STORE_EMPT"));
+    Utils::printWarningMsgNLine(LanguageManager::getText("STORE_EMPT"));
     return;
   }
 
-  const auto product{
-      getUserProductFromStore("PRD_NAME", isValidUserProduct, "WRN_PRD")};
+  const auto productId{getUserProductId()};
 
-  if (!product.has_value()) {
+  if (!productId.has_value()) {
     return;
   }
 
-  const auto quantity{
-      getUserProductFromStore("PRD_QNT", isValidUserQnt, "WRN_QNT")};
+  const std::string prdName{Products::getProductName(productId.value())};
+
+  const auto quantity{getUserQnt(productId.value())};
 
   if (!quantity.has_value()) {
     return;
   }
 
+  ProductData newProduct{.name = prdName,
+                         .price = Products::getProductPrice(productId.value()) *
+                                  quantity.value(),
+                         .qnt = quantity.value()};
+  Cart::addProductToCart(productId.value(), std::move(newProduct));
 
+  Utils::printSuccessMsg(LanguageManager::getText("PRD_ADD_CART"));
 }
 
-bool Konbini::isValidUserProduct(std::string &product) {
-  Utils::lowerString(product);
-  return Products::isProductExists(product);
-}
-
-std::optional<std::string> Konbini::getUserProductFromStore(
-    const std::string &inputMsg,
-    const std::function<bool(std::string &)> &inputValidatingFunc,
-    const std::string &wrongInputMsg) {
+std::optional<std::string> Konbini::getUserProductId() {
   while (true) {
-    std::string input{Utils::getInput(inputMsg)};
+    std::string input{Utils::getInput(
+        static_cast<std::string>(LanguageManager::getText("PRD_NAME")))};
 
     if (returnToMenu(input)) {
       return std::nullopt;
     }
 
-    if (inputValidatingFunc(input)) {
-      return input;
+    if (const auto id{isValidUserProduct(input)}; id.has_value()) {
+      return id.value();
     }
 
-    Utils::printWrongMsgNLine(LanguageManager::getText(wrongInputMsg));
+    Utils::printWrongMsgNLine(LanguageManager::getText("WRN_PRD"));
   }
 }
 
-bool Konbini::isValidUserQnt(const std::string &userQnt) {
-  return !userQnt.empty() && Utils::isInt(userQnt);
+std::optional<std::string> Konbini::isValidUserProduct(std::string &product) {
+  Utils::lowerString(product);
+  if (const auto id{Products::isProductExists(product)}; id.has_value()) {
+    return id.value();
+  }
+
+  return std::nullopt;
+}
+
+std::optional<int> Konbini::getUserQnt(const std::string &id) {
+  while (true) {
+    std::string input{Utils::getInput(
+        static_cast<std::string>(LanguageManager::getText("PRD_QNT")))};
+
+    if (returnToMenu(input)) {
+      return std::nullopt;
+    }
+
+    if (isValidUserQnt(id, input)) {
+      return stoi(input);
+    }
+
+    Utils::printWrongMsgNLine(LanguageManager::getText("WRN_QNT"));
+  }
+}
+
+bool Konbini::isValidUserQnt(const std::string &id,
+                             const std::string &userQnt) {
+  const int productQnt{Products::getProductQnt(id)};
+  return Utils::isInt(userQnt) && stoi(userQnt) > 0 &&
+         productQnt >= stoi(userQnt);
 }

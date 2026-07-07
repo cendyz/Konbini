@@ -1,9 +1,7 @@
 #pragma once
-
-#include <array>
 #include <string>
 #include <unordered_map>
-#include <variant>
+#include "Utils.h"
 
 class Cart {
 public:
@@ -11,10 +9,10 @@ public:
 
   [[nodiscard]] static bool isCartEmpty();
 
-  [[nodiscard]] static auto getCartItems();
+  [[nodiscard]] static std::unordered_map<std::string, ProductData> getCartItems();
+
+  static void addProductToCart(std::string id, ProductData newProduct);
 
 private:
-  inline static std::unordered_map<
-      std::string, std::array<std::variant<std::string, int, double>, 3>>
-      cartItems;
+  inline static std::unordered_map<std::string, ProductData> cartItems;
 };

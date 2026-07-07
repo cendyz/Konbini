@@ -15,9 +15,13 @@ public:
 
     [[nodiscard]] static std::string_view getCurrency();
 
-    [[nodiscard]] static bool isProductExists(const std::string &str);
+    [[nodiscard]] static std::string getProductName(const std::string &id);
 
-    [[nodiscard]] static bool getProductQnt(const std::string &str);
+    [[nodiscard]] static std::optional<std::string> isProductExists(const std::string &str);
+
+    [[nodiscard]] static int getProductQnt(const std::string &id);
+
+    [[nodiscard]] static double getProductPrice(const std::string &id);
 
 private:
     inline static std::filesystem::path productsPath{DATA_DIR "products"};

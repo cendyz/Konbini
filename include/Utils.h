@@ -8,8 +8,8 @@
 
 struct ProductData {
   std::string name;
-  int qnt{};
   double price{};
+  int qnt{};
 };
 
 namespace Utils {
@@ -30,10 +30,6 @@ inline void printWrongMsgNLine(const std::string_view msg) {
   printMsgSpace(inputMsg);
   getline(std::cin, input);
   return input;
-}
-
-[[nodiscard]] inline bool isInputANumber(const std::string &input) {
-  return std::ranges::all_of(input, [](const char c) { return isdigit(c); });
 }
 
 inline void printTabOptionNLine(const std::string_view msg,
@@ -57,7 +53,7 @@ inline void lowerString(std::string &str) {
 }
 
 [[nodiscard]] inline bool isInt(const std::string &str) {
-  return std::ranges::all_of(str, [](const char c) {
+  return !str.empty() && std::ranges::all_of(str, [](const char c) {
     return isdigit(c);
   });
 }
