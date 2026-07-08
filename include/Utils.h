@@ -57,4 +57,9 @@ inline void lowerString(std::string &str) {
     return isdigit(c);
   });
 }
+
+inline void printSeparator()
+{
+    std::cout << std::string(10, '-') << '\n';
+}
 }; // namespace Utils

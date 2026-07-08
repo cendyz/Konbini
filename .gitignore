@@ -4,3 +4,4 @@ cmake-build-konbini/
 compile_commands.json
 .cache/
 .clang-tidy
+.clang-format

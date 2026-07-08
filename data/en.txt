@@ -8,7 +8,8 @@ M_OPT_5;Login
 M_OPT_6;Register
 M_OPT_7;Become a employee
 M_OPT_8;Remind password
-M_OPT_9;Exit
+M_OPT_9;Change language to Japanese
+M_OPT_10;Exit
 OPT_SELECT;What you want to do now?:
 WRN_M_COMMAND;Wrong command.
 STORE_EMPT;Sorry, the store is empty!
@@ -29,3 +30,5 @@ YOUR_PASS;Your password:
 EMP_CART;Cart is empty!
 WRN_PRD;This product is not in store!
 PRD_NAME;Product name:
+CRT_SUM;Cart summary:
+LNG_CHN;Language changed!

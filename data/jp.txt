@@ -8,7 +8,8 @@ M_OPT_5;ログイン
 M_OPT_6;登録
 M_OPT_7;従業員になる
 M_OPT_8;パスワードをリマインドする
-M_OPT_9;出口
+M_OPT_9;言語を英語に変更する
+M_OPT_10;出口
 OPT_SELECT;何をしたいですか？：
 WRN_M_COMMAND;間違ったコマンド
 STORE_EMPT;ごめんなさい、店内は空いてます！
@@ -29,3 +30,5 @@ YOUR_PASS;お客様のパスワード：
 EMP_CART;籠は空です！
 WRN_PRD;そのような商品は店にありません。
 PRD_NAME;商品の名：
+CRT_SUM;カートの概要：
+LNG_CHN;言語は変更された！
