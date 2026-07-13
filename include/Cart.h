@@ -3,16 +3,22 @@
 #include <unordered_map>
 #include "Utils.h"
 
-class Cart {
+class Cart
+{
 public:
-  Cart() = default;
+    Cart() = default;
 
-  [[nodiscard]] static bool isCartEmpty();
+    [[nodiscard]] static bool isCartEmpty();
 
-  [[nodiscard]] static std::unordered_map<std::string, ProductData> getCartItems();
+    [[nodiscard]] static std::unordered_map<std::string, ProductData> getCartItems();
 
-  static void addProductToCart(std::string id, ProductData newProduct);
+    static void cleanCart();
+
+    static void addProductToCart(std::string id, const ProductData& newProduct);
+
+    static void reloadCartAfterLangChange(
+                                          const std::unordered_map<std::string, ProductData>& products);
 
 private:
-  inline static std::unordered_map<std::string, ProductData> cartItems;
+    inline static std::unordered_map<std::string, ProductData> cartItems;
 };

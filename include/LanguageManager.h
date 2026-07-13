@@ -3,11 +3,24 @@
 #include <vector>
 #include <unordered_map>
 #include <optional>
+#include <array>
 #include <filesystem>
 
 class LanguageManager
 {
 public:
+    enum class Langs : std::uint8_t
+    {
+        EN = 1,
+        JP,
+    };
+
+    enum class ActualLang : std::uint8_t
+    {
+        EN,
+        JP,
+    };
+
     LanguageManager() = default;
 
     void static loadLangTypeFile();
@@ -33,14 +46,10 @@ public:
     void static clearDict();
 
 private:
-    enum class lang
-    {
-        JP = 1,
-        EN = 2
-    };
-
     inline static std::filesystem::path dictPath{DATA_DIR};
     inline static std::filesystem::path langTypePath{DATA_DIR "langType.txt"};
+    inline static std::array<std::string, 2> langsType{"en", "jp"};
+    inline static ActualLang currLang;
     inline static std::string userLang;
     static constexpr std::string_view dictFormat{".txt"};
     inline static std::unordered_map<std::string, std::string> dict;

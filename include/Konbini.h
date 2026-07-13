@@ -95,5 +95,7 @@ private:
     [[nodiscard]] static bool isValidUserQnt(const std::string& id,
                                              const std::string& userQnt);
 
+    static void finalizePurchase();
+
     void static changeLanguage();
 };

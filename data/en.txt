@@ -32,3 +32,4 @@ WRN_PRD;This product is not in store!
 PRD_NAME;Product name:
 CRT_SUM;Cart summary:
 LNG_CHN;Language changed!
+THNK_SHP;Thank you for shopping!

@@ -25,16 +25,19 @@ void LanguageManager::saveUserLangToFile()
 
 std::optional<std::string> LanguageManager::isCorrectUserLang(int val)
 {
-    switch (static_cast<lang>(val))
+    switch (static_cast<Langs>(val))
     {
-    case lang::JP:
-        userLang = "jp";
-        return "jp";
-    case lang::EN:
-        userLang = "en";
-        return "en";
+    case Langs::JP:
+        currLang = ActualLang::JP;
+        break;
+    case Langs::EN:
+        currLang = ActualLang::EN;
+        break;
+    default:
+        return std::nullopt;
     }
-    return std::nullopt;
+    userLang = langsType[static_cast<size_t>(currLang)];
+    return langsType[static_cast<size_t>(currLang)];
 }
 
 std::string LanguageManager::getUserLang()
@@ -80,14 +83,8 @@ std::vector<std::string_view> LanguageManager::getMainMenu()
 
 void LanguageManager::changeLang()
 {
-    if (userLang == "jp")
-    {
-        userLang = "en";
-    }
-    else
-    {
-        userLang = "jp";
-    }
+    currLang = (currLang == ActualLang::EN) ? ActualLang::JP : ActualLang::EN;
+    userLang = langsType[static_cast<size_t>(currLang)];
 }
 
 void LanguageManager::clearDict()

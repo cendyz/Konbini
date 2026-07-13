@@ -90,6 +90,7 @@ bool Konbini::executeMainMenuTaks(int userOption)
         addItemToCart();
         break;
     case MainMenuOPTS::FinalizePurchase:
+        finalizePurchase();
         break;
     case MainMenuOPTS::Login:
         break;
@@ -141,7 +142,7 @@ void Konbini::checkCart()
 {
     if (Cart::isCartEmpty())
     {
-        Utils::printWarningMsgNLine(LanguageManager::getText("EMP_CART"));
+        KonbiniUI::printCartIsEmpty(LanguageManager::getText("EMP_CART"));
     }
     else
     {
@@ -276,12 +277,12 @@ void Konbini::addItemToCart()
         return;
     }
 
-    ProductData newProduct{.name = prdName,
+    const ProductData newProduct{.name = prdName,
                            .price = Products::getProductPrice(productId.value()) *
                                     quantity.value(),
                            .qnt = quantity.value()};
-    Cart::addProductToCart(productId.value(), std::move(newProduct));
-    Products::updateStoreDecreaseItem(productId.value(), quantity.value());
+    Cart::addProductToCart(productId.value(), newProduct);
+    Products::updateStoreAfterAddingToCart(productId.value(), quantity.value());
 
     Utils::printSuccessMsg(LanguageManager::getText("PRD_ADD_CART"));
 }
@@ -347,14 +348,26 @@ bool Konbini::isValidUserQnt(const std::string& id,
            productQnt >= stoi(userQnt);
 }
 
+void Konbini::finalizePurchase()
+{
+    if (Cart::isCartEmpty())
+    {
+        KonbiniUI::printCartIsEmpty(LanguageManager::getText("EMP_CART"));
+        return;
+    }
+
+    Products::updateFilesAfterPurchase();
+    Cart::cleanCart();
+    Utils::printSuccessMsg(LanguageManager::getText("THNK_SHP"));
+}
 void Konbini::changeLanguage()
 {
     LanguageManager::clearDict();
     LanguageManager::changeLang();
-    Products::clearProducts();
-    Products::setCurrencyAndFilePath(LanguageManager::getUserLang());
+    Products::setCurrencyAndActualCart(LanguageManager::getUserLang());
     LanguageManager::saveUserLangToFile();
     LanguageManager::loadDict(LanguageManager::getUserLang());
+    Cart::reloadCartAfterLangChange(Products::getProducts());
     LanguageManager::fullfillMainMenu(KonbiniUI::getMainMenuSize());
     Utils::printSuccessMsg(LanguageManager::getText("LNG_CHN"));
 }

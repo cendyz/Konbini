@@ -37,7 +37,7 @@ void KonbiniUI::printMenu(const std::vector<std::string_view>& arr)
 }
 
 void KonbiniUI::printStoreProducts(
-    std::unordered_map<std::string, ProductData>& products,
+    std::unordered_map<std::string, ProductData>&& products,
     const std::string_view currency, const std::string_view qnt)
 {
     for (const auto& [name, price, quantity] : products | std::views::values)
@@ -72,6 +72,11 @@ void KonbiniUI::printCartSummary(const std::unordered_map<std::string, ProductDa
 
     std::cout << std::format("{:>17}", label) << " " <<
         std::format("{:.2f}", summary) << currency << '\n';
+}
+
+void KonbiniUI::printCartIsEmpty(const std::string_view msg)
+{
+    Utils::printWarningMsgNLine(msg);
 }
 
 size_t KonbiniUI::getMainMenuSize()

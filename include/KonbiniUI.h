@@ -24,7 +24,7 @@ public:
     static void printMenu(const std::vector<std::string_view>& arr);
 
     static void
-    printStoreProducts(std::unordered_map<std::string, ProductData>& products,
+    printStoreProducts(std::unordered_map<std::string, ProductData>&& products,
                        std::string_view currency, std::string_view qnt);
 
     static void printPassword(std::string_view msg, std::string_view password);
@@ -35,6 +35,8 @@ public:
 
     static void printCartSummary(const std::unordered_map<std::string, ProductData>& cartItems,
                                  std::string_view currency);
+
+    static void printCartIsEmpty(std::string_view msg);
 
 private:
     static constexpr std::string_view possibilityToChoseLng{
