@@ -7,7 +7,12 @@
 #include <filesystem>
 
 class LanguageManager
+
 {
+    static constexpr size_t mainMenuSize{10};
+    static constexpr size_t userMenuSize{12};
+    static constexpr size_t adminMenuSize{14};
+
 public:
     enum class Langs : std::uint8_t
     {
@@ -33,13 +38,32 @@ public:
 
     static void loadDict(const std::string& lang);
 
+    static void loadMenus();
+
     [[nodiscard]] static std::string getUserLang();
 
     [[nodiscard]] static std::string_view getText(const std::string& text);
 
-    static void fullfillMainMenu(size_t mainMenuSize);
+    template <size_t S>
+    static void fullfillMenu(std::array<std::string_view, S>& arr, const std::string& msg)
+    {
+        for (size_t i{}; i < S; ++i)
+        {
+            arr[i] = dict[msg + std::to_string(i + 1)];
+        }
+    }
 
-    [[nodiscard]] static std::vector<std::string_view> getMainMenu();
+    [[nodiscard]] static size_t getMainMenuSize();
+
+    [[nodiscard]] static size_t getUserMenuSize();
+
+    [[nodiscard]] static size_t getAdminMenuSize();
+
+    [[nodiscard]] static std::array<std::string_view, mainMenuSize> getMainMenu();
+
+    [[nodiscard]] static std::array<std::string_view, userMenuSize> getUserMenu();
+
+    [[nodiscard]] static std::array<std::string_view, adminMenuSize> getAdminMenu();
 
     void static changeLang();
 
@@ -51,7 +75,10 @@ private:
     inline static std::array<std::string, 2> langsType{"en", "jp"};
     inline static ActualLang currLang;
     inline static std::string userLang;
+
     static constexpr std::string_view dictFormat{".txt"};
     inline static std::unordered_map<std::string, std::string> dict;
-    inline static std::vector<std::string_view> mainMenu;
+    inline static std::array<std::string_view, mainMenuSize> mainMenu;
+    inline static std::array<std::string_view, userMenuSize> userMenu;
+    inline static std::array<std::string_view, adminMenuSize> adminMenu;
 };

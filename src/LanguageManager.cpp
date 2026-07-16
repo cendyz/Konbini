@@ -63,32 +63,56 @@ void LanguageManager::loadDict(const std::string& lang)
     }
 }
 
+void LanguageManager::loadMenus()
+{
+    fullfillMenu(mainMenu, "M_OPT_");
+    fullfillMenu(userMenu, "U_MENU_");
+    fullfillMenu(adminMenu, "A_MENU_");
+}
+
 std::string_view LanguageManager::getText(const std::string& text)
 {
     return dict[text];
 }
 
-void LanguageManager::fullfillMainMenu(const size_t mainMenuSize)
-{
-    for (size_t i{}; i < mainMenuSize; ++i)
-    {
-        mainMenu.emplace_back(dict["M_OPT_" + std::to_string(i + 1)]);
-    }
-}
 
-std::vector<std::string_view> LanguageManager::getMainMenu()
+std::array<std::string_view, LanguageManager::mainMenuSize> LanguageManager::getMainMenu()
 {
     return mainMenu;
 }
 
+std::array<std::string_view, LanguageManager::userMenuSize> LanguageManager::getUserMenu()
+{
+    return userMenu;
+}
+
+std::array<std::string_view, LanguageManager::adminMenuSize> LanguageManager::getAdminMenu()
+{
+    return adminMenu;
+}
+
+size_t LanguageManager::getMainMenuSize()
+{
+    return mainMenuSize;
+}
+
+size_t LanguageManager::getUserMenuSize()
+{
+    return userMenuSize;
+}
+
+size_t LanguageManager::getAdminMenuSize()
+{
+    return adminMenuSize;
+}
+
 void LanguageManager::changeLang()
 {
-    currLang = (currLang == ActualLang::EN) ? ActualLang::JP : ActualLang::EN;
+    currLang = currLang == ActualLang::EN ? ActualLang::JP : ActualLang::EN;
     userLang = langsType[static_cast<size_t>(currLang)];
 }
 
 void LanguageManager::clearDict()
 {
     dict.clear();
-    mainMenu.clear();
 }

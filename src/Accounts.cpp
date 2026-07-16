@@ -61,3 +61,11 @@ bool Accounts::isCorrectNameEmail(const std::string &email, const std::string &n
 std::string Accounts::getAccPassword(const std::string &email) {
     return accs[email][static_cast<size_t>(AccInfo::Password)];
 }
+
+std::string_view Accounts::getUserType(){
+    return userAccType;
+}
+
+std::string_view Accounts::getAdminType(){
+    return adminAccType;
+}

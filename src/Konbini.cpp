@@ -31,6 +31,7 @@ void Konbini::run()
         LanguageManager::saveUserLangToFile();
     }
     products = std::make_unique<Products>(LanguageManager::getUserLang());
+    Utils::printMsgNLine(LanguageManager::getText("REG_CUP"));
     while (true)
     {
         KonbiniUI::printMenu(LanguageManager::getMainMenu());
@@ -73,7 +74,7 @@ std::string Konbini::userSelectingLanguage()
 void Konbini::setSystemLang(const std::string& lang)
 {
     LanguageManager::loadDict(lang);
-    LanguageManager::fullfillMainMenu(KonbiniUI::getMainMenuSize());
+    LanguageManager::loadMenus();
 }
 
 bool Konbini::executeMainMenuTaks(int userOption)
@@ -93,6 +94,7 @@ bool Konbini::executeMainMenuTaks(int userOption)
         finalizePurchase();
         break;
     case MainMenuOPTS::Login:
+        login()
         break;
     case MainMenuOPTS::Register:
         registerNew(Accounts::getUserAccType());
@@ -278,9 +280,9 @@ void Konbini::addItemToCart()
     }
 
     const ProductData newProduct{.name = prdName,
-                           .price = Products::getProductPrice(productId.value()) *
-                                    quantity.value(),
-                           .qnt = quantity.value()};
+                                 .price = Products::getProductPrice(productId.value()) *
+                                          quantity.value(),
+                                 .qnt = quantity.value()};
     Cart::addProductToCart(productId.value(), newProduct);
     Products::updateStoreAfterAddingToCart(productId.value(), quantity.value());
 
@@ -360,6 +362,7 @@ void Konbini::finalizePurchase()
     Cart::cleanCart();
     Utils::printSuccessMsg(LanguageManager::getText("THNK_SHP"));
 }
+
 void Konbini::changeLanguage()
 {
     LanguageManager::clearDict();
@@ -368,6 +371,19 @@ void Konbini::changeLanguage()
     LanguageManager::saveUserLangToFile();
     LanguageManager::loadDict(LanguageManager::getUserLang());
     Cart::reloadCartAfterLangChange(Products::getProducts());
-    LanguageManager::fullfillMainMenu(KonbiniUI::getMainMenuSize());
+    LanguageManager::loadMenus();
     Utils::printSuccessMsg(LanguageManager::getText("LNG_CHN"));
+}
+
+void Konbini::login()
+{
+    if (accType == Accounts::getAdminAccType())
+    {
+        KonbiniUI::printLoggedMenu(LanguageManager::getAdminMenu());
+    }
+    else
+    {
+        KonbiniUI::printLoggedMenu(LanguageManager::getUserMenu());
+    }
+
 }

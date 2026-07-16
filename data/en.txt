@@ -1,4 +1,5 @@
 MENU_WELCOME;Welcome to the store!
+REG_CUP;Registered users have 10% discount
 M_BACK_OPT;You can back to menu by command '0'
 M_OPT_1;Browse the store
 M_OPT_2;Check cart
@@ -33,3 +34,29 @@ PRD_NAME;Product name:
 CRT_SUM;Cart summary:
 LNG_CHN;Language changed!
 THNK_SHP;Thank you for shopping!
+U_MENU_1;Show account details
+U_MENU_2;Change e-mail
+U_MENU_3;Change password
+U_MENU_4;Browse the store
+U_MENU_5;Purchase history
+U_MENU_6;Check cart
+U_MENU_7;Add item to cart
+U_MENU_8;Finalize purchase
+U_MENU_9;Change language to japanese
+U_MENU_10;Delete account
+U_MENU_11;Logout
+U_MENU_12;Exit
+A_MENU_1;Show account details
+A_MENU_2;Change e-mail
+A_MENU_3;Change password
+A_MENU_4;Browse the store
+A_MENU_5;Add product to the store
+A_MENU_6;Remove product from the store
+A_MENU_7;Purchase history
+A_MENU_8;Check cart
+A_MENU_9;Add item to cart
+A_MENU_10;Finalize purchase
+A_MENU_11;Change language to japanese
+A_MENU_12;Delete account
+A_MENU_13;Logout
+A_MENU_14;Exit

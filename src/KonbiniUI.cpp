@@ -28,13 +28,6 @@ void KonbiniUI::printLngMenu()
     }
 }
 
-void KonbiniUI::printMenu(const std::vector<std::string_view>& arr)
-{
-    for (size_t i{}; i < arr.size(); ++i)
-    {
-        Utils::printTabOptionNLine(arr[i], i, COLORS::BLU);
-    }
-}
 
 void KonbiniUI::printStoreProducts(
     std::unordered_map<std::string, ProductData>&& products,
@@ -79,10 +72,6 @@ void KonbiniUI::printCartIsEmpty(const std::string_view msg)
     Utils::printWarningMsgNLine(msg);
 }
 
-size_t KonbiniUI::getMainMenuSize()
-{
-    return static_cast<size_t>(menuSizes::MainMenu);
-}
 
 void KonbiniUI::printPassword(const std::string_view msg,
                               const std::string_view password)
@@ -90,3 +79,4 @@ void KonbiniUI::printPassword(const std::string_view msg,
     std::cout << COLORS::YELLOW << msg << COLORS::RESET << " " << password
         << '\n';
 }
+

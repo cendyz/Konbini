@@ -1,14 +1,11 @@
 #pragma once
 #include "Utils.h"
 #include <array>
-#include <cstdint>
 #include <string>
 #include <unordered_map>
-#include <vector>
 
 class KonbiniUI
 {
-    enum class menuSizes : uint8_t { MainMenu = 10 };
 
 public:
     static void printUserCanChangeLNG();
@@ -19,9 +16,14 @@ public:
 
     [[nodiscard]] static std::string getLangMsg();
 
-    [[nodiscard]] static size_t getMainMenuSize();
-
-    static void printMenu(const std::vector<std::string_view>& arr);
+    template <size_t S>
+    static void printMenu(const std::array<std::string_view, S>& arr)
+    {
+        for (size_t i{}; i < S; ++i)
+        {
+            Utils::printTabOptionNLine(arr[i], i, COLORS::BLU);
+        }
+    }
 
     static void
     printStoreProducts(std::unordered_map<std::string, ProductData>&& products,
@@ -37,6 +39,15 @@ public:
                                  std::string_view currency);
 
     static void printCartIsEmpty(std::string_view msg);
+
+    template <size_t S>
+    static void printLoggedMenu(const std::array<std::string_view, S>& arr)
+    {
+        for (size_t i{}; i < S; ++i)
+        {
+            std::cout << i + 1 << ". " << arr[i] << '\n';
+        }
+    }
 
 private:
     static constexpr std::string_view possibilityToChoseLng{

@@ -98,4 +98,6 @@ private:
     static void finalizePurchase();
 
     void static changeLanguage();
+
+    void login(std::string_view accType);
 };

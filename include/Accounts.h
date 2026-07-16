@@ -25,6 +25,9 @@ public:
 
     [[nodiscard]] static std::string getAccPassword(const std::string &email);
 
+    [[nodiscard]] static std::string_view getUserType();
+    [[nodiscard]] static std::string_view getAdminType();
+
 private:
     inline static std::unordered_map<std::string, std::array<std::string,
         static_cast<size_t>(AccInfo::Size)> > accs;

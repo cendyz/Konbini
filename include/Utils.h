@@ -13,7 +13,6 @@ struct ProductData
     int qnt{};
 };
 
-
 namespace Utils
 {
 static constexpr size_t numofLangs{2};
