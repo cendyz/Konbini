@@ -112,6 +112,17 @@ void LanguageManager::changeLang()
     userLang = langsType[static_cast<size_t>(currLang)];
 }
 
+void LanguageManager::loadLoginMsgs()
+{
+    loginMsgs[0] = dict["EMAIL"];
+    loginMsgs[1] = dict["PSWD"];
+}
+
+std::string LanguageManager::getLoginMsg(const size_t i)
+{
+    return loginMsgs[i];
+}
+
 void LanguageManager::clearDict()
 {
     dict.clear();

@@ -99,5 +99,6 @@ private:
 
     void static changeLanguage();
 
-    void login(std::string_view accType);
+    [[nodiscard]] static std::optional<std::string> login();
+    [[nodiscard]] static bool isLoginOk(const std::string &email, const std::string &pass);
 };

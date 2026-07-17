@@ -21,6 +21,8 @@ PRD_ADD_CART;Product added to cart!
 MENU_BACK;Returning to menu...
 NAME;Your name:
 NAME_ERR;The name must contain only letters, from 2 to 15 characters.
+LOGIN;Login:
+WRN_LOGIN;Wrong login or password.
 PSWD;Password:
 PSWD_ERR;Password must contain between 6 and 20 characters, at least one letter, one digit, and one special character.
 EMAIL;Enter email:

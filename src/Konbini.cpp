@@ -75,6 +75,7 @@ void Konbini::setSystemLang(const std::string& lang)
 {
     LanguageManager::loadDict(lang);
     LanguageManager::loadMenus();
+    LanguageManager::loadLoginMsgs();
 }
 
 bool Konbini::executeMainMenuTaks(int userOption)
@@ -94,8 +95,14 @@ bool Konbini::executeMainMenuTaks(int userOption)
         finalizePurchase();
         break;
     case MainMenuOPTS::Login:
-        login()
-        break;
+    {
+        const auto acc{login()};
+        if (acc.has_value())
+        {
+            std::cout << " aaaaaaaaaaa\n";
+        }
+    }
+    break;
     case MainMenuOPTS::Register:
         registerNew(Accounts::getUserAccType());
         break;
@@ -372,18 +379,46 @@ void Konbini::changeLanguage()
     LanguageManager::loadDict(LanguageManager::getUserLang());
     Cart::reloadCartAfterLangChange(Products::getProducts());
     LanguageManager::loadMenus();
+    LanguageManager::loadLoginMsgs();
     Utils::printSuccessMsg(LanguageManager::getText("LNG_CHN"));
 }
 
-void Konbini::login()
+
+std::optional<std::string> Konbini::login()
 {
-    if (accType == Accounts::getAdminAccType())
+    std::array<std::string, 2> acc;
+    std::string input;
+    size_t i{};
+    while (true)
     {
-        KonbiniUI::printLoggedMenu(LanguageManager::getAdminMenu());
-    }
-    else
-    {
-        KonbiniUI::printLoggedMenu(LanguageManager::getUserMenu());
+        input = Utils::getInput(LanguageManager::getLoginMsg(i));
+
+        if (returnToMenu(input))
+        {
+            return std::nullopt;
+        }
+        acc[i] = input;
+
+        if (i == 1 && isLoginOk(acc[0], acc[i]))
+        {
+            return acc[0];
+        }
+
+        if (i == 1)
+        {
+            --i;
+            Utils::printWrongMsgNLine(LanguageManager::getText("WRN_LOGIN"));
+        }
+        else
+        {
+            ++i;
+        }
+
     }
 
+}
+
+bool Konbini::isLoginOk(const std::string& email, const std::string& pass)
+{
+ return Accounts::isAccExists(email) && Accounts::isEmailMatchingPassword(email, pass);
 }

@@ -65,6 +65,10 @@ public:
 
     [[nodiscard]] static std::array<std::string_view, adminMenuSize> getAdminMenu();
 
+    void static loadLoginMsgs();
+
+    [[nodiscard]] static std::string getLoginMsg(size_t i);
+
     void static changeLang();
 
     void static clearDict();
@@ -81,4 +85,6 @@ private:
     inline static std::array<std::string_view, mainMenuSize> mainMenu;
     inline static std::array<std::string_view, userMenuSize> userMenu;
     inline static std::array<std::string_view, adminMenuSize> adminMenu;
+
+    inline static std::array<std::string, 2> loginMsgs;
 };
