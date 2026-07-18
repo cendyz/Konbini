@@ -44,14 +44,6 @@ public:
 
     [[nodiscard]] static std::string_view getText(const std::string& text);
 
-    template <size_t S>
-    static void fullfillMenu(std::array<std::string_view, S>& arr, const std::string& msg)
-    {
-        for (size_t i{}; i < S; ++i)
-        {
-            arr[i] = dict[msg + std::to_string(i + 1)];
-        }
-    }
 
     [[nodiscard]] static size_t getMainMenuSize();
 
@@ -87,4 +79,13 @@ private:
     inline static std::array<std::string_view, adminMenuSize> adminMenu;
 
     inline static std::array<std::string, 2> loginMsgs;
+
+    template <size_t S>
+    static void fullfillMenu(std::array<std::string_view, S>& arr, const std::string& msg)
+    {
+        for (size_t i{}; i < S; ++i)
+        {
+            arr[i] = dict[msg + std::to_string(i + 1)];
+        }
+    }
 };

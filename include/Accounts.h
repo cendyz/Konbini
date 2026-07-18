@@ -19,7 +19,7 @@ public:
         Email,
         Pass,
         AccType,
-        Size
+        Size,
     };
 
     Accounts();
@@ -34,13 +34,13 @@ public:
 
     [[nodiscard]] static std::string getAccPassword(const std::string& email);
 
-    [[nodiscard]] static std::string_view getUserType();
-
-    [[nodiscard]] static std::string_view getAdminType();
-
     [[nodiscard]] static bool isAccExists(const std::string& email);
 
     [[nodiscard]] static bool isEmailMatchingPassword(const std::string &email, const std::string &password);
+
+    static void setLoggedAccEmail(const std::string &email);
+
+    [[nodiscard]] static std::string_view getAccType();
 
 private:
     inline static std::unordered_map<std::string, AccData> accs;
@@ -55,5 +55,7 @@ private:
     static void addAccToVar(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr);
 
     static void addAccToFile(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr);
+
+    static std::string loggedAccEmail;
 
 };

@@ -3,10 +3,13 @@
 #include <sstream>
 #include <ranges>
 
+
 Accounts::Accounts()
 {
     loadAccounts();
 }
+
+std::string Accounts::loggedAccEmail;
 
 void Accounts::loadAccounts()
 {
@@ -68,7 +71,6 @@ std::string_view Accounts::getUserAccType()
     return userAccType;
 }
 
-
 bool Accounts::isCorrectNameEmail(const std::string& email, const std::string& name)
 {
     return accs.contains(email) && accs[email].name == name;
@@ -79,15 +81,6 @@ std::string Accounts::getAccPassword(const std::string& email)
     return accs[email].password;
 }
 
-std::string_view Accounts::getUserType()
-{
-    return userAccType;
-}
-
-std::string_view Accounts::getAdminType()
-{
-    return adminAccType;
-}
 
 bool Accounts::isAccExists(const std::string& email)
 {
@@ -97,4 +90,14 @@ bool Accounts::isAccExists(const std::string& email)
 bool Accounts::isEmailMatchingPassword(const std::string& email, const std::string& password)
 {
     return accs[email].password == password;
+}
+
+void Accounts::setLoggedAccEmail(const std::string& email)
+{
+    loggedAccEmail = email;
+}
+
+std::string_view Accounts::getAccType()
+{
+    return accs[loggedAccEmail].accType;
 }

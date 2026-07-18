@@ -36,20 +36,27 @@ void Konbini::run()
     {
         KonbiniUI::printMenu(LanguageManager::getMainMenu());
         Utils::printWarningMsgNLine(LanguageManager::getText("M_BACK_OPT"));
-        if (std::string input = Utils::getInput(
-                static_cast<std::string>(LanguageManager::getText("OPT_SELECT")));
-            Utils::isInt(input))
+
+        if (const auto userCommand{getUserCommand()}; userCommand.has_value() && !executeMainMenuTask(
+                                                          userCommand.value()))
         {
-            if (!executeMainMenuTaks(stoi(input)))
-            {
-                return;
-            }
+            return;
         }
-        else
-        {
-            Utils::printWrongMsgNLine(LanguageManager::getText("WRN_M_COMMAND"));
-        }
+        Utils::printWrongMsgNLine(LanguageManager::getText("WRN_M_COMMAND"));
+
     }
+}
+
+std::optional<int> Konbini::getUserCommand()
+{
+    const std::string input{Utils::getInput(
+        static_cast<std::string>(LanguageManager::getText("OPT_SELECT")))};
+
+    if (Utils::isInt(input))
+    {
+        return stoi(input);
+    }
+    return std::nullopt;
 }
 
 std::string Konbini::userSelectingLanguage()
@@ -78,7 +85,7 @@ void Konbini::setSystemLang(const std::string& lang)
     LanguageManager::loadLoginMsgs();
 }
 
-bool Konbini::executeMainMenuTaks(int userOption)
+bool Konbini::executeMainMenuTask(int userOption)
 {
     switch (static_cast<MainMenuOPTS>(userOption))
     {
@@ -96,10 +103,17 @@ bool Konbini::executeMainMenuTaks(int userOption)
         break;
     case MainMenuOPTS::Login:
     {
-        const auto acc{login()};
-        if (acc.has_value())
+        if (const auto acc{login()}; acc.has_value())
         {
-            std::cout << " aaaaaaaaaaa\n";
+            Accounts::setLoggedAccEmail(acc.value());
+            if (Accounts::getAccType() == Accounts::getUserAccType())
+            {
+                executeUserMenu();
+            }
+            else
+            {
+                executeAdminMenu();
+            }
         }
     }
     break;
@@ -193,7 +207,7 @@ Konbini::getnewAcc(const std::string_view accType)
     for (size_t i{}; i < static_cast<size_t>(Accounts::AccInfo::Size) - 1; ++i)
     {
         const auto input{getOptionalCorrectInput(inputMsgs[i], registerRegexes[i],
-                                                 wrongInputsMsgs[i])};
+                                                 wrongInputsMsgs[i]),};
         if (!input.has_value())
         {
             return std::nullopt;
@@ -289,7 +303,7 @@ void Konbini::addItemToCart()
     const ProductData newProduct{.name = prdName,
                                  .price = Products::getProductPrice(productId.value()) *
                                           quantity.value(),
-                                 .qnt = quantity.value()};
+                                 .qnt = quantity.value(),};
     Cart::addProductToCart(productId.value(), newProduct);
     Products::updateStoreAfterAddingToCart(productId.value(), quantity.value());
 
@@ -301,7 +315,7 @@ std::optional<std::string> Konbini::getUserProductId()
     while (true)
     {
         std::string input{Utils::getInput(
-            static_cast<std::string>(LanguageManager::getText("PRD_NAME")))};
+            static_cast<std::string>(LanguageManager::getText("PRD_NAME"))),};
 
         if (returnToMenu(input))
         {
@@ -333,7 +347,7 @@ std::optional<int> Konbini::getUserQnt(const std::string& id)
     while (true)
     {
         std::string input{Utils::getInput(
-            static_cast<std::string>(LanguageManager::getText("PRD_QNT")))};
+            static_cast<std::string>(LanguageManager::getText("PRD_QNT"))),};
 
         if (returnToMenu(input))
         {
@@ -387,11 +401,10 @@ void Konbini::changeLanguage()
 std::optional<std::string> Konbini::login()
 {
     std::array<std::string, 2> acc;
-    std::string input;
     size_t i{};
     while (true)
     {
-        input = Utils::getInput(LanguageManager::getLoginMsg(i));
+        std::string input = Utils::getInput(LanguageManager::getLoginMsg(i));
 
         if (returnToMenu(input))
         {
@@ -413,12 +426,74 @@ std::optional<std::string> Konbini::login()
         {
             ++i;
         }
-
     }
-
 }
 
 bool Konbini::isLoginOk(const std::string& email, const std::string& pass)
 {
- return Accounts::isAccExists(email) && Accounts::isEmailMatchingPassword(email, pass);
+    return Accounts::isAccExists(email) && Accounts::isEmailMatchingPassword(email, pass);
+}
+
+
+void Konbini::executeUserMenu()
+{
+    while (true)
+    {
+        KonbiniUI::printMenu(LanguageManager::getUserMenu());
+        if (const auto userCommand{getUserCommand()}; userCommand.has_value())
+        {
+            if (!executeLoggedUserTask(userCommand.value()))
+            {
+                return;
+            }
+        }
+    }
+}
+
+bool Konbini::executeLoggedUserTask(int command)
+{
+    switch (static_cast<LoggedUserMenuOPTS>(command))
+    {
+    case LoggedUserMenuOPTS::ShowAccountDetails:
+        break;
+    case LoggedUserMenuOPTS::ChangeEmail:
+        break;
+    case LoggedUserMenuOPTS::ChangePassword:
+        break;
+    case LoggedUserMenuOPTS::BrowseTheStore:
+        browseTheStore();
+        break;
+    case LoggedUserMenuOPTS::PurchaseHistory:
+        break;
+    case LoggedUserMenuOPTS::CheckCart:
+        checkCart();
+        break;
+    case LoggedUserMenuOPTS::AddItemToCart:
+        addItemToCart();
+        break;
+    case LoggedUserMenuOPTS::FinalizePurchase:
+        finalizePurchase();
+        break;
+    case LoggedUserMenuOPTS::ChangelanguageToJapanese:
+        changeLanguage();
+        break;
+    case LoggedUserMenuOPTS::DeleteAccount:
+        break;
+    case LoggedUserMenuOPTS::Logout:
+        return false;
+        break;
+    case LoggedUserMenuOPTS::Exit:
+        std::exit(EXIT_SUCCESS);
+        break;
+    default:
+        Utils::printWrongMsgNLine(LanguageManager::getText("WRN_M_COMMAND"));
+        break;
+    }
+
+    return true;
+}
+
+void Konbini::executeAdminMenu()
+{
+
 }

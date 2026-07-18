@@ -79,4 +79,3 @@ void KonbiniUI::printPassword(const std::string_view msg,
     std::cout << COLORS::YELLOW << msg << COLORS::RESET << " " << password
         << '\n';
 }
-

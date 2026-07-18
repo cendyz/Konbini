@@ -20,7 +20,23 @@ class Konbini
         BecomAEmployee = 7,
         RemindPassword = 8,
         ChangeLang = 9,
-        Exit = 10
+        Exit = 10,
+    };
+
+    enum class LoggedUserMenuOPTS : std::uint8_t
+    {
+        ShowAccountDetails = 1,
+        ChangeEmail,
+        ChangePassword,
+        BrowseTheStore,
+        PurchaseHistory,
+        CheckCart,
+        AddItemToCart,
+        FinalizePurchase,
+        ChangelanguageToJapanese,
+        DeleteAccount,
+        Logout,
+        Exit,
     };
 
 public:
@@ -49,7 +65,9 @@ private:
 
     static void setSystemLang(const std::string& lang);
 
-    [[nodiscard]] bool executeMainMenuTaks(int userOption);
+    [[nodiscard]] static std::optional<int> getUserCommand();
+
+    [[nodiscard]] bool executeMainMenuTask(int userOption);
 
     [[nodiscard]] static bool returnToMenu(const std::string& input);
 
@@ -67,13 +85,13 @@ private:
                             const std::string& wrongInput);
 
     inline static const std::array<std::string, 3> inputMsgs{"NAME", "EMAIL",
-                                                             "PSWD"};
+                                                             "PSWD",};
     inline static const std::array<std::string, 3> wrongInputsMsgs{
         "NAME_ERR", "EMAIL_ERR", "PSWD_ERR"};
     inline static const std::array<std::regex, 3> registerRegexes{
         std::regex{"^[a-zA-Z]{2,15}$"},
         std::regex{"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.][a-zA-Z]{2,}$"},
-        std::regex{"(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,20}$"}};
+        std::regex{"(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,20}$"},};
 
     [[nodiscard]] static std::optional<
         std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> >
@@ -97,8 +115,15 @@ private:
 
     static void finalizePurchase();
 
-    void static changeLanguage();
+    static void changeLanguage();
 
     [[nodiscard]] static std::optional<std::string> login();
-    [[nodiscard]] static bool isLoginOk(const std::string &email, const std::string &pass);
+
+    [[nodiscard]] static bool isLoginOk(const std::string& email, const std::string& pass);
+
+    static void executeUserMenu();
+
+    [[nodiscard]] static bool executeLoggedUserTask(int command);
+
+    static void executeAdminMenu();
 };
