@@ -13,6 +13,7 @@ struct ProductData
     int qnt{};
 };
 
+
 namespace Utils
 {
 static constexpr size_t numofLangs{2};
@@ -25,6 +26,16 @@ inline void printMsgNLine(const std::string_view msg)
 inline void printMsg(const std::string_view msg)
 {
     std::cout << msg;
+}
+
+inline void printColorfullMsg(const std::string_view color, const std::string_view msg)
+{
+    std::cout << color << msg << COLORS::RESET;
+}
+
+inline void printColonWSpace()
+{
+    std::cout << ": ";
 }
 
 inline void printMsgSpace(std::string_view msg)

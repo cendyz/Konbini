@@ -48,6 +48,10 @@ U_MENU_9;Change language to japanese
 U_MENU_10;Delete account
 U_MENU_11;Logout
 U_MENU_12;Exit
+S_ACC_0;Name
+S_ACC_1;Email
+S_ACC_2;Password
+S_ACC_3;Account Type
 A_MENU_1;Show account details
 A_MENU_2;Change e-mail
 A_MENU_3;Change password

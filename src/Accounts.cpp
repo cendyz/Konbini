@@ -10,6 +10,7 @@ Accounts::Accounts()
 }
 
 std::string Accounts::loggedAccEmail;
+std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> Accounts::allAccInfo;
 
 void Accounts::loadAccounts()
 {
@@ -95,9 +96,18 @@ bool Accounts::isEmailMatchingPassword(const std::string& email, const std::stri
 void Accounts::setLoggedAccEmail(const std::string& email)
 {
     loggedAccEmail = email;
+    allAccInfo[static_cast<size_t>(AccInfo::Name)] = accs[email].name;
+    allAccInfo[static_cast<size_t>(AccInfo::Email)] = email;
+    allAccInfo[static_cast<size_t>(AccInfo::Pass)] = accs[email].password;
+    allAccInfo[static_cast<size_t>(AccInfo::AccType)] = accs[email].accType;
 }
 
 std::string_view Accounts::getAccType()
 {
     return accs[loggedAccEmail].accType;
+}
+
+std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> Accounts::getAcc()
+{
+    return allAccInfo;
 }

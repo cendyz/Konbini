@@ -49,6 +49,7 @@ public:
         }
     }
 
+
 private:
     static constexpr std::string_view possibilityToChoseLng{
         "You can choose the Konbini language, control is done using numbers."};

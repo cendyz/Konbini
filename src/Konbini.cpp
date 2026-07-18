@@ -42,8 +42,6 @@ void Konbini::run()
         {
             return;
         }
-        Utils::printWrongMsgNLine(LanguageManager::getText("WRN_M_COMMAND"));
-
     }
 }
 
@@ -56,6 +54,7 @@ std::optional<int> Konbini::getUserCommand()
     {
         return stoi(input);
     }
+    Utils::printWrongMsgNLine(LanguageManager::getText("WRN_M_COMMAND"));
     return std::nullopt;
 }
 
@@ -455,6 +454,7 @@ bool Konbini::executeLoggedUserTask(int command)
     switch (static_cast<LoggedUserMenuOPTS>(command))
     {
     case LoggedUserMenuOPTS::ShowAccountDetails:
+        showAccountDetails();
         break;
     case LoggedUserMenuOPTS::ChangeEmail:
         break;
@@ -485,12 +485,20 @@ bool Konbini::executeLoggedUserTask(int command)
     case LoggedUserMenuOPTS::Exit:
         std::exit(EXIT_SUCCESS);
         break;
-    default:
-        Utils::printWrongMsgNLine(LanguageManager::getText("WRN_M_COMMAND"));
-        break;
     }
 
     return true;
+}
+
+void Konbini::showAccountDetails()
+{
+    const auto acc{Accounts::getAcc()};
+    for (size_t i{}; i < static_cast<size_t>(Accounts::AccInfo::Size); ++i)
+    {
+        Utils::printColorfullMsg(COLORS::PURPLE, LanguageManager::getText("S_ACC_" + std::to_string(i)));
+        Utils::printColonWSpace();
+        Utils::printMsgNLine(acc[i]);
+    }
 }
 
 void Konbini::executeAdminMenu()

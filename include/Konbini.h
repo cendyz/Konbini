@@ -125,5 +125,7 @@ private:
 
     [[nodiscard]] static bool executeLoggedUserTask(int command);
 
+    static void showAccountDetails();
+
     static void executeAdminMenu();
 };

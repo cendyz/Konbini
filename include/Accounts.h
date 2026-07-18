@@ -36,11 +36,13 @@ public:
 
     [[nodiscard]] static bool isAccExists(const std::string& email);
 
-    [[nodiscard]] static bool isEmailMatchingPassword(const std::string &email, const std::string &password);
+    [[nodiscard]] static bool isEmailMatchingPassword(const std::string& email, const std::string& password);
 
-    static void setLoggedAccEmail(const std::string &email);
+    static void setLoggedAccEmail(const std::string& email);
 
     [[nodiscard]] static std::string_view getAccType();
+
+    [[nodiscard]] static std::array<std::string, static_cast<size_t>(AccInfo::Size)> getAcc();
 
 private:
     inline static std::unordered_map<std::string, AccData> accs;
@@ -57,5 +59,6 @@ private:
     static void addAccToFile(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr);
 
     static std::string loggedAccEmail;
+    static std::array<std::string, static_cast<size_t>(AccInfo::Size)> allAccInfo;
 
 };
