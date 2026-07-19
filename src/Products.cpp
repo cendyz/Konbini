@@ -4,27 +4,27 @@
 
 Products::Products(const std::string& finalLang)
 {
-    setCurrencyAndActualCart(finalLang);
+    setCurrencyAndActualProductsLang(finalLang);
+    loadProducts();
 }
 
-void Products::setCurrencyAndActualCart(const std::string& finalLang)
+void Products::setCurrencyAndActualProductsLang(const std::string& finalLang)
 {
     if (finalLang == "jp")
     {
-        actualCartEnumType = CartType::JP;
+        actualProductsLangEnumType = ProductsLang::JP;
     }
     else
     {
-        actualCartEnumType = CartType::EN;
+        actualProductsLangEnumType = ProductsLang::EN;
     }
-    actualCurrency = currencies[static_cast<size_t>(actualCartEnumType)];
-    actualCart = static_cast<size_t>(actualCartEnumType);
-    loadProducts();
+    actualCurrency = currencies[static_cast<size_t>(actualProductsLangEnumType)];
+    actualProductsLang = static_cast<size_t>(actualProductsLangEnumType);
 }
 
 bool Products::isStoreEmpty()
 {
-    return carts[actualCart].empty();
+    return productsByLang[actualProductsLang].empty();
 }
 
 void Products::loadProducts()
@@ -33,7 +33,7 @@ void Products::loadProducts()
 
     for (size_t i{}; i < Utils::numofLangs; ++i)
     {
-        std::ifstream filePath{cartsPath[i]};
+        std::ifstream filePath{productsPath[i]};
         while (getline(filePath, line))
         {
             std::stringstream ss(line);
@@ -44,16 +44,17 @@ void Products::loadProducts()
             getline(ss, quantity, ';');
 
             ProductData newProduct{
-                .name = name, .price = stod(price), .qnt = stoi(quantity)
+                .name = name, .price = stod(price), .qnt = stoi(quantity),
             };
-            carts[i].try_emplace(id, std::move(newProduct));
+            productsByLang[i].try_emplace(id, newProduct);
+            productsList[i].try_emplace(id, std::move(newProduct));
         }
     }
 }
 
 std::unordered_map<std::string, ProductData> Products::getProducts()
 {
-    return carts[actualCart];
+    return productsByLang[actualProductsLang];
 }
 
 std::string_view Products::getCurrency()
@@ -63,12 +64,12 @@ std::string_view Products::getCurrency()
 
 std::string Products::getProductName(const std::string& id)
 {
-    return carts[actualCart][id].name;
+    return productsByLang[actualProductsLang][id].name;
 }
 
 std::optional<std::string> Products::isProductExists(const std::string& str)
 {
-    for (const auto& [id, data] : carts[actualCart])
+    for (const auto& [id, data] : productsByLang[actualProductsLang])
     {
         if (data.name == str)
         {
@@ -80,12 +81,12 @@ std::optional<std::string> Products::isProductExists(const std::string& str)
 
 double Products::getProductPrice(const std::string& id)
 {
-    return carts[actualCart][id].price;
+    return productsByLang[actualProductsLang][id].price;
 }
 
 int Products::getProductQnt(const std::string& id)
 {
-    return carts[actualCart][id].qnt;
+    return productsByLang[actualProductsLang][id].qnt;
 }
 
 
@@ -93,17 +94,21 @@ void Products::updateStoreAfterAddingToCart(const std::string& id, const int qnt
 {
     for (size_t i{}; i < Utils::numofLangs; ++i)
     {
-        if (const int newQnt{carts[i][id].qnt - qnt}; newQnt == 0)
+        if (const int newQnt{productsByLang[i][id].qnt - qnt}; newQnt == 0)
         {
-            carts[i].erase(id);
+            productsByLang[i].erase(id);
         }
         else
         {
-            carts[i][id].qnt = newQnt;
+            productsByLang[i][id].qnt = newQnt;
         }
     }
 }
 
+std::unordered_map<std::string, ProductData> Products::getProductList()
+{
+    return productsList[actualProductsLang];
+}
 
 void Products::updateFilesAfterPurchase()
 {
@@ -113,19 +118,19 @@ void Products::updateFilesAfterPurchase()
     {
         std::ofstream temp{tempPath};
 
-        for (const auto& [id, data] : carts[i])
+        for (const auto& [id, data] : productsByLang[i])
         {
             temp << id << ";" << data.name << ";" << data.price << ";" << data.qnt << '\n';
         }
         temp.close();
 
-        std::filesystem::remove(cartsPath[i]);
-        std::filesystem::rename(tempPath, cartsPath[i]);
+        std::filesystem::remove(productsPath[i]);
+        std::filesystem::rename(tempPath, productsPath[i]);
     }
 }
 
-void Products::changeToNewCart()
+void Products::changeToOtherLangStore()
 {
-    actualCartEnumType = actualCartEnumType == CartType::JP ? CartType::EN : CartType::JP;
-    actualCart = static_cast<size_t>(actualCartEnumType);
+    actualProductsLangEnumType = actualProductsLangEnumType == ProductsLang::JP ? ProductsLang::EN : ProductsLang::JP;
+    actualProductsLang = static_cast<size_t>(actualProductsLangEnumType);
 }

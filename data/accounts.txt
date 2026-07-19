@@ -1,1 +1,1 @@
-michal;mich@gm.com;michal12#;user
+michal;bol@gm.com;1;user

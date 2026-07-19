@@ -1,6 +1,7 @@
 #pragma once
 #include "Colors.h"
 #include <algorithm>
+#include <filesystem>
 #include <iostream>
 #include <print>
 #include <ranges>
@@ -13,10 +14,10 @@ struct ProductData
     int qnt{};
 };
 
-
 namespace Utils
 {
 static constexpr size_t numofLangs{2};
+inline static const std::filesystem::path tempPath{DATA_DIR"temp.txt"};
 
 inline void printMsgNLine(const std::string_view msg)
 {

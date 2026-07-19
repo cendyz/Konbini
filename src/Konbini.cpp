@@ -48,7 +48,7 @@ void Konbini::run()
 std::optional<int> Konbini::getUserCommand()
 {
     const std::string input{Utils::getInput(
-        static_cast<std::string>(LanguageManager::getText("OPT_SELECT")))};
+        static_cast<std::string>(LanguageManager::getText("OPT_SELECT"))),};
 
     if (Utils::isInt(input))
     {
@@ -82,6 +82,31 @@ void Konbini::setSystemLang(const std::string& lang)
     LanguageManager::loadDict(lang);
     LanguageManager::loadMenus();
     LanguageManager::loadLoginMsgs();
+}
+
+std::optional<std::string>
+Konbini::getOptionalInput(const std::string_view inputMsg)
+{
+    std::string input;
+    Utils::printMsgSpace(inputMsg);
+    getline(std::cin, input);
+
+    if (returnToMenu(input))
+    {
+        return std::nullopt;
+    }
+
+    return input;
+}
+
+bool Konbini::returnToMenu(const std::string& input)
+{
+    if (input == backToMenuKey)
+    {
+        Utils::printWarningMsgNLine(LanguageManager::getText("MENU_BACK"));
+        return true;
+    }
+    return false;
 }
 
 bool Konbini::executeMainMenuTask(int userOption)
@@ -137,15 +162,6 @@ bool Konbini::executeMainMenuTask(int userOption)
     return true;
 }
 
-bool Konbini::returnToMenu(const std::string& input)
-{
-    if (input == backToMenuKey)
-    {
-        Utils::printWarningMsgNLine(LanguageManager::getText("MENU_BACK"));
-        return true;
-    }
-    return false;
-}
 
 void Konbini::browseTheStore()
 {
@@ -174,26 +190,24 @@ void Konbini::checkCart()
 }
 
 std::optional<std::string>
-Konbini::getOptionalCorrectInput(const std::string& inputMsg,
+Konbini::getOptionalCorrectInput(const std::string_view inputMsg,
                                  const std::regex& inputRegex,
-                                 const std::string& wrongInput)
+                                 const std::string_view wrongInput)
 {
     while (true)
     {
-        std::string input = Utils::getInput(
-            static_cast<std::string>(LanguageManager::getText(inputMsg)));
-
-        if (returnToMenu(input))
+        auto input{getOptionalInput(LanguageManager::getText(inputMsg.data()))};
+        if (!input.has_value())
         {
             return std::nullopt;
         }
 
-        if (std::regex_match(input, inputRegex))
+        if (std::regex_match(input.value(), inputRegex))
         {
-            return input;
+            return input.value();
         }
 
-        Utils::printWrongMsgNLine(LanguageManager::getText(wrongInput));
+        Utils::printWrongMsgNLine(LanguageManager::getText(wrongInput.data()));
     }
 }
 
@@ -205,13 +219,18 @@ Konbini::getnewAcc(const std::string_view accType)
 
     for (size_t i{}; i < static_cast<size_t>(Accounts::AccInfo::Size) - 1; ++i)
     {
-        const auto input{getOptionalCorrectInput(inputMsgs[i], registerRegexes[i],
-                                                 wrongInputsMsgs[i]),};
+        auto input{getOptionalCorrectInput(inputMsgs[i], registerRegexes[i],
+                                           wrongInputsMsgs[i]),};
         if (!input.has_value())
         {
             return std::nullopt;
         }
+        if (i == static_cast<size_t>(Accounts::AccInfo::Email))
+        {
+            Utils::lowerString(input.value());
+        }
         newAcc[i] = input.value();
+
     }
     newAcc[static_cast<size_t>(Accounts::AccInfo::AccType)] =
         static_cast<std::string>(accType);
@@ -259,21 +278,6 @@ void Konbini::remindPassword()
     }
 }
 
-std::optional<std::string>
-Konbini::getOptionalInput(const std::string_view inputMsg)
-{
-    std::string input;
-    Utils::printMsgSpace(inputMsg);
-
-    getline(std::cin, input);
-
-    if (returnToMenu(input))
-    {
-        return std::nullopt;
-    }
-
-    return input;
-}
 
 void Konbini::addItemToCart()
 {
@@ -313,15 +317,14 @@ std::optional<std::string> Konbini::getUserProductId()
 {
     while (true)
     {
-        std::string input{Utils::getInput(
-            static_cast<std::string>(LanguageManager::getText("PRD_NAME"))),};
+        auto input{getOptionalInput(LanguageManager::getText("PRD_NAME"))};
 
-        if (returnToMenu(input))
+        if (!input.has_value())
         {
             return std::nullopt;
         }
 
-        if (const auto id{isValidUserProduct(input)}; id.has_value())
+        if (const auto id{isValidUserProduct(input.value())}; id.has_value())
         {
             return id.value();
         }
@@ -345,17 +348,16 @@ std::optional<int> Konbini::getUserQnt(const std::string& id)
 {
     while (true)
     {
-        std::string input{Utils::getInput(
-            static_cast<std::string>(LanguageManager::getText("PRD_QNT"))),};
+        auto input{getOptionalInput(LanguageManager::getText("PRD_QNT"))};
 
-        if (returnToMenu(input))
+        if (!input.has_value())
         {
             return std::nullopt;
         }
 
-        if (isValidUserQnt(id, input))
+        if (isValidUserQnt(id, input.value()))
         {
-            return stoi(input);
+            return stoi(input.value());
         }
 
         Utils::printWrongMsgNLine(LanguageManager::getText("WRN_QNT"));
@@ -387,10 +389,10 @@ void Konbini::changeLanguage()
 {
     LanguageManager::clearDict();
     LanguageManager::changeLang();
-    Products::setCurrencyAndActualCart(LanguageManager::getUserLang());
+    Products::setCurrencyAndActualProductsLang(LanguageManager::getUserLang());
     LanguageManager::saveUserLangToFile();
     LanguageManager::loadDict(LanguageManager::getUserLang());
-    Cart::reloadCartAfterLangChange(Products::getProducts());
+    Cart::reloadCartAfterLangChange(Products::getProductList());
     LanguageManager::loadMenus();
     LanguageManager::loadLoginMsgs();
     Utils::printSuccessMsg(LanguageManager::getText("LNG_CHN"));
@@ -403,13 +405,14 @@ std::optional<std::string> Konbini::login()
     size_t i{};
     while (true)
     {
-        std::string input = Utils::getInput(LanguageManager::getLoginMsg(i));
+        auto input{getOptionalInput(LanguageManager::getLoginMsg(i))};
 
-        if (returnToMenu(input))
+        if (!input.has_value())
         {
             return std::nullopt;
         }
-        acc[i] = input;
+
+        acc[i] = input.value();
 
         if (i == 1 && isLoginOk(acc[0], acc[i]))
         {
@@ -457,6 +460,7 @@ bool Konbini::executeLoggedUserTask(int command)
         showAccountDetails();
         break;
     case LoggedUserMenuOPTS::ChangeEmail:
+        changeEmail();
         break;
     case LoggedUserMenuOPTS::ChangePassword:
         break;
@@ -478,6 +482,7 @@ bool Konbini::executeLoggedUserTask(int command)
         changeLanguage();
         break;
     case LoggedUserMenuOPTS::DeleteAccount:
+        Accounts::deleteAccFromFile();
         break;
     case LoggedUserMenuOPTS::Logout:
         return false;
@@ -492,12 +497,40 @@ bool Konbini::executeLoggedUserTask(int command)
 
 void Konbini::showAccountDetails()
 {
-    const auto acc{Accounts::getAcc()};
-    for (size_t i{}; i < static_cast<size_t>(Accounts::AccInfo::Size); ++i)
+    const auto acc{Accounts::getLoggedAcc()};
+    for (size_t i{}; i < acc.size(); ++i)
     {
         Utils::printColorfullMsg(COLORS::PURPLE, LanguageManager::getText("S_ACC_" + std::to_string(i)));
         Utils::printColonWSpace();
         Utils::printMsgNLine(acc[i]);
+    }
+}
+
+void Konbini::changeEmail()
+{
+    while (true)
+    {
+        auto input{getOptionalCorrectInput("N_EMAIL",
+                                           registerRegexes[static_cast<size_t>(Accounts::AccInfo::Email)],
+                                           "EMAIL_ERR")};
+
+        if (!input.has_value())
+        {
+            return;
+        }
+
+        Utils::lowerString(input.value());
+
+        if (!Accounts::isAccExists(input.value()))
+        {
+            Accounts::setNewEmail(input.value());
+            Accounts::deleteAccFromFile();
+            Utils::printSuccessMsg(LanguageManager::getText("EMAIL_CHANGED"));
+            return;
+        }
+
+        Utils::printWrongMsgNLine(LanguageManager::getText("EMAIL_EXST"));
+
     }
 }
 

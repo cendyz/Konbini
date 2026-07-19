@@ -42,7 +42,12 @@ public:
 
     [[nodiscard]] static std::string_view getAccType();
 
-    [[nodiscard]] static std::array<std::string, static_cast<size_t>(AccInfo::Size)> getAcc();
+    [[nodiscard]] static std::array<std::string, static_cast<size_t>(AccInfo::Size)> getLoggedAcc();
+
+    [[nodiscard]] static std::string getAccEmail();
+
+    void static deleteAccFromFile();
+    void static setNewEmail(const std::string &newEmail);
 
 private:
     inline static std::unordered_map<std::string, AccData> accs;

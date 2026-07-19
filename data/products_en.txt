@@ -1,2 +1,1 @@
-001;bread;1.25;3
 002;orange juice;2.5;1

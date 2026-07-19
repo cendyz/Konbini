@@ -1,4 +1,5 @@
 #include "Accounts.h"
+#include "Utils.h"
 #include<fstream>
 #include <sstream>
 #include <ranges>
@@ -107,7 +108,44 @@ std::string_view Accounts::getAccType()
     return accs[loggedAccEmail].accType;
 }
 
-std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> Accounts::getAcc()
+std::string Accounts::getAccEmail()
+{
+    return loggedAccEmail;
+}
+
+std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> Accounts::getLoggedAcc()
 {
     return allAccInfo;
+}
+
+void Accounts::setNewEmail(const std::string& newEmail)
+{
+    auto acc{accs.extract(loggedAccEmail)};
+    acc.key() = newEmail;
+    loggedAccEmail = newEmail;
+    accs.insert(std::move(acc));
+
+    allAccInfo[static_cast<size_t>(AccInfo::Name)] = accs[newEmail].name;
+    allAccInfo[static_cast<size_t>(AccInfo::Email)] = newEmail;
+    allAccInfo[static_cast<size_t>(AccInfo::Pass)] = accs[newEmail].password;
+    allAccInfo[static_cast<size_t>(AccInfo::AccType)] = accs[newEmail].accType;
+
+}
+
+
+void Accounts::deleteAccFromFile()
+{
+    std::ofstream temp{Utils::tempPath};
+    std::string line;
+
+    for (auto& [fst, snd] : accs)
+    {
+        temp << snd.name << ';' << fst << ';'
+            << snd.password << ';' << snd.accType << '\n';
+    }
+
+    temp.close();
+
+    std::filesystem::remove(accsFile);
+    std::filesystem::rename(Utils::tempPath, accsFile);
 }

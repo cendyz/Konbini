@@ -6,7 +6,7 @@
 
 bool LanguageManager::isLangTypeAlreadySet()
 {
-    return userLang.size() > 1;
+    return !userLang.empty();
 }
 
 void LanguageManager::loadLangTypeFile()
@@ -15,6 +15,9 @@ void LanguageManager::loadLangTypeFile()
     std::string line;
     getline(file, line);
     userLang = line;
+    currLang = userLang == langsType[static_cast<size_t>(ActualLang::JP)]
+                   ? ActualLang::JP
+                   : ActualLang::EN;
 }
 
 void LanguageManager::saveUserLangToFile()

@@ -6,7 +6,7 @@
 
 class Products
 {
-    enum class CartType : std::uint8_t
+    enum class ProductsLang : std::uint8_t
     {
         EN = 0,
         JP,
@@ -15,9 +15,9 @@ class Products
 public:
     explicit Products(const std::string& finalLang);
 
-    static void setCurrencyAndActualCart(const std::string& finalLang);
+    static void setCurrencyAndActualProductsLang(const std::string& finalLang);
 
-    static void changeToNewCart();
+    static void changeToOtherLangStore();
 
     [[nodiscard]] static bool isStoreEmpty();
 
@@ -35,18 +35,18 @@ public:
 
     static void updateStoreAfterAddingToCart(const std::string& id, int qnt);
 
-    static void clearProducts();
-
     static void updateFilesAfterPurchase();
 
+    [[nodiscard]] static std::unordered_map<std::string, ProductData> getProductList();
+
 private:
-    inline static std::array<std::filesystem::path, Utils::numofLangs> cartsPath{DATA_DIR"products_en.txt",
-        DATA_DIR "products_jp.txt"};
-    inline static std::size_t actualCart{};
-    inline static std::array<std::unordered_map<std::string, ProductData>, Utils::numofLangs> carts;
+    inline static std::array<std::filesystem::path, Utils::numofLangs> productsPath{DATA_DIR"products_en.txt",
+        DATA_DIR "products_jp.txt",};
+    inline static std::size_t actualProductsLang{};
+    inline static std::array<std::unordered_map<std::string, ProductData>, Utils::numofLangs> productsList;
+    inline static std::array<std::unordered_map<std::string, ProductData>, Utils::numofLangs> productsByLang;
     inline static const std::array<std::string, Utils::numofLangs> currencies{"$", "円"};
     inline static std::string actualCurrency;
-    inline static CartType actualCartEnumType;
-
+    inline static ProductsLang actualProductsLangEnumType;
     static void loadProducts();
 };

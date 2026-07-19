@@ -44,7 +44,6 @@ public:
 
     [[nodiscard]] static std::string_view getText(const std::string& text);
 
-
     [[nodiscard]] static size_t getMainMenuSize();
 
     [[nodiscard]] static size_t getUserMenuSize();
@@ -64,6 +63,7 @@ public:
     void static changeLang();
 
     void static clearDict();
+
 
 private:
     inline static std::filesystem::path dictPath{DATA_DIR};

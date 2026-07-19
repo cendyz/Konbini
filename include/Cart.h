@@ -17,7 +17,7 @@ public:
     static void addProductToCart(std::string id, const ProductData& newProduct);
 
     static void reloadCartAfterLangChange(
-                                          const std::unordered_map<std::string, ProductData>& products);
+        const std::unordered_map<std::string, ProductData>& allItemsList);
 
 private:
     inline static std::unordered_map<std::string, ProductData> cartItems;

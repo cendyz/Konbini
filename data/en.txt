@@ -27,6 +27,8 @@ PSWD;Password:
 PSWD_ERR;Password must contain between 6 and 20 characters, at least one letter, one digit, and one special character.
 EMAIL;Enter email:
 EMAIL_ERR;This is not a valid email.
+EMAIL_EXST;This email already exists.
+EMAIL_CHANGED;Email changed!
 ACC_CREATED;Account successfully created!
 WRN_NAME_EMAIL;Wrong e-mail or name.
 YOUR_PASS;Your password:
@@ -52,6 +54,7 @@ S_ACC_0;Name
 S_ACC_1;Email
 S_ACC_2;Password
 S_ACC_3;Account Type
+N_EMAIL;New email:
 A_MENU_1;Show account details
 A_MENU_2;Change e-mail
 A_MENU_3;Change password

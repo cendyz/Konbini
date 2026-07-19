@@ -17,12 +17,12 @@ void Cart::addProductToCart(std::string id, const ProductData& newProduct)
 }
 
 void Cart::reloadCartAfterLangChange(
-    const std::unordered_map<std::string, ProductData>& products)
+    const std::unordered_map<std::string, ProductData>& allItemsList)
 {
     for (const std::string& fst : cartItems | std::views::keys)
     {
-        cartItems[fst].name = products.at(fst).name;
-        cartItems[fst].price = products.at(fst).price * cartItems[fst].qnt;
+        cartItems[fst].name = allItemsList.at(fst).name;
+        cartItems[fst].price = allItemsList.at(fst).price * cartItems[fst].qnt;
     }
 }
 

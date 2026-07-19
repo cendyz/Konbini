@@ -80,9 +80,9 @@ private:
     static void registerNew(std::string_view accType);
 
     [[nodiscard]] static std::optional<std::string>
-    getOptionalCorrectInput(const std::string& inputMsg,
+    getOptionalCorrectInput(std::string_view inputMsg,
                             const std::regex& inputRegex,
-                            const std::string& wrongInput);
+                            std::string_view wrongInput);
 
     inline static const std::array<std::string, 3> inputMsgs{"NAME", "EMAIL",
                                                              "PSWD",};
@@ -126,6 +126,8 @@ private:
     [[nodiscard]] static bool executeLoggedUserTask(int command);
 
     static void showAccountDetails();
+
+    static void changeEmail();
 
     static void executeAdminMenu();
 };
