@@ -1,13 +1,7 @@
 #pragma once
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <optional>
-#include <array>
-#include <filesystem>
+import std;
 
 class LanguageManager
-
 {
     static constexpr size_t mainMenuSize{10};
     static constexpr size_t userMenuSize{12};
@@ -24,6 +18,13 @@ public:
     {
         EN,
         JP,
+    };
+
+    enum class LoginMsg : std::uint8_t
+    {
+        Email,
+        Password,
+        Size,
     };
 
     LanguageManager() = default;
@@ -64,7 +65,6 @@ public:
 
     void static clearDict();
 
-
 private:
     inline static std::filesystem::path dictPath{DATA_DIR};
     inline static std::filesystem::path langTypePath{DATA_DIR "langType.txt"};
@@ -78,7 +78,7 @@ private:
     inline static std::array<std::string_view, userMenuSize> userMenu;
     inline static std::array<std::string_view, adminMenuSize> adminMenu;
 
-    inline static std::array<std::string, 2> loginMsgs;
+    inline static std::array<std::string, static_cast<size_t>(LoginMsg::Size)> loginMsgs;
 
     template <size_t S>
     static void fullfillMenu(std::array<std::string_view, S>& arr, const std::string& msg)

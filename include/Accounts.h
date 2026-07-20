@@ -1,9 +1,5 @@
 #pragma once
-
-#include <array>
-#include <unordered_map>
-#include <string>
-#include <filesystem>
+import std;
 
 struct AccData
 {
@@ -13,7 +9,7 @@ struct AccData
 class Accounts
 {
 public:
-    enum class AccInfo : uint8_t
+    enum class AccInfo : std::uint8_t
     {
         Name,
         Email,
@@ -47,7 +43,8 @@ public:
     [[nodiscard]] static std::string getAccEmail();
 
     void static deleteAccFromFile();
-    void static setNewEmail(const std::string &newEmail);
+
+    void static setNewEmail(const std::string& newEmail);
 
 private:
     inline static std::unordered_map<std::string, AccData> accs;
@@ -65,5 +62,7 @@ private:
 
     static std::string loggedAccEmail;
     static std::array<std::string, static_cast<size_t>(AccInfo::Size)> allAccInfo;
+
+    static void setActualAccInfo(const std::string& email);
 
 };

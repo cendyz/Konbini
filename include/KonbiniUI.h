@@ -1,8 +1,7 @@
 #pragma once
-#include "Utils.h"
-#include <array>
-#include <string>
-#include <unordered_map>
+import std;
+#include "../src/Utils.cpp"
+
 
 class KonbiniUI
 {
@@ -48,7 +47,6 @@ public:
             std::cout << i + 1 << ". " << arr[i] << '\n';
         }
     }
-
 
 private:
     static constexpr std::string_view possibilityToChoseLng{

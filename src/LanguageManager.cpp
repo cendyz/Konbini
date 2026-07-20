@@ -1,8 +1,4 @@
 #include <LanguageManager.h>
-#include <fstream>
-#include <filesystem>
-#include <sstream>
-#include "Utils.h"
 
 bool LanguageManager::isLangTypeAlreadySet()
 {
@@ -117,8 +113,8 @@ void LanguageManager::changeLang()
 
 void LanguageManager::loadLoginMsgs()
 {
-    loginMsgs[0] = dict["EMAIL"];
-    loginMsgs[1] = dict["PSWD"];
+    loginMsgs[static_cast<size_t>(LoginMsg::Email)] = dict["EMAIL"];
+    loginMsgs[static_cast<size_t>(LoginMsg::Password)] = dict["PSWD"];
 }
 
 std::string LanguageManager::getLoginMsg(const size_t i)

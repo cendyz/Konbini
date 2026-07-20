@@ -1,9 +1,5 @@
 #include "Accounts.h"
-#include "Utils.h"
-#include<fstream>
-#include <sstream>
-#include <ranges>
-
+#include "Utils.cpp"
 
 Accounts::Accounts()
 {
@@ -94,13 +90,18 @@ bool Accounts::isEmailMatchingPassword(const std::string& email, const std::stri
     return accs[email].password == password;
 }
 
-void Accounts::setLoggedAccEmail(const std::string& email)
+void Accounts::setActualAccInfo(const std::string& email)
 {
-    loggedAccEmail = email;
     allAccInfo[static_cast<size_t>(AccInfo::Name)] = accs[email].name;
     allAccInfo[static_cast<size_t>(AccInfo::Email)] = email;
     allAccInfo[static_cast<size_t>(AccInfo::Pass)] = accs[email].password;
     allAccInfo[static_cast<size_t>(AccInfo::AccType)] = accs[email].accType;
+}
+
+void Accounts::setLoggedAccEmail(const std::string& email)
+{
+    loggedAccEmail = email;
+    setActualAccInfo(email);
 }
 
 std::string_view Accounts::getAccType()
@@ -124,14 +125,8 @@ void Accounts::setNewEmail(const std::string& newEmail)
     acc.key() = newEmail;
     loggedAccEmail = newEmail;
     accs.insert(std::move(acc));
-
-    allAccInfo[static_cast<size_t>(AccInfo::Name)] = accs[newEmail].name;
-    allAccInfo[static_cast<size_t>(AccInfo::Email)] = newEmail;
-    allAccInfo[static_cast<size_t>(AccInfo::Pass)] = accs[newEmail].password;
-    allAccInfo[static_cast<size_t>(AccInfo::AccType)] = accs[newEmail].accType;
-
+    setActualAccInfo(newEmail);
 }
-
 
 void Accounts::deleteAccFromFile()
 {

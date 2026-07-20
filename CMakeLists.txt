@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 4.4)
 
 project(konbini)
 
@@ -19,7 +19,7 @@ set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_library(CoreLogic
-        src/main.cpp
+        src/Utils.cpp
         src/Accounts.cpp
         src/Konbini.cpp
         src/KonbiniUI.cpp
@@ -46,5 +46,5 @@ add_executable(tests
 )
 
 target_link_libraries(tests PRIVATE GTest::gtest_main CoreLogic)
-target_link_libraries(CoreLogic PRIVATE GTest::gtest)
+#target_link_libraries(CoreLogic PRIVATE GTest::gtest)
 gtest_discover_tests(tests)

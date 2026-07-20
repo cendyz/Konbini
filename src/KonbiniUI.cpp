@@ -1,9 +1,7 @@
 #include "KonbiniUI.h"
-#include "Colors.h"
+#include "Colors.cpp"
 #include "LanguageManager.h"
-#include "Utils.h"
-#include "format"
-#include "ranges"
+#include "Utils.cpp"
 
 void KonbiniUI::printUserCanChangeLNG()
 {

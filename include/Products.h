@@ -1,8 +1,6 @@
 #pragma once
-#include <unordered_map>
-#include <string>
-#include <filesystem>
-#include "Utils.h"
+import std;
+#include "../src/Utils.cpp"
 
 class Products
 {
@@ -48,5 +46,6 @@ private:
     inline static const std::array<std::string, Utils::numofLangs> currencies{"$", "円"};
     inline static std::string actualCurrency;
     inline static ProductsLang actualProductsLangEnumType;
+
     static void loadProducts();
 };

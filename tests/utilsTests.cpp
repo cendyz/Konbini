@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "Utils.h"
+#include "../src/Utils.cpp"
 
 
 TEST(isNumber, RecognizesVariousFormatsCorrectly) {

@@ -1,11 +1,10 @@
+#include <windows.h>
 #include "Konbini.h"
 #include "Cart.h"
 #include "KonbiniUI.h"
 #include "LanguageManager.h"
-#include "Utils.h"
-#include <functional>
-#include <memory>
-#include <windows.h>
+#include "Utils.cpp"
+
 
 Konbini::Konbini()
 {
@@ -277,7 +276,6 @@ void Konbini::remindPassword()
         Utils::printWrongMsgNLine(LanguageManager::getText("WRN_NAME_EMAIL"));
     }
 }
-
 
 void Konbini::addItemToCart()
 {

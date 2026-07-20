@@ -1,11 +1,11 @@
 #pragma once
+import std;
 #include "Accounts.h"
 #include "Cart.h"
 #include "KonbiniUI.h"
 #include "LanguageManager.h"
 #include "Products.h"
-#include <memory>
-#include <regex>
+
 
 class Konbini
 {
@@ -85,13 +85,13 @@ private:
                             std::string_view wrongInput);
 
     inline static const std::array<std::string, 3> inputMsgs{"NAME", "EMAIL",
-                                                             "PSWD",};
+                                                             "PSWD"};
     inline static const std::array<std::string, 3> wrongInputsMsgs{
         "NAME_ERR", "EMAIL_ERR", "PSWD_ERR"};
     inline static const std::array<std::regex, 3> registerRegexes{
         std::regex{"^[a-zA-Z]{2,15}$"},
         std::regex{"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.][a-zA-Z]{2,}$"},
-        std::regex{"(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,20}$"},};
+        std::regex{"(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,20}$"}};
 
     [[nodiscard]] static std::optional<
         std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> >

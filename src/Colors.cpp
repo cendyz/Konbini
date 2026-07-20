@@ -1,5 +1,5 @@
 #pragma once
-#include <string_view>
+import std;
 
 namespace COLORS {
     inline constexpr std::string_view RED{"\033[91m"};

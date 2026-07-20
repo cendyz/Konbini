@@ -1,6 +1,4 @@
 #include "Products.h"
-#include <fstream>
-#include <istream>
 
 Products::Products(const std::string& finalLang)
 {

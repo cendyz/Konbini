@@ -1,15 +1,10 @@
 #pragma once
-#include "Colors.h"
-#include <algorithm>
-#include <filesystem>
-#include <iostream>
-#include <print>
-#include <ranges>
-#include <string>
+#include "Colors.cpp"
+
 
 struct ProductData
 {
-    std::string name;
+    std::string name{};
     double price{};
     int qnt{};
 };
@@ -80,7 +75,7 @@ inline void lowerString(std::string& str)
     std::ranges::transform(str, str.begin(),
                            [](const char c)
                            {
-                               return tolower(c);
+                               return std::tolower(c);
                            });
 }
 
@@ -88,7 +83,7 @@ inline void lowerString(std::string& str)
 {
     return !str.empty() && std::ranges::all_of(str, [](const char c)
     {
-        return isdigit(c);
+        return std::isdigit(c);
     });
 }
 
@@ -96,4 +91,4 @@ inline void printSeparator()
 {
     std::cout << std::string(10, '-') << '\n';
 }
-}; // namespace Utils
+}
