@@ -19,13 +19,13 @@ set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_library(CoreLogic
-        src/Utils.cpp
         src/Accounts.cpp
         src/Konbini.cpp
         src/KonbiniUI.cpp
         src/LanguageManager.cpp
         src/Products.cpp
         src/Cart.cpp
+        src/Utils.cpp
 )
 
 target_include_directories(CoreLogic PUBLIC include)
@@ -46,5 +46,5 @@ add_executable(tests
 )
 
 target_link_libraries(tests PRIVATE GTest::gtest_main CoreLogic)
-#target_link_libraries(CoreLogic PRIVATE GTest::gtest)
+target_link_libraries(CoreLogic PRIVATE GTest::gtest)
 gtest_discover_tests(tests)

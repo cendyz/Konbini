@@ -3,7 +3,7 @@ import std;
 
 struct AccData
 {
-    std::string name, password, accType;
+    std::string name{}, password{}, accType{};
 };
 
 class Accounts

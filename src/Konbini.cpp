@@ -3,7 +3,7 @@
 #include "Cart.h"
 #include "KonbiniUI.h"
 #include "LanguageManager.h"
-#include "Utils.cpp"
+#include "Utils.h"
 
 
 Konbini::Konbini()
