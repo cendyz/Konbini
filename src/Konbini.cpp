@@ -224,7 +224,7 @@ Konbini::getnewAcc(const std::string_view accType)
         {
             return std::nullopt;
         }
-        if (i == static_cast<size_t>(Accounts::AccInfo::Email))
+        if (i == static_cast<size_t>(Accounts::AccInfo::Email) || i == static_cast<size_t>(Accounts::AccInfo::Name))
         {
             Utils::lowerString(input.value());
         }
@@ -240,7 +240,8 @@ void Konbini::registerNew(const std::string_view accType)
 {
     if (const auto newAcc{getnewAcc(accType)}; newAcc.has_value())
     {
-        Accounts::addAccToDB(newAcc.value());
+        Accounts::addAccToVar(newAcc.value());
+    Accounts::addAccToFile(newAcc.value());
         Utils::printSuccessMsg(LanguageManager::getText("ACC_CREATED"));
     }
 }
@@ -259,6 +260,7 @@ void Konbini::remindPassword()
             {
                 return;
             }
+            Utils::lowerString(input.value());
             acc[i] = input.value();
         }
 
@@ -409,7 +411,7 @@ std::optional<std::string> Konbini::login()
         {
             return std::nullopt;
         }
-
+        Utils::lowerString(input.value());
         acc[i] = input.value();
 
         if (i == 1 && isLoginOk(acc[0], acc[i]))

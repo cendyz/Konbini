@@ -69,7 +69,7 @@ std::string_view Accounts::getUserAccType()
     return userAccType;
 }
 
-bool Accounts::isCorrectNameEmail(const std::string& email, const std::string& name)
+bool Accounts::isCorrectNameEmail(const std::string& email,const std::string& name)
 {
     return accs.contains(email) && accs[email].name == name;
 }
@@ -143,4 +143,9 @@ void Accounts::deleteAccFromFile()
 
     std::filesystem::remove(accsFile);
     std::filesystem::rename(Utils::tempPath, accsFile);
+}
+
+void Accounts::clearAccs()
+{
+    accs.clear();
 }

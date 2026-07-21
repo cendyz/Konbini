@@ -43,8 +43,8 @@ include(GoogleTest)
 add_executable(tests
         tests/utilsTests.cpp
         tests/LngManagerTests.cpp
+        tests/accountsTests.cpp
 )
 
 target_link_libraries(tests PRIVATE GTest::gtest_main CoreLogic)
-target_link_libraries(CoreLogic PRIVATE GTest::gtest)
 gtest_discover_tests(tests)

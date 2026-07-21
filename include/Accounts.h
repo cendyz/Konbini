@@ -34,6 +34,10 @@ public:
 
     [[nodiscard]] static bool isEmailMatchingPassword(const std::string& email, const std::string& password);
 
+    static void addAccToVar(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr);
+
+    static void addAccToFile(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr);
+
     static void setLoggedAccEmail(const std::string& email);
 
     [[nodiscard]] static std::string_view getAccType();
@@ -46,6 +50,8 @@ public:
 
     void static setNewEmail(const std::string& newEmail);
 
+    static void clearAccs();
+
 private:
     inline static std::unordered_map<std::string, AccData> accs;
 
@@ -56,9 +62,6 @@ private:
     static constexpr std::string_view userAccType{"user"};
     static constexpr std::string_view adminAccType{"admin"};
 
-    static void addAccToVar(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr);
-
-    static void addAccToFile(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr);
 
     static std::string loggedAccEmail;
     static std::array<std::string, static_cast<size_t>(AccInfo::Size)> allAccInfo;
