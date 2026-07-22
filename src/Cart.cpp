@@ -12,7 +12,15 @@ std::unordered_map<std::string, ProductData> Cart::getCartItems()
 
 void Cart::addProductToCart(std::string id, const ProductData& newProduct)
 {
-    cartItems.try_emplace(std::move(id), newProduct);
+    if (cartItems.contains(id))
+    {
+        cartItems[id].qnt += newProduct.qnt;
+        cartItems[id].price += newProduct.price;
+    }
+    else
+    {
+        cartItems.try_emplace(std::move(id), newProduct);
+    }
 }
 
 void Cart::reloadCartAfterLangChange(
@@ -23,6 +31,23 @@ void Cart::reloadCartAfterLangChange(
         cartItems[fst].name = allItemsList.at(fst).name;
         cartItems[fst].price = allItemsList.at(fst).price * cartItems[fst].qnt;
     }
+}
+
+std::array<double, 2> Cart::getCartSummaries(bool isUser)
+{
+    std::array<double, 2> cartSummaries;
+    double summary{};
+    for (const auto& prd : cartItems | std::views::values)
+    {
+        summary += prd.price;
+    }
+    cartSummaries[0] = summary;
+    cartSummaries[1] = 0;
+    if (isUser)
+    {
+        cartSummaries[1] = summary - (10 * summary / 100);
+    }
+    return cartSummaries;
 }
 
 void Cart::cleanCart()

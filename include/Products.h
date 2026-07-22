@@ -21,7 +21,7 @@ public:
 
     [[nodiscard]] static std::unordered_map<std::string, ProductData> getProducts();
 
-    [[nodiscard]] static std::string_view getCurrency();
+    [[nodiscard]] static std::string getCurrency();
 
     [[nodiscard]] static std::string getProductName(const std::string& id);
 

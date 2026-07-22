@@ -34,8 +34,8 @@ public:
     printCartItems(const std::unordered_map<std::string, ProductData>& cartItems,
                    std::string_view currency);
 
-    static void printCartSummary(const std::unordered_map<std::string, ProductData>& cartItems,
-                                 std::string_view currency);
+    static void printCartSummary(const std::array<double, 2>& summaries, const std::string& currency,
+                                 bool isUser = false);
 
     static void printCartIsEmpty(std::string_view msg);
 

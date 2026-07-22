@@ -75,7 +75,7 @@ private:
 
     static void browseTheStore();
 
-    static void checkCart();
+    static void checkCart(const bool isUser = false);
 
     static void registerNew(std::string_view accType);
 

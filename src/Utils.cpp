@@ -80,5 +80,5 @@ bool Utils::isInt(const std::string& str)
 
 void Utils::printSeparator()
 {
-    std::cout << std::string(10, '-') << '\n';
+    std::cout << std::string(15, '-') << '\n';
 }

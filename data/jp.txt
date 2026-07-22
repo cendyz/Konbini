@@ -39,6 +39,7 @@ WRN_PRD;そのような商品は店にありません。
 PRD_NAME;商品の名：
 CRT_SUM;カートの概要：
 LNG_CHN;言語は変更された！
+DSC_CRT_SUM;割引後のカートの概要：
 THNK_SHP;お買い上げありがとうございます！
 ACC_DEL;アカウントが削除された！
 LOG_OUT;ログアウト中。。。

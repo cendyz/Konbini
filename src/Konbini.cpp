@@ -157,6 +157,7 @@ bool Konbini::executeMainMenuTask(int userOption)
     default:
         Utils::printWrongMsgNLine(LanguageManager::getText("WRN_M_COMMAND"));
     }
+    std::cout << '\n';
     return true;
 }
 
@@ -174,7 +175,7 @@ void Konbini::browseTheStore()
                                   LanguageManager::getText("QNT"));
 }
 
-void Konbini::checkCart()
+void Konbini::checkCart(const bool isUser)
 {
     if (Cart::isCartEmpty())
     {
@@ -183,7 +184,7 @@ void Konbini::checkCart()
     else
     {
         KonbiniUI::printCartItems(Cart::getCartItems(), Products::getCurrency());
-        KonbiniUI::printCartSummary(Cart::getCartItems(), Products::getCurrency());
+        KonbiniUI::printCartSummary(Cart::getCartSummaries(isUser), Products::getCurrency(), isUser);
     }
 }
 
@@ -471,7 +472,7 @@ bool Konbini::executeLoggedUserTask(int command)
     case LoggedUserMenuOPTS::PurchaseHistory:
         break;
     case LoggedUserMenuOPTS::CheckCart:
-        checkCart();
+        checkCart(true);
         break;
     case LoggedUserMenuOPTS::AddItemToCart:
         addItemToCart();
@@ -496,7 +497,7 @@ bool Konbini::executeLoggedUserTask(int command)
         std::exit(EXIT_SUCCESS);
         break;
     }
-
+    std::cout << '\n';
     return true;
 }
 

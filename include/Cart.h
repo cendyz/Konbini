@@ -18,6 +18,8 @@ public:
     static void reloadCartAfterLangChange(
         const std::unordered_map<std::string, ProductData>& allItemsList);
 
+    [[nodiscard]] static std::array<double, 2> getCartSummaries(bool isUser = false);
+
 private:
     inline static std::unordered_map<std::string, ProductData> cartItems;
 };

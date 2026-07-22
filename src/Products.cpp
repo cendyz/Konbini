@@ -55,7 +55,7 @@ std::unordered_map<std::string, ProductData> Products::getProducts()
     return productsByLang[actualProductsLang];
 }
 
-std::string_view Products::getCurrency()
+std::string Products::getCurrency()
 {
     return actualCurrency;
 }

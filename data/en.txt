@@ -38,6 +38,7 @@ EMP_CART;Cart is empty!
 WRN_PRD;This product is not in store!
 PRD_NAME;Product name:
 CRT_SUM;Cart summary:
+DSC_CRT_SUM;Cart summary after discount:
 LNG_CHN;Language changed!
 THNK_SHP;Thank you for shopping!
 LOG_OUT;Logging out...

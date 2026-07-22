@@ -49,27 +49,31 @@ void KonbiniUI::printCartItems(
     }
 }
 
-void KonbiniUI::printCartSummary(const std::unordered_map<std::string, ProductData>& cartItems,
-                                 const std::string_view currency)
+void KonbiniUI::printCartSummary(const std::array<double, 2>& summaries, const std::string& currency,
+                                 const bool isUser)
 {
-    double summary{};
-    for (const auto& prd : cartItems | std::views::values)
-    {
-        summary += prd.price;
-    }
-    Utils::printSeparator();
-    const std::string textSum{LanguageManager::getText("CRT_SUM")};
-    std::string label{textSum};
 
+    Utils::printSeparator();
+    const std::string textSum{isUser
+                                  ? LanguageManager::getText("DSC_CRT_SUM")
+                                  : LanguageManager::getText("CRT_SUM")};
+    std::string label{textSum};
+    const size_t i{static_cast<size_t>(isUser ? 1 : 0)};
     std::cout << std::format("{:>17}", label) << " ";
+    std::string priceBeforeDiscount{
+        isUser
+            ? "\033[9;93m" + (currency == "円"
+                                  ? std::format("{:.0f}", summaries[0])
+                                  : std::format("{:.2f}", summaries[0])) + currency + "\033[0m "
+            : ""};
+
     if (currency == "円")
     {
-        std::cout << summary << currency << '\n';
-
+        std::cout << priceBeforeDiscount << summaries[i] << currency << '\n';
     }
     else
     {
-        std::cout << std::format("{:.2f}", summary) << currency << '\n';
+        std::cout << priceBeforeDiscount << std::format("{:.2f}", summaries[i]) << currency << '\n';
     }
 }
 
