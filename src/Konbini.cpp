@@ -5,7 +5,6 @@
 #include "LanguageManager.h"
 #include "Utils.h"
 
-
 Konbini::Konbini()
 {
     SetConsoleOutputCP(CP_UTF8);
@@ -30,7 +29,7 @@ void Konbini::run()
         LanguageManager::saveUserLangToFile();
     }
     products = std::make_unique<Products>(LanguageManager::getUserLang());
-    Utils::printMsgNLine(LanguageManager::getText("REG_CUP"));
+    Utils::printColorfullMsgNLine(COLORS::GREEN, LanguageManager::getText("REG_CUP"));
     while (true)
     {
         KonbiniUI::printMenu(LanguageManager::getMainMenu());
@@ -241,7 +240,7 @@ void Konbini::registerNew(const std::string_view accType)
     if (const auto newAcc{getnewAcc(accType)}; newAcc.has_value())
     {
         Accounts::addAccToVar(newAcc.value());
-    Accounts::addAccToFile(newAcc.value());
+        Accounts::addAccToFile(newAcc.value());
         Utils::printSuccessMsg(LanguageManager::getText("ACC_CREATED"));
     }
 }
@@ -463,6 +462,8 @@ bool Konbini::executeLoggedUserTask(int command)
         changeEmail();
         break;
     case LoggedUserMenuOPTS::ChangePassword:
+        changePassword();
+        Accounts::updateAccsFile();
         break;
     case LoggedUserMenuOPTS::BrowseTheStore:
         browseTheStore();
@@ -482,9 +483,13 @@ bool Konbini::executeLoggedUserTask(int command)
         changeLanguage();
         break;
     case LoggedUserMenuOPTS::DeleteAccount:
-        Accounts::deleteAccFromFile();
+        Accounts::updateAccsFile();
+        Accounts::deleteAccFromVar();
+        Utils::printSuccessMsg(LanguageManager::getText("ACC_DEL"));
+        return false;
         break;
     case LoggedUserMenuOPTS::Logout:
+        Utils::printWarningMsgNLine(LanguageManager::getText("LOG_OUT"));
         return false;
         break;
     case LoggedUserMenuOPTS::Exit:
@@ -524,7 +529,7 @@ void Konbini::changeEmail()
         if (!Accounts::isAccExists(input.value()))
         {
             Accounts::setNewEmail(input.value());
-            Accounts::deleteAccFromFile();
+            Accounts::updateAccsFile();
             Utils::printSuccessMsg(LanguageManager::getText("EMAIL_CHANGED"));
             return;
         }
@@ -532,6 +537,21 @@ void Konbini::changeEmail()
         Utils::printWrongMsgNLine(LanguageManager::getText("EMAIL_EXST"));
 
     }
+}
+
+void Konbini::changePassword()
+{
+    auto input{getOptionalCorrectInput("NEW_PASS",
+                                       registerRegexes[static_cast<size_t>(Accounts::AccInfo::Pass)],
+                                       "PSWD_ERR")};
+
+    if (!input.has_value())
+    {
+        return;
+    }
+
+    Accounts::setNewPassword(input.value());
+    Utils::printSuccessMsg(LanguageManager::getText("NEW_PASS_CHNGD"));
 }
 
 void Konbini::executeAdminMenu()

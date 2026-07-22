@@ -32,12 +32,16 @@ EMAIL_CHANGED;Email changed!
 ACC_CREATED;Account successfully created!
 WRN_NAME_EMAIL;Wrong e-mail or name.
 YOUR_PASS;Your password:
+NEW_PASS;New password:
+NEW_PASS_CHNGD;Password updated!
 EMP_CART;Cart is empty!
 WRN_PRD;This product is not in store!
 PRD_NAME;Product name:
 CRT_SUM;Cart summary:
 LNG_CHN;Language changed!
 THNK_SHP;Thank you for shopping!
+LOG_OUT;Logging out...
+ACC_DEL;Account deleted!
 U_MENU_1;Show account details
 U_MENU_2;Change e-mail
 U_MENU_3;Change password

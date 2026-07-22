@@ -8,7 +8,7 @@ class IsCorrectAccountsFuncs : public testing::Test
 {
 protected:
     std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> acc;
-    
+
     void SetUp() override
     {
         acc[static_cast<size_t>(Accounts::AccInfo::Name)] = "jerry";

@@ -32,12 +32,16 @@ EMAIL_CHANGED;メールアドレスは変わりました！
 ACC_CREATED;アカウントが正常に作成されました！
 WRN_NAME_EMAIL;メールまたは名前は違う。
 YOUR_PASS;お客様のパスワード：
+NEW_PASS;新しいパスワード：
+NEW_PASS_CHNGD;パスワードはが変更された！
 EMP_CART;籠は空です！
 WRN_PRD;そのような商品は店にありません。
 PRD_NAME;商品の名：
 CRT_SUM;カートの概要：
 LNG_CHN;言語は変更された！
 THNK_SHP;お買い上げありがとうございます！
+ACC_DEL;アカウントが削除された！
+LOG_OUT;ログアウト中。。。
 U_MENU_1;アカウント情報
 U_MENU_2;メールアドレスを変更する
 U_MENU_3;パスワードを変更する

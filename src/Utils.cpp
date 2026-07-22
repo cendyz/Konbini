@@ -15,6 +15,11 @@ void Utils::printColorfullMsg(const std::string_view color, const std::string_vi
     std::cout << color << msg << COLORS::RESET;
 }
 
+void Utils::printColorfullMsgNLine(const std::string_view color, const std::string_view msg)
+{
+    std::cout << color << msg << COLORS::RESET << '\n';
+}
+
 void Utils::printColonWSpace()
 {
     std::cout << ": ";

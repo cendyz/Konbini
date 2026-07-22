@@ -61,8 +61,16 @@ void KonbiniUI::printCartSummary(const std::unordered_map<std::string, ProductDa
     const std::string textSum{LanguageManager::getText("CRT_SUM")};
     std::string label{textSum};
 
-    std::cout << std::format("{:>17}", label) << " " <<
-        std::format("{:.2f}", summary) << currency << '\n';
+    std::cout << std::format("{:>17}", label) << " ";
+    if (currency == "円")
+    {
+        std::cout << summary << currency << '\n';
+
+    }
+    else
+    {
+        std::cout << std::format("{:.2f}", summary) << currency << '\n';
+    }
 }
 
 void KonbiniUI::printCartIsEmpty(const std::string_view msg)

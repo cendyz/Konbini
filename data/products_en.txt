@@ -1,1 +1,3 @@
-002;orange juice;2.5;1
+001;orange juice;2.5;10
+002;bread;1.75;10
+003;cola;2.90;18

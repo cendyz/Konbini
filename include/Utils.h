@@ -19,6 +19,8 @@ void printMsg(std::string_view msg);
 
 void printColorfullMsg(std::string_view color, std::string_view msg);
 
+void printColorfullMsgNLine(std::string_view color, std::string_view msg);
+
 void printColonWSpace();
 
 void printMsgSpace(std::string_view msg);

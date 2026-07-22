@@ -67,7 +67,7 @@ private:
 
     [[nodiscard]] static std::optional<int> getUserCommand();
 
-    [[nodiscard]] bool executeMainMenuTask(int userOption);
+    [[nodiscard]] static bool executeMainMenuTask(int userOption);
 
     [[nodiscard]] static bool returnToMenu(const std::string& input);
 
@@ -128,6 +128,8 @@ private:
     static void showAccountDetails();
 
     static void changeEmail();
+
+    static void changePassword();
 
     static void executeAdminMenu();
 };

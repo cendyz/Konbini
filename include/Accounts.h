@@ -46,9 +46,13 @@ public:
 
     [[nodiscard]] static std::string getAccEmail();
 
-    void static deleteAccFromFile();
+    void static updateAccsFile();
+
+    void static deleteAccFromVar();
 
     void static setNewEmail(const std::string& newEmail);
+
+    void static setNewPassword(const std::string &newPass);
 
     static void clearAccs();
 
