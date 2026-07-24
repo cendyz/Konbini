@@ -11,9 +11,15 @@ public:
 
     [[nodiscard]] static std::unordered_map<std::string, ProductData> getCartItems();
 
+    [[nodiscard]] static bool isItemInCart(const std::string& id);
+
+    [[nodiscard]] static int getCartItemQnt(const std::string& id);
+
+    static void setNewProductQnty(const std::string& id, int newQnt);
+
     static void cleanCart();
 
-    static void addProductToCart(std::string id, const ProductData& newProduct);
+    static void addProductToCart(const std::string& id, const ProductData& newProduct);
 
     static void reloadCartAfterLangChange(
         const std::unordered_map<std::string, ProductData>& allItemsList);

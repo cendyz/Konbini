@@ -35,7 +35,7 @@ void Utils::printWrongMsgNLine(const std::string_view msg)
     std::cout << COLORS::RED << msg << COLORS::RESET << '\n';
 }
 
-std::string Utils::getInput(const std::string& inputMsg)
+std::string Utils::getInput(const std::string_view inputMsg)
 {
     std::string input;
     printMsgSpace(inputMsg);

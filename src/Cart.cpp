@@ -10,7 +10,17 @@ std::unordered_map<std::string, ProductData> Cart::getCartItems()
     return cartItems;
 }
 
-void Cart::addProductToCart(std::string id, const ProductData& newProduct)
+bool Cart::isItemInCart(const std::string& id)
+{
+    return cartItems.contains(id);
+}
+
+int Cart::getCartItemQnt(const std::string& id)
+{
+    return cartItems[id].qnt;
+}
+
+void Cart::addProductToCart(const std::string& id, const ProductData& newProduct)
 {
     if (cartItems.contains(id))
     {
@@ -19,7 +29,7 @@ void Cart::addProductToCart(std::string id, const ProductData& newProduct)
     }
     else
     {
-        cartItems.try_emplace(std::move(id), newProduct);
+        cartItems.try_emplace(id, newProduct);
     }
 }
 
@@ -33,7 +43,7 @@ void Cart::reloadCartAfterLangChange(
     }
 }
 
-std::array<double, 2> Cart::getCartSummaries(bool isUser)
+std::array<double, 2> Cart::getCartSummaries(const bool isUser)
 {
     std::array<double, 2> cartSummaries;
     double summary{};
@@ -53,4 +63,10 @@ std::array<double, 2> Cart::getCartSummaries(bool isUser)
 void Cart::cleanCart()
 {
     cartItems.clear();
+}
+
+void Cart::setNewProductQnty(const std::string& id, const int newQnt)
+{
+    cartItems[id].price = (cartItems[id].price / cartItems[id].qnt) * newQnt;
+    cartItems[id].qnt = newQnt;
 }

@@ -27,7 +27,7 @@ void printMsgSpace(std::string_view msg);
 
 void printWrongMsgNLine(std::string_view msg);
 
-[[nodiscard]] std::string getInput(const std::string& inputMsg);
+[[nodiscard]] std::string getInput(std::string_view inputMsg);
 
 void printTabOptionNLine(std::string_view msg,
                                 size_t numOption,

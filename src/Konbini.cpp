@@ -120,6 +120,11 @@ bool Konbini::executeMainMenuTask(int userOption)
     case MainMenuOPTS::AddItemToCart:
         addItemToCart();
         break;
+    case MainMenuOPTS::ChangeQuantity:
+        changeQuantiy();
+        break;
+    case MainMenuOPTS::RemoveProductFromCart:
+        break;
     case MainMenuOPTS::FinalizePurchase:
         finalizePurchase();
         break;
@@ -187,6 +192,63 @@ void Konbini::checkCart(const bool isUser)
         KonbiniUI::printCartSummary(Cart::getCartSummaries(isUser), Products::getCurrency(), isUser);
     }
 }
+
+void Konbini::changeQuantiy()
+{
+
+    if (Cart::isCartEmpty())
+    {
+        KonbiniUI::printCartIsEmpty(LanguageManager::getText("EMP_CART"));
+        return;
+    }
+
+    while (true)
+    {
+        const auto productId{getUserProductId()};
+
+        if (!productId.has_value())
+        {
+            return;
+        }
+
+        if (!Cart::isItemInCart(productId.value()))
+        {
+            Utils::printWrongMsgNLine(LanguageManager::getText("NOT_IN_C"));
+            continue;
+        }
+
+        const auto newQuantity{getOptionalInput(LanguageManager::getText("PRD_N_QNT"))};
+
+        if (!newQuantity.has_value())
+        {
+            return;
+        }
+
+        if (!Utils::isInt(newQuantity.value()) || !isNewQuantityOK(productId.value(), std::stoi(newQuantity.value())))
+        {
+            Utils::printWrongMsgNLine(LanguageManager::getText("WRN_QNT"));
+            continue;
+        }
+
+        const int newQnt{std::stoi(newQuantity.value())};
+
+        Products::updateStoreAfterQntChange(productId.value(), newQnt,
+                                            Cart::getCartItemQnt(productId.value()));
+        Cart::setNewProductQnty(productId.value(), newQnt);
+        Utils::printSuccessMsg(LanguageManager::getText("SUCC_CHNQ"));
+        return;
+    }
+}
+
+bool Konbini::isNewQuantityOK(const std::string& id, const int qnt)
+{
+
+    const int qntFromStore{Products::getProductQnt(id)};
+    const bool isToLowerQntOk{qnt < qntFromStore};
+    const bool isToBiggerQntOK{qnt <= qntFromStore + Cart::getCartItemQnt(id)};
+    return qnt != Cart::getCartItemQnt(id) && qnt > 0 && (isToLowerQntOk || isToBiggerQntOK);
+}
+
 
 std::optional<std::string>
 Konbini::getOptionalCorrectInput(const std::string_view inputMsg,

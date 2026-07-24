@@ -46,6 +46,7 @@ public:
 
     [[nodiscard]] static std::string getAccEmail();
 
+
     void static updateAccsFile();
 
     void static deleteAccFromVar();

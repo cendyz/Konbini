@@ -67,7 +67,7 @@ std::string Products::getProductName(const std::string& id)
 
 std::optional<std::string> Products::isProductExists(const std::string& str)
 {
-    for (const auto& [id, data] : productsByLang[actualProductsLang])
+    for (const auto& [id, data] : productsList[actualProductsLang])
     {
         if (data.name == str)
         {
@@ -84,6 +84,10 @@ double Products::getProductPrice(const std::string& id)
 
 int Products::getProductQnt(const std::string& id)
 {
+    if (!productsByLang[actualProductsLang].contains(id))
+    {
+        return 0;
+    }
     return productsByLang[actualProductsLang][id].qnt;
 }
 
@@ -94,11 +98,45 @@ void Products::updateStoreAfterAddingToCart(const std::string& id, const int qnt
     {
         if (const int newQnt{productsByLang[i][id].qnt - qnt}; newQnt == 0)
         {
+            std::cout << "usuwam: " << productsByLang[i][id].name << '\n';
             productsByLang[i].erase(id);
         }
         else
         {
             productsByLang[i][id].qnt = newQnt;
+        }
+    }
+}
+
+void Products::updateStoreAfterQntChange(const std::string& id, const int newQnt, const int cartItemQnt)
+{
+    for (size_t i{}; i < Utils::numofLangs; ++i)
+    {
+        if (!productsByLang[i].contains(id))
+        {
+            ProductData restored{productsList[i][id]};
+            restored.qnt = 0;
+            productsByLang[i].try_emplace(id, restored);
+        }
+        else
+        {
+            std::cout << productsByLang[i][id].name << '\n';
+        }
+
+        if (newQnt < cartItemQnt)
+        {
+            productsByLang[i][id].qnt += cartItemQnt - newQnt;
+        }
+        else
+        {
+            if (const int storePrdQnt{productsByLang[i][id].qnt}; storePrdQnt - newQnt <= 0)
+            {
+                productsByLang[i].erase(id);
+            }
+            else
+            {
+                productsByLang[i][id].qnt -= newQnt - cartItemQnt;
+            }
         }
     }
 }

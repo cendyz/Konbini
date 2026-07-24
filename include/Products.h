@@ -33,6 +33,8 @@ public:
 
     static void updateStoreAfterAddingToCart(const std::string& id, int qnt);
 
+    void static updateStoreAfterQntChange(const std::string &id, int newQnt, int cartItemQnt);
+
     static void updateFilesAfterPurchase();
 
     [[nodiscard]] static std::unordered_map<std::string, ProductData> getProductList();

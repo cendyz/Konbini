@@ -3,7 +3,7 @@ import std;
 
 class LanguageManager
 {
-    static constexpr size_t mainMenuSize{10};
+    static constexpr size_t mainMenuSize{12};
     static constexpr size_t userMenuSize{12};
     static constexpr size_t adminMenuSize{14};
 

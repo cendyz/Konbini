@@ -14,24 +14,28 @@ class Konbini
         BrowseTheStore = 1,
         CheckCart = 2,
         AddItemToCart = 3,
-        FinalizePurchase = 4,
-        Login = 5,
-        Register = 6,
-        BecomAEmployee = 7,
-        RemindPassword = 8,
-        ChangeLang = 9,
-        Exit = 10,
+        ChangeQuantity = 4,
+        RemoveProductFromCart = 5,
+        FinalizePurchase = 6,
+        Login = 7,
+        Register = 8,
+        BecomAEmployee = 9,
+        RemindPassword = 10,
+        ChangeLang = 11,
+        Exit = 12,
     };
 
     enum class LoggedUserMenuOPTS : std::uint8_t
     {
         ShowAccountDetails = 1,
-        ChangeEmail,
-        ChangePassword,
+        ChangeEmail = 2,
+        ChangePassword = 3,
         BrowseTheStore,
         PurchaseHistory,
         CheckCart,
         AddItemToCart,
+        ChangeQuantity,
+        RemoveProductFromCart,
         FinalizePurchase,
         ChangelanguageToJapanese,
         DeleteAccount,
@@ -75,7 +79,11 @@ private:
 
     static void browseTheStore();
 
-    static void checkCart(const bool isUser = false);
+    static void checkCart(bool isUser = false);
+
+    static void changeQuantiy();
+
+    [[nodiscard]] static bool isNewQuantityOK(const std::string&id, int qnt);
 
     static void registerNew(std::string_view accType);
 

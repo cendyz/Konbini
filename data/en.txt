@@ -4,18 +4,22 @@ M_BACK_OPT;You can back to menu by command '0'
 M_OPT_1;Browse the store
 M_OPT_2;Check cart
 M_OPT_3;Add item to cart
-M_OPT_4;Finalize purchase
-M_OPT_5;Login
-M_OPT_6;Register
-M_OPT_7;Become a employee
-M_OPT_8;Remind password
-M_OPT_9;Change language to Japanese
-M_OPT_10;Exit
+M_OPT_4;Change cart item quantity
+M_OPT_5;Remove product from the cart
+M_OPT_6;Finalize purchase
+M_OPT_7;Login
+M_OPT_8;Register
+M_OPT_9;Become a employee
+M_OPT_10;Remind password
+M_OPT_11;Change language to Japanese
+M_OPT_12;Exit
 OPT_SELECT;What you want to do now?:
 WRN_M_COMMAND;Wrong command.
 STORE_EMPT;Sorry, the store is empty!
 BYE;We look forward to seeing you again!
 PRD_QNT;Quantity:
+PRD_N_QNT;New quantity:
+SUCC_CHNQ;Cart updated!
 WRN_QNT;Illegal product quantity.
 PRD_ADD_CART;Product added to cart!
 MENU_BACK;Returning to menu...
@@ -37,6 +41,7 @@ NEW_PASS_CHNGD;Password updated!
 EMP_CART;Cart is empty!
 WRN_PRD;This product is not in store!
 PRD_NAME;Product name:
+NOT_IN_C;This product is not in cart!;
 CRT_SUM;Cart summary:
 DSC_CRT_SUM;Cart summary after discount:
 LNG_CHN;Language changed!
