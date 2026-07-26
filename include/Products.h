@@ -42,6 +42,8 @@ class Products
 
     static void updateStoreAfterCartItemRemoved(const std::string& id, int && qnt);
 
+    static void updateStoreAfterDeletingAccount(std::unordered_map<std::string, ProductData> &&cartItems);
+
   private:
     inline static std::array<std::filesystem::path, Utils::numofLangs> productsPath{
         DATA_DIR "products_en.txt",

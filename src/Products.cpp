@@ -121,10 +121,6 @@ void Products::updateStoreAfterQntChange(const std::string& id, const int newQnt
             restored.qnt = 0;
             productsByLang[i].try_emplace(id, restored);
         }
-        else
-        {
-            std::cout << productsByLang[i][id].name << '\n';
-        }
 
         if (newQnt < cartItemQnt)
         {
@@ -174,11 +170,18 @@ void Products::changeToOtherLangStore()
     actualProductsLang = static_cast<size_t>(actualProductsLangEnumType);
 }
 
-void Products::updateStoreAfterCartItemRemoved(const std::string& id, int && qnt)
+void Products::updateStoreAfterCartItemRemoved(const std::string& id, int&& qnt)
 {
     for (size_t i{}; i < static_cast<size_t>(Utils::numofLangs); ++i)
     {
         productsByLang[i][id].qnt += qnt;
     }
+}
 
+void Products::updateStoreAfterDeletingAccount(std::unordered_map<std::string, ProductData>&& cartItems)
+{
+    for (const auto& [fst, snd] : cartItems)
+    {
+        updateStoreAfterQntChange(fst, 0, snd.qnt);
+    }
 }

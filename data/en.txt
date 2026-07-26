@@ -55,12 +55,14 @@ U_MENU_3;Change password
 U_MENU_4;Browse the store
 U_MENU_5;Purchase history
 U_MENU_6;Check cart
-U_MENU_7;Add item to cart
-U_MENU_8;Finalize purchase
-U_MENU_9;Change language to japanese
-U_MENU_10;Delete account
-U_MENU_11;Logout
-U_MENU_12;Exit
+U_MENU_7;Add item to cart  Change
+U_MENU_8;Change cart item quantity
+U_MENU_9;Remove product from the cart
+U_MENU_10;Finalize purchase
+U_MENU_11;Change language to japanese
+U_MENU_12;Delete account
+U_MENU_13;Logout
+U_MENU_14;Exit
 S_ACC_0;Name
 S_ACC_1;Email
 S_ACC_2;Password

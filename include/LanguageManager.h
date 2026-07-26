@@ -1,16 +1,16 @@
 #pragma once
+#include <array>
 #include <filesystem>
 #include <optional>
 #include <unordered_map>
-#include <array>
 
 class LanguageManager
 {
     static constexpr size_t mainMenuSize{12};
-    static constexpr size_t userMenuSize{12};
+    static constexpr size_t userMenuSize{14};
     static constexpr size_t adminMenuSize{14};
 
-public:
+  public:
     enum class Langs : std::uint8_t
     {
         EN = 1,
@@ -68,7 +68,7 @@ public:
 
     void static clearDict();
 
-private:
+  private:
     inline static std::filesystem::path dictPath{DATA_DIR};
     inline static std::filesystem::path langTypePath{DATA_DIR "langType.txt"};
     inline static std::array<std::string, 2> langsType{"en", "jp"};

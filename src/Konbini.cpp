@@ -563,8 +563,9 @@ bool Konbini::executeLoggedUserTask(int command)
         changeLanguage();
         break;
     case LoggedUserMenuOPTS::DeleteAccount:
-        Accounts::updateAccsFile();
+        Products::updateStoreAfterDeletingAccount(Cart::getCartItems());
         Accounts::deleteAccFromVar();
+        Accounts::updateAccsFile();
         Utils::printSuccessMsg(LanguageManager::getText("ACC_DEL"));
         return false;
     case LoggedUserMenuOPTS::Logout:

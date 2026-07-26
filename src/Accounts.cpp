@@ -145,7 +145,7 @@ void Accounts::updateAccsFile()
 
 void Accounts::deleteAccFromVar()
 {
-    accs.erase(allAccInfo[static_cast<size_t>(AccInfo::Pass)]);
+    accs.erase(allAccInfo[static_cast<size_t>(AccInfo::Email)]);
 }
 
 void Accounts::setNewPassword(const std::string& newPass)
