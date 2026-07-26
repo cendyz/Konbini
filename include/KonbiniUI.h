@@ -1,6 +1,9 @@
 #pragma once
-import std;
 #include "Utils.h"
+#include <Colors.h>
+#include <unordered_map>
+#include <iostream>
+#include <array>
 
 
 class KonbiniUI

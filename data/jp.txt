@@ -42,6 +42,7 @@ EMP_CART;籠は空です！
 WRN_PRD;そのような商品は店にありません。
 PRD_NAME;商品の名：
 NOT_IN_C;このような商品はカートにありません！
+ITM_REMV;商品はカートから削除された！
 CRT_SUM;カートの概要：
 LNG_CHN;言語は変更された！
 DSC_CRT_SUM;割引後のカートの概要：

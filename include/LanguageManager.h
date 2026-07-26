@@ -1,5 +1,8 @@
 #pragma once
-import std;
+#include <filesystem>
+#include <optional>
+#include <unordered_map>
+#include <array>
 
 class LanguageManager
 {
@@ -80,8 +83,7 @@ private:
 
     inline static std::array<std::string, static_cast<size_t>(LoginMsg::Size)> loginMsgs;
 
-    template <size_t S>
-    static void fullfillMenu(std::array<std::string_view, S>& arr, const std::string& msg)
+    template <size_t S> static void fullfillMenu(std::array<std::string_view, S>& arr, const std::string& msg)
     {
         for (size_t i{}; i < S; ++i)
         {

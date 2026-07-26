@@ -1,10 +1,10 @@
 #pragma once
-import std;
 #include "Utils.h"
+#include <unordered_map>
 
 class Cart
 {
-public:
+  public:
     Cart() = default;
 
     [[nodiscard]] static bool isCartEmpty();
@@ -21,11 +21,12 @@ public:
 
     static void addProductToCart(const std::string& id, const ProductData& newProduct);
 
-    static void reloadCartAfterLangChange(
-        const std::unordered_map<std::string, ProductData>& allItemsList);
+    static void reloadCartAfterLangChange(const std::unordered_map<std::string, ProductData>& allItemsList);
 
     [[nodiscard]] static std::array<double, 2> getCartSummaries(bool isUser = false);
 
-private:
+    static void removeCartItem(const std::string& id);
+
+  private:
     inline static std::unordered_map<std::string, ProductData> cartItems;
 };

@@ -1,14 +1,16 @@
 #pragma once
-import std;
+#include <filesystem>
+#include <string>
+#include <unordered_map>
 
 struct AccData
 {
-    std::string name{}, password{}, accType{};
+    std::string name, password, accType;
 };
 
 class Accounts
 {
-public:
+  public:
     enum class AccInfo : std::uint8_t
     {
         Name,
@@ -46,18 +48,17 @@ public:
 
     [[nodiscard]] static std::string getAccEmail();
 
-
     void static updateAccsFile();
 
     void static deleteAccFromVar();
 
     void static setNewEmail(const std::string& newEmail);
 
-    void static setNewPassword(const std::string &newPass);
+    void static setNewPassword(const std::string& newPass);
 
     static void clearAccs();
 
-private:
+  private:
     inline static std::unordered_map<std::string, AccData> accs;
 
     static void loadAccounts();
@@ -67,10 +68,8 @@ private:
     static constexpr std::string_view userAccType{"user"};
     static constexpr std::string_view adminAccType{"admin"};
 
-
     static std::string loggedAccEmail;
     static std::array<std::string, static_cast<size_t>(AccInfo::Size)> allAccInfo;
 
     static void setActualAccInfo(const std::string& email);
-
 };

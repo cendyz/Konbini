@@ -1,9 +1,10 @@
 #pragma once
-#include "Colors.h"
+#include <string>
+#include <filesystem>
 
 struct ProductData
 {
-    std::string name{};
+    std::string name;
     double price{};
     int qnt{};
 };

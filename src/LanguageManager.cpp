@@ -1,4 +1,5 @@
 #include <LanguageManager.h>
+#include <fstream>
 
 bool LanguageManager::isLangTypeAlreadySet()
 {

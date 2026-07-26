@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "Accounts.h"
+#include <array>
 
 
 namespace

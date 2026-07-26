@@ -1,4 +1,5 @@
 #include "Cart.h"
+#include <ranges>
 
 bool Cart::isCartEmpty()
 {
@@ -33,8 +34,7 @@ void Cart::addProductToCart(const std::string& id, const ProductData& newProduct
     }
 }
 
-void Cart::reloadCartAfterLangChange(
-    const std::unordered_map<std::string, ProductData>& allItemsList)
+void Cart::reloadCartAfterLangChange(const std::unordered_map<std::string, ProductData>& allItemsList)
 {
     for (const std::string& fst : cartItems | std::views::keys)
     {
@@ -45,7 +45,7 @@ void Cart::reloadCartAfterLangChange(
 
 std::array<double, 2> Cart::getCartSummaries(const bool isUser)
 {
-    std::array<double, 2> cartSummaries;
+    std::array<double, 2> cartSummaries{};
     double summary{};
     for (const auto& prd : cartItems | std::views::values)
     {
@@ -69,4 +69,9 @@ void Cart::setNewProductQnty(const std::string& id, const int newQnt)
 {
     cartItems[id].price = (cartItems[id].price / cartItems[id].qnt) * newQnt;
     cartItems[id].qnt = newQnt;
+}
+
+void Cart::removeCartItem(const std::string& id)
+{
+    cartItems.erase(id);
 }

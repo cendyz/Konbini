@@ -42,6 +42,7 @@ EMP_CART;Cart is empty!
 WRN_PRD;This product is not in store!
 PRD_NAME;Product name:
 NOT_IN_C;This product is not in cart!;
+ITM_REMV;Product removed from the cart!;
 CRT_SUM;Cart summary:
 DSC_CRT_SUM;Cart summary after discount:
 LNG_CHN;Language changed!

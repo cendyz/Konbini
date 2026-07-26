@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "../include/Utils.h"
+#include "array"
 
 
 TEST(isNumber, RecognizesVariousFormatsCorrectly)
@@ -16,10 +17,10 @@ TEST(isNumber, RecognizesVariousFormatsCorrectly)
 TEST(isLowering, ChangeBigCharsToLow)
 {
     std::array<std::string, 4> strs{"AWER", "aWe4R", "", " ra R9 4aAb"};
-    const std::array<std::string, 4> exps{"awer", "awe4r", "", " ra r9 4aab"};
 
     for (size_t i{}; i < 4; ++i)
     {
+        const std::array<std::string, 4> exps{"awer", "awe4r", "", " ra r9 4aab"};
         Utils::lowerString(strs[i]);
         EXPECT_EQ(strs[i], exps[i]);
     }

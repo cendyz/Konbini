@@ -1,4 +1,6 @@
 #include "Products.h"
+#include <fstream>
+#include <iostream>
 
 Products::Products(const std::string& finalLang)
 {
@@ -42,7 +44,9 @@ void Products::loadProducts()
             getline(ss, quantity, ';');
 
             ProductData newProduct{
-                .name = name, .price = stod(price), .qnt = stoi(quantity),
+                .name = name,
+                .price = stod(price),
+                .qnt = stoi(quantity),
             };
             productsByLang[i].try_emplace(id, newProduct);
             productsList[i].try_emplace(id, std::move(newProduct));
@@ -90,7 +94,6 @@ int Products::getProductQnt(const std::string& id)
     }
     return productsByLang[actualProductsLang][id].qnt;
 }
-
 
 void Products::updateStoreAfterAddingToCart(const std::string& id, const int qnt)
 {
@@ -148,7 +151,7 @@ std::unordered_map<std::string, ProductData> Products::getProductList()
 
 void Products::updateFilesAfterPurchase()
 {
-    const std::filesystem::path tempPath{DATA_DIR"temp.txt"};
+    const std::filesystem::path tempPath{DATA_DIR "temp.txt"};
 
     for (size_t i{}; i < Utils::numofLangs; ++i)
     {
@@ -169,4 +172,13 @@ void Products::changeToOtherLangStore()
 {
     actualProductsLangEnumType = actualProductsLangEnumType == ProductsLang::JP ? ProductsLang::EN : ProductsLang::JP;
     actualProductsLang = static_cast<size_t>(actualProductsLangEnumType);
+}
+
+void Products::updateStoreAfterCartItemRemoved(const std::string& id, int && qnt)
+{
+    for (size_t i{}; i < static_cast<size_t>(Utils::numofLangs); ++i)
+    {
+        productsByLang[i][id].qnt += qnt;
+    }
+
 }

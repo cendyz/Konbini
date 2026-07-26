@@ -1,10 +1,10 @@
 #pragma once
-import std;
 #include "Accounts.h"
 #include "Cart.h"
 #include "KonbiniUI.h"
 #include "LanguageManager.h"
 #include "Products.h"
+#include <regex>
 
 
 class Konbini
@@ -30,19 +30,36 @@ class Konbini
         ShowAccountDetails = 1,
         ChangeEmail = 2,
         ChangePassword = 3,
-        BrowseTheStore,
-        PurchaseHistory,
-        CheckCart,
-        AddItemToCart,
-        ChangeQuantity,
-        RemoveProductFromCart,
-        FinalizePurchase,
-        ChangelanguageToJapanese,
-        DeleteAccount,
-        Logout,
-        Exit,
+        BrowseTheStore = 4,
+        PurchaseHistory = 5,
+        CheckCart = 6,
+        AddItemToCart = 7,
+        ChangeQuantity = 8,
+        RemoveProductFromCart = 9,
+        FinalizePurchase = 10,
+        ChangelanguageToJapanese = 11,
+        DeleteAccount = 12,
+        Logout = 13,
+        Exit = 14,
     };
 
+    enum class LoggedAdminMenuOPTS : std::uint8_t
+    {
+        ShowAccountDetails = 1,
+        ChangeEmail = 2,
+        ChangePassword = 3,
+        BrowseTheStore = 4,
+        PurchaseHistory = 5,
+        CheckCart = 6,
+        AddItemToCart = 7,
+        ChangeQuantity = 8,
+        RemoveProductFromCart = 9,
+        FinalizePurchase = 10,
+        ChangelanguageToJapanese = 11,
+        DeleteAccount = 12,
+        Logout = 13,
+        Exit = 14,
+    };
 public:
     Konbini(const Konbini& obj) = delete;
 
@@ -56,7 +73,7 @@ public:
 
     void run();
 
-private:
+  private:
     Konbini();
 
     std::unique_ptr<KonbiniUI> ui{nullptr};
@@ -81,34 +98,29 @@ private:
 
     static void checkCart(bool isUser = false);
 
-    static void changeQuantiy();
+    static void changeQuantity();
 
-    [[nodiscard]] static bool isNewQuantityOK(const std::string&id, int qnt);
+    static void removeProductFromCart();
+
+    [[nodiscard]] static bool isNewQuantityOK(const std::string& id, int qnt);
 
     static void registerNew(std::string_view accType);
 
     [[nodiscard]] static std::optional<std::string>
-    getOptionalCorrectInput(std::string_view inputMsg,
-                            const std::regex& inputRegex,
-                            std::string_view wrongInput);
+    getOptionalCorrectInput(std::string_view inputMsg, const std::regex& inputRegex, std::string_view wrongInput);
 
-    inline static const std::array<std::string, 3> inputMsgs{"NAME", "EMAIL",
-                                                             "PSWD"};
-    inline static const std::array<std::string, 3> wrongInputsMsgs{
-        "NAME_ERR", "EMAIL_ERR", "PSWD_ERR"};
+    inline static const std::array<std::string, 3> inputMsgs{"NAME", "EMAIL", "PSWD"};
+    inline static const std::array<std::string, 3> wrongInputsMsgs{"NAME_ERR", "EMAIL_ERR", "PSWD_ERR"};
     inline static const std::array<std::regex, 3> registerRegexes{
-        std::regex{"^[a-zA-Z]{2,15}$"},
-        std::regex{"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.][a-zA-Z]{2,}$"},
+        std::regex{"^[a-zA-Z]{2,15}$"}, std::regex{"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.][a-zA-Z]{2,}$"},
         std::regex{"(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,20}$"}};
 
-    [[nodiscard]] static std::optional<
-        std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> >
+    [[nodiscard]] static std::optional<std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)>>
     getnewAcc(std::string_view accType);
 
     static void remindPassword();
 
-    [[nodiscard]] static std::optional<std::string>
-    getOptionalInput(std::string_view inputMsg);
+    [[nodiscard]] static std::optional<std::string> getOptionalInput(std::string_view inputMsg);
 
     static void addItemToCart();
 
@@ -118,8 +130,7 @@ private:
 
     [[nodiscard]] static std::optional<int> getUserQnt(const std::string& id);
 
-    [[nodiscard]] static bool isValidUserQnt(const std::string& id,
-                                             const std::string& userQnt);
+    [[nodiscard]] static bool isValidUserQnt(const std::string& id, const std::string& userQnt);
 
     static void finalizePurchase();
 
