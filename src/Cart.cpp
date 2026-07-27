@@ -34,7 +34,7 @@ void Cart::addProductToCart(const std::string& id, const ProductData& newProduct
     }
 }
 
-void Cart::reloadCartAfterLangChange(const std::unordered_map<std::string, ProductData>& allItemsList)
+void Cart::reloadCartAfterLangChange(const std::map<std::string, ProductData>& allItemsList)
 {
     for (const std::string& fst : cartItems | std::views::keys)
     {

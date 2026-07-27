@@ -1,6 +1,7 @@
 #pragma once
 #include "Utils.h"
 #include <unordered_map>
+#include <map>
 
 class Cart
 {
@@ -21,7 +22,7 @@ class Cart
 
     static void addProductToCart(const std::string& id, const ProductData& newProduct);
 
-    static void reloadCartAfterLangChange(const std::unordered_map<std::string, ProductData>& allItemsList);
+    static void reloadCartAfterLangChange(const std::map<std::string, ProductData>& allItemsList);
 
     [[nodiscard]] static std::array<double, 2> getCartSummaries(bool isUser = false);
 

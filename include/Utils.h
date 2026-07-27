@@ -1,6 +1,13 @@
 #pragma once
-#include <string>
 #include <filesystem>
+#include <string>
+#include <regex>
+
+enum class ActualLang : std::uint8_t
+{
+    EN,
+    JP,
+};
 
 struct ProductData
 {
@@ -12,7 +19,8 @@ struct ProductData
 namespace Utils
 {
 constexpr size_t numofLangs{2};
-const std::filesystem::path tempPath{DATA_DIR"temp.txt"};
+const std::filesystem::path tempPath{DATA_DIR "temp.txt"};
+static const std::regex doubleRegex{R"(^[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?$)"};
 
 void printMsgNLine(std::string_view msg);
 
@@ -30,9 +38,7 @@ void printWrongMsgNLine(std::string_view msg);
 
 [[nodiscard]] std::string getInput(std::string_view inputMsg);
 
-void printTabOptionNLine(std::string_view msg,
-                                size_t numOption,
-                                std::string_view color);
+void printTabOptionNLine(std::string_view msg, size_t numOption, std::string_view color);
 
 void printWarningMsgNLine(std::string_view msg);
 
@@ -42,6 +48,8 @@ void lowerString(std::string& str);
 
 [[nodiscard]] bool isInt(const std::string& str);
 
+[[nodiscard]] bool isDouble(const std::string& str);
+
 void printSeparator();
 
-}
+} // namespace Utils

@@ -30,6 +30,7 @@ void KonbiniUI::printLngMenu()
 void KonbiniUI::printStoreProducts(std::unordered_map<std::string, ProductData>&& products,
                                    const std::string_view currency, const std::string_view qnt)
 {
+
     for (const auto& [name, price, quantity] : products | std::views::values)
     {
         std::cout << COLORS::BLU << name << COLORS::RESET << " | " << price << currency << " | " << qnt << quantity

@@ -46,12 +46,9 @@ std::string Utils::getInput(const std::string_view inputMsg)
     return input;
 }
 
-void Utils::printTabOptionNLine(const std::string_view msg,
-                                const size_t numOption,
-                                const std::string_view color)
+void Utils::printTabOptionNLine(const std::string_view msg, const size_t numOption, const std::string_view color)
 {
-    std::cout << '\t' << numOption + 1 << ". " << color << msg << COLORS::RESET
-        << '\n';
+    std::cout << '\t' << numOption + 1 << ". " << color << msg << COLORS::RESET << '\n';
 }
 
 void Utils::printWarningMsgNLine(const std::string_view msg)
@@ -75,13 +72,19 @@ void Utils::lowerString(std::string& str)
 
 bool Utils::isInt(const std::string& str)
 {
-    return !str.empty() && std::ranges::all_of(str, [](const char c)
-    {
-        return std::isdigit(c);
-    });
+    return !str.empty() && std::ranges::all_of(str,
+                                               [](const char c)
+                                               {
+                                                   return std::isdigit(c);
+                                               });
 }
 
 void Utils::printSeparator()
 {
     std::cout << std::string(15, '-') << '\n';
+}
+
+bool Utils::isDouble(const std::string& str)
+{
+    return std::regex_match(str, doubleRegex);
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Utils.h"
 #include <array>
+#include <map>
 #include <unordered_map>
 
 class Products
@@ -38,11 +39,14 @@ class Products
 
     static void updateFilesAfterPurchase();
 
-    [[nodiscard]] static std::unordered_map<std::string, ProductData> getProductList();
+    [[nodiscard]] static std::map<std::string, ProductData> getProductList();
 
-    static void updateStoreAfterCartItemRemoved(const std::string& id, int && qnt);
+    static void updateStoreAfterCartItemRemoved(const std::string& id, int&& qnt);
 
-    static void updateStoreAfterDeletingAccount(std::unordered_map<std::string, ProductData> &&cartItems);
+    static void updateStoreAfterDeletingAccount(std::unordered_map<std::string, ProductData>&& cartItems);
+
+    static void addNewProductToDatabase(const ProductData& prdData);
+    static constexpr double jpCurrency{163.67};
 
   private:
     inline static std::array<std::filesystem::path, Utils::numofLangs> productsPath{
@@ -50,7 +54,7 @@ class Products
         DATA_DIR "products_jp.txt",
     };
     inline static std::size_t actualProductsLang{};
-    inline static std::array<std::unordered_map<std::string, ProductData>, Utils::numofLangs> productsList;
+    inline static std::array<std::map<std::string, ProductData>, Utils::numofLangs> productsList;
     inline static std::array<std::unordered_map<std::string, ProductData>, Utils::numofLangs> productsByLang;
     inline static const std::array<std::string, Utils::numofLangs> currencies{"$", "円"};
     inline static std::string actualCurrency;

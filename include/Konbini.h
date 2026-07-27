@@ -5,6 +5,9 @@
 #include "LanguageManager.h"
 #include "Products.h"
 #include <regex>
+#include <variant>
+
+using newProductInputVariant = std::variant<std::string, int, double, std::monostate>;
 
 class Konbini
 {
@@ -155,5 +158,13 @@ class Konbini
 
     static void executeAdminMenu();
 
-    [[nodiscard]] static std::optional<bool> executeLoggedAdminTask(int command);
+    [[nodiscard]] static bool executeLoggedAdminTask(int command);
+
+    static void addNewProductToStore();
+
+    [[nodiscard]] static newProductInputVariant getNewProductName();
+
+    [[nodiscard]] static newProductInputVariant getNewProductQnt();
+
+    [[nodiscard]] static newProductInputVariant getNewPoductPrice();
 };

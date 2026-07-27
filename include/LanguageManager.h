@@ -1,4 +1,5 @@
 #pragma once
+#include <Utils.h>
 #include <array>
 #include <filesystem>
 #include <optional>
@@ -17,11 +18,7 @@ class LanguageManager
         JP,
     };
 
-    enum class ActualLang : std::uint8_t
-    {
-        EN,
-        JP,
-    };
+
 
     enum class LoginMsg : std::uint8_t
     {

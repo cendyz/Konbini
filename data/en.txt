@@ -86,3 +86,9 @@ A_MENU_14;Change language to japanese
 A_MENU_15;Delete account
 A_MENU_16;Logout
 A_MENU_17;Exit
+EN_PRD_NAME;English product name:
+JP_PRD_NAME;Japanese product name:
+PRD_AL_EXT;Product already exists!
+NEW_PRD_PRICE;Product price:
+WRN_PRD_PRICE;Illegal price amount.
+PRD_ADD_ST;Product added to the store!

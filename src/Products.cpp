@@ -1,4 +1,7 @@
 #include "Products.h"
+#include "Utils.h"
+#include "LanguageManager.h"
+
 #include <fstream>
 #include <iostream>
 
@@ -140,7 +143,7 @@ void Products::updateStoreAfterQntChange(const std::string& id, const int newQnt
     }
 }
 
-std::unordered_map<std::string, ProductData> Products::getProductList()
+std::map<std::string, ProductData> Products::getProductList()
 {
     return productsList[actualProductsLang];
 }
@@ -184,4 +187,39 @@ void Products::updateStoreAfterDeletingAccount(std::unordered_map<std::string, P
     {
         updateStoreAfterQntChange(fst, 0, snd.qnt);
     }
+}
+
+void Products::addNewProductToDatabase(const ProductData& prdData)
+{
+    std::string newId{productsList[0].rbegin()->first};
+    std::string enName, jpName;
+    std::stringstream ss(prdData.name);
+    std::getline(ss, enName, ';');
+    std::getline(ss, jpName, ';');
+    ProductData enProduct{prdData};
+    enProduct.name = enName;
+    ProductData jpProduct{prdData};
+    jpProduct.price = std::round(enProduct.price * jpCurrency);
+    jpProduct.name = jpName;
+    const int newIdLen{static_cast<int>(newId.size())};
+    for (int i{newIdLen - 1}; i >= 0; --i)
+    {
+        if (newId[i] != '9')
+        {
+            newId[i] += 1;
+            break;
+        }
+
+        newId[i] = '0';
+        if (i == 0 && newId[i] == '9')
+        {
+            newId = "1" + newId;
+        }
+    }
+
+    productsList[static_cast<size_t>(ActualLang::EN)].emplace(newId, enProduct);
+    productsList[static_cast<size_t>(ActualLang::JP)].emplace(newId, jpProduct);
+    productsByLang[static_cast<size_t>(ActualLang::JP)].emplace(newId, jpProduct);
+    productsByLang[static_cast<size_t>(ActualLang::EN)].emplace(newId, enProduct);
+    updateFilesAfterPurchase();
 }

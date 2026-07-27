@@ -4,6 +4,8 @@
 #include "../include/KonbiniUI.h"
 #include "../include/LanguageManager.h"
 #include "../include/Utils.h"
+#include <functional>
+#include <variant>
 #include <windows.h>
 
 Konbini::Konbini()
@@ -651,7 +653,7 @@ void Konbini::executeAdminMenu()
     }
 }
 
-std::optional<bool> Konbini::executeLoggedAdminTask(int command)
+bool Konbini::executeLoggedAdminTask(int command)
 {
     switch (static_cast<LoggedAdminMenuOPTS>(command))
     {
@@ -686,12 +688,14 @@ std::optional<bool> Konbini::executeLoggedAdminTask(int command)
         finalizePurchase();
         break;
     case LoggedAdminMenuOPTS::AddNewProductToStore:
+        addNewProductToStore();
         break;
     case LoggedAdminMenuOPTS::ChangeStoreProductQuantity:
         break;
     case LoggedAdminMenuOPTS::RemoveProductFromTheStore:
         break;
     case LoggedAdminMenuOPTS::ChangelanguageToJapanese:
+        changeLanguage();
         break;
     case LoggedAdminMenuOPTS::DeleteAccount:
         Products::updateStoreAfterDeletingAccount(Cart::getCartItems());
@@ -711,4 +715,108 @@ std::optional<bool> Konbini::executeLoggedAdminTask(int command)
     Utils::printMsgNLine("");
 
     return true;
+}
+
+void Konbini::addNewProductToStore()
+{
+    std::variant<std::string, int, double> newPrd;
+    std::array<std::function<newProductInputVariant()>, 3> inputFuncs{getNewProductName, getNewProductQnt,
+                                                                      getNewPoductPrice};
+    std::array<newProductInputVariant, 3> newProductInfo;
+
+    for (size_t i{}; i < 3; ++i)
+    {
+        auto input{inputFuncs[i]()};
+
+        if (std::holds_alternative<std::monostate>(input))
+        {
+            return;
+        }
+        std::cout << "ssss: " << i << '\n';
+        newProductInfo[i] = input;
+    }
+    std::cout << "dupa kotki\n";
+    ProductData newPrdData;
+    newPrdData.name = std::get<std::string>(newProductInfo[0]);
+    newPrdData.qnt = std::get<int>(newProductInfo[1]);
+    newPrdData.price = std::get<double>(newProductInfo[2]);
+    std::cout << "sloooon\n";
+    Products::addNewProductToDatabase(newPrdData);
+    std::cout << "dupa elfki\n";
+    Utils::printSuccessMsg(LanguageManager::getText("PRD_ADD_ST"));
+}
+
+newProductInputVariant Konbini::getNewProductName()
+{
+    std::string enJPprdName;
+    const std::array<std::string, 2> inputMsgs{"EN_PRD_NAME", "JP_PRD_NAME"};
+    for (size_t i{}; i < 2; ++i)
+    {
+        while (true)
+        {
+            auto input{getOptionalInput(LanguageManager::getText(inputMsgs[i]))};
+
+            if (!input.has_value())
+            {
+                return std::monostate{};
+            }
+
+            if (Products::isProductExists(input.value()))
+            {
+                Utils::printWrongMsgNLine(LanguageManager::getText("PRD_AL_EXT"));
+                continue;
+            }
+            Utils::lowerString(input.value());
+            enJPprdName += input.value();
+            if (i == 0)
+            {
+                enJPprdName += ';';
+            }
+            break;
+        }
+    }
+    return enJPprdName;
+}
+
+newProductInputVariant Konbini::getNewProductQnt()
+{
+    while (true)
+    {
+        auto input{getOptionalInput(LanguageManager::getText("PRD_QNT"))};
+
+        if (!input.has_value())
+        {
+            return std::monostate{};
+        }
+
+        if (!Utils::isInt(input.value()))
+        {
+            Utils::printWrongMsgNLine(LanguageManager::getText("WRN_QNT"));
+            continue;
+        }
+
+        return std::stoi(input.value());
+    }
+}
+
+newProductInputVariant Konbini::getNewPoductPrice()
+{
+
+    while (true)
+    {
+        auto input{getOptionalInput(LanguageManager::getText("NEW_PRD_PRICE"))};
+
+        if (!input.has_value())
+        {
+            return std::monostate{};
+        }
+
+        if (!Utils::isDouble(input.value()))
+        {
+            Utils::printWrongMsgNLine(LanguageManager::getText("WNR_PRD_PRICE"));
+            continue;
+        }
+
+        return std::stod(input.value());
+    }
 }
