@@ -8,7 +8,7 @@ class LanguageManager
 {
     static constexpr size_t mainMenuSize{12};
     static constexpr size_t userMenuSize{14};
-    static constexpr size_t adminMenuSize{14};
+    static constexpr size_t adminMenuSize{17};
 
   public:
     enum class Langs : std::uint8_t

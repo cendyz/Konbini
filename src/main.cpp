@@ -1,6 +1,7 @@
 #include "Konbini.h"
 
-int main() {
+int main()
+{
     Konbini::getInstance().run();
     return 0;
 }

@@ -6,7 +6,6 @@
 #include "Products.h"
 #include <regex>
 
-
 class Konbini
 {
     enum class MainMenuOPTS : std::uint8_t
@@ -55,12 +54,16 @@ class Konbini
         ChangeQuantity = 8,
         RemoveProductFromCart = 9,
         FinalizePurchase = 10,
-        ChangelanguageToJapanese = 11,
-        DeleteAccount = 12,
-        Logout = 13,
-        Exit = 14,
+        AddNewProductToStore = 11,
+        ChangeStoreProductQuantity = 12,
+        RemoveProductFromTheStore = 13,
+        ChangelanguageToJapanese = 14,
+        DeleteAccount = 15,
+        Logout = 16,
+        Exit = 17,
     };
-public:
+
+  public:
     Konbini(const Konbini& obj) = delete;
 
     Konbini& operator=(Konbini& obj) = delete;
@@ -151,4 +154,6 @@ public:
     static void changePassword();
 
     static void executeAdminMenu();
+
+    [[nodiscard]] static std::optional<bool> executeLoggedAdminTask(int command);
 };

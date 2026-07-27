@@ -1,9 +1,9 @@
-#include "Konbini.h"
-#include "Cart.h"
-#include "Colors.h"
-#include "KonbiniUI.h"
-#include "LanguageManager.h"
-#include "Utils.h"
+#include "../include/Konbini.h"
+#include "../include/Cart.h"
+#include "../include/Colors.h"
+#include "../include/KonbiniUI.h"
+#include "../include/LanguageManager.h"
+#include "../include/Utils.h"
 #include <windows.h>
 
 Konbini::Konbini()
@@ -46,11 +46,13 @@ void Konbini::run()
 
 std::optional<int> Konbini::getUserCommand()
 {
-    if (const std::string input{Utils::getInput(LanguageManager::getText("OPT_SELECT"))}; Utils::isInt(input))
+    if (const std::string input{Utils::getInput(LanguageManager::getText("OPT_SELECT"))};
+        input.size() < 3 && Utils::isInt(input))
     {
         return stoi(input);
     }
     Utils::printWrongMsgNLine(LanguageManager::getText("WRN_M_COMMAND"));
+    Utils::printMsgNLine("");
     return std::nullopt;
 }
 
@@ -129,6 +131,8 @@ bool Konbini::executeMainMenuTask(int userOption)
         if (const auto acc{login()}; acc.has_value())
         {
             Accounts::setLoggedAccEmail(acc.value());
+            Utils::printSuccessMsg(LanguageManager::getText("SUCC_LOG"));
+            Utils::printMsgNLine("");
             if (Accounts::getAccType() == Accounts::getUserAccType())
             {
                 executeUserMenu();
@@ -158,7 +162,7 @@ bool Konbini::executeMainMenuTask(int userOption)
     default:
         Utils::printWrongMsgNLine(LanguageManager::getText("WRN_M_COMMAND"));
     }
-    std::cout << '\n';
+    Utils::printMsgNLine("");
     return true;
 }
 
@@ -537,7 +541,6 @@ bool Konbini::executeLoggedUserTask(int command)
         break;
     case LoggedUserMenuOPTS::ChangePassword:
         changePassword();
-        Accounts::updateAccsFile();
         break;
     case LoggedUserMenuOPTS::BrowseTheStore:
         browseTheStore();
@@ -572,10 +575,12 @@ bool Konbini::executeLoggedUserTask(int command)
         Utils::printWarningMsgNLine(LanguageManager::getText("LOG_OUT"));
         return false;
     case LoggedUserMenuOPTS::Exit:
+        Utils::printSuccessMsg(LanguageManager::getText("BYE"));
         std::exit(EXIT_SUCCESS);
-        break;
+    default:
+        Utils::printWrongMsgNLine(LanguageManager::getText("WRN_M_COMMAND"));
     }
-    std::cout << '\n';
+    Utils::printMsgNLine("");
     return true;
 }
 
@@ -627,7 +632,83 @@ void Konbini::changePassword()
     }
 
     Accounts::setNewPassword(input.value());
+    Accounts::updateAccsFile();
     Utils::printSuccessMsg(LanguageManager::getText("NEW_PASS_CHNGD"));
 }
 
-void Konbini::executeAdminMenu() {}
+void Konbini::executeAdminMenu()
+{
+    while (true)
+    {
+        KonbiniUI::printMenu(LanguageManager::getAdminMenu());
+        if (const auto userCommand{getUserCommand()}; userCommand.has_value())
+        {
+            if (!executeLoggedAdminTask(userCommand.value()))
+            {
+                return;
+            }
+        }
+    }
+}
+
+std::optional<bool> Konbini::executeLoggedAdminTask(int command)
+{
+    switch (static_cast<LoggedAdminMenuOPTS>(command))
+    {
+    case LoggedAdminMenuOPTS::ShowAccountDetails:
+        showAccountDetails();
+        break;
+    case LoggedAdminMenuOPTS::ChangeEmail:
+        changeEmail();
+        Accounts::updateAccsFile();
+        break;
+    case LoggedAdminMenuOPTS::ChangePassword:
+        changePassword();
+        break;
+    case LoggedAdminMenuOPTS::BrowseTheStore:
+        browseTheStore();
+        break;
+    case LoggedAdminMenuOPTS::PurchaseHistory:
+        break;
+    case LoggedAdminMenuOPTS::CheckCart:
+        checkCart(true);
+        break;
+    case LoggedAdminMenuOPTS::AddItemToCart:
+        addItemToCart();
+        break;
+    case LoggedAdminMenuOPTS::ChangeQuantity:
+        changeQuantity();
+        break;
+    case LoggedAdminMenuOPTS::RemoveProductFromCart:
+        removeProductFromCart();
+        break;
+    case LoggedAdminMenuOPTS::FinalizePurchase:
+        finalizePurchase();
+        break;
+    case LoggedAdminMenuOPTS::AddNewProductToStore:
+        break;
+    case LoggedAdminMenuOPTS::ChangeStoreProductQuantity:
+        break;
+    case LoggedAdminMenuOPTS::RemoveProductFromTheStore:
+        break;
+    case LoggedAdminMenuOPTS::ChangelanguageToJapanese:
+        break;
+    case LoggedAdminMenuOPTS::DeleteAccount:
+        Products::updateStoreAfterDeletingAccount(Cart::getCartItems());
+        Accounts::deleteAccFromVar();
+        Accounts::updateAccsFile();
+        Utils::printSuccessMsg(LanguageManager::getText("ACC_DEL"));
+        break;
+    case LoggedAdminMenuOPTS::Logout:
+        Utils::printWarningMsgNLine(LanguageManager::getText("LOG_OUT"));
+        return false;
+    case LoggedAdminMenuOPTS::Exit:
+        Utils::printSuccessMsg(LanguageManager::getText("BYE"));
+        std::exit(EXIT_SUCCESS);
+    default:
+        Utils::printWrongMsgNLine(LanguageManager::getText("WRN_M_COMMAND"));
+    }
+    Utils::printMsgNLine("");
+
+    return true;
+}
