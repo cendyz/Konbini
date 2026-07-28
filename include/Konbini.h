@@ -167,4 +167,6 @@ class Konbini
     [[nodiscard]] static newProductInputVariant getNewProductQnt();
 
     [[nodiscard]] static newProductInputVariant getNewPoductPrice();
+
+    static void removeProdcutFromStore();
 };

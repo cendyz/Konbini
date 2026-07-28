@@ -693,6 +693,7 @@ bool Konbini::executeLoggedAdminTask(int command)
     case LoggedAdminMenuOPTS::ChangeStoreProductQuantity:
         break;
     case LoggedAdminMenuOPTS::RemoveProductFromTheStore:
+        removeProdcutFromStore();
         break;
     case LoggedAdminMenuOPTS::ChangelanguageToJapanese:
         changeLanguage();
@@ -702,7 +703,7 @@ bool Konbini::executeLoggedAdminTask(int command)
         Accounts::deleteAccFromVar();
         Accounts::updateAccsFile();
         Utils::printSuccessMsg(LanguageManager::getText("ACC_DEL"));
-        break;
+        return false;
     case LoggedAdminMenuOPTS::Logout:
         Utils::printWarningMsgNLine(LanguageManager::getText("LOG_OUT"));
         return false;
@@ -732,17 +733,13 @@ void Konbini::addNewProductToStore()
         {
             return;
         }
-        std::cout << "ssss: " << i << '\n';
         newProductInfo[i] = input;
     }
-    std::cout << "dupa kotki\n";
     ProductData newPrdData;
     newPrdData.name = std::get<std::string>(newProductInfo[0]);
     newPrdData.qnt = std::get<int>(newProductInfo[1]);
     newPrdData.price = std::get<double>(newProductInfo[2]);
-    std::cout << "sloooon\n";
     Products::addNewProductToDatabase(newPrdData);
-    std::cout << "dupa elfki\n";
     Utils::printSuccessMsg(LanguageManager::getText("PRD_ADD_ST"));
 }
 
@@ -819,4 +816,22 @@ newProductInputVariant Konbini::getNewPoductPrice()
 
         return std::stod(input.value());
     }
+}
+
+void Konbini::removeProdcutFromStore()
+{
+    const auto productId{getUserProductId()};
+
+    if (!productId.has_value())
+    {
+        return;
+    }
+
+    Products::deleteProductFromStore(productId.value());
+    if (Cart::isItemInCart(productId.value()))
+    {
+        Cart::removeCartItem(productId.value());
+    }
+
+    Utils::printSuccessMsg(LanguageManager::getText("PRD_REM_STR"));
 }

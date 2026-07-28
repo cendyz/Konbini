@@ -89,6 +89,7 @@ A_MENU_17;Exit
 EN_PRD_NAME;English product name:
 JP_PRD_NAME;Japanese product name:
 PRD_AL_EXT;Product already exists!
-NEW_PRD_PRICE;Product price:
+NEW_PRD_PRICE;Product price in usd:
 WRN_PRD_PRICE;Illegal price amount.
 PRD_ADD_ST;Product added to the store!
+PRD_REM_ST;Product removed from the store!

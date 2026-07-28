@@ -48,6 +48,8 @@ class Products
     static void addNewProductToDatabase(const ProductData& prdData);
     static constexpr double jpCurrency{163.67};
 
+    static void deleteProductFromStore(const std::string &id);
+
   private:
     inline static std::array<std::filesystem::path, Utils::numofLangs> productsPath{
         DATA_DIR "products_en.txt",

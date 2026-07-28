@@ -46,6 +46,8 @@ void printSuccessMsg(std::string_view msg);
 
 void lowerString(std::string& str);
 
+std::string lowerFirstLetter(const std::string &str);
+
 [[nodiscard]] bool isInt(const std::string& str);
 
 [[nodiscard]] bool isDouble(const std::string& str);

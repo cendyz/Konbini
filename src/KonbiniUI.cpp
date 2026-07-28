@@ -33,7 +33,7 @@ void KonbiniUI::printStoreProducts(std::unordered_map<std::string, ProductData>&
 
     for (const auto& [name, price, quantity] : products | std::views::values)
     {
-        std::cout << COLORS::BLU << name << COLORS::RESET << " | " << price << currency << " | " << qnt << quantity
+        std::cout << COLORS::BLU << Utils::lowerFirstLetter(name) << COLORS::RESET << " | " << price << currency << " | " << qnt << quantity
                   << '\n';
     }
 }
@@ -43,7 +43,7 @@ void KonbiniUI::printCartItems(const std::unordered_map<std::string, ProductData
 {
     for (const auto& [name, price, qnt] : cartItems | std::views::values)
     {
-        std::cout << COLORS::BLU << name << COLORS::RESET << " | " << qnt << " | " << price << currency << '\n';
+        std::cout << COLORS::BLU << Utils::lowerFirstLetter(name) << COLORS::RESET << " | " << qnt << " | " << price << currency << '\n';
     }
 }
 

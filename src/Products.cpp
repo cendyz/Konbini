@@ -1,6 +1,6 @@
 #include "Products.h"
-#include "Utils.h"
 #include "LanguageManager.h"
+#include "Utils.h"
 
 #include <fstream>
 #include <iostream>
@@ -209,9 +209,8 @@ void Products::addNewProductToDatabase(const ProductData& prdData)
             newId[i] += 1;
             break;
         }
-
         newId[i] = '0';
-        if (i == 0 && newId[i] == '9')
+        if (i == 0)
         {
             newId = "1" + newId;
         }
@@ -221,5 +220,15 @@ void Products::addNewProductToDatabase(const ProductData& prdData)
     productsList[static_cast<size_t>(ActualLang::JP)].emplace(newId, jpProduct);
     productsByLang[static_cast<size_t>(ActualLang::JP)].emplace(newId, jpProduct);
     productsByLang[static_cast<size_t>(ActualLang::EN)].emplace(newId, enProduct);
+    updateFilesAfterPurchase();
+}
+
+void Products::deleteProductFromStore(const std::string& id)
+{
+    for (size_t i{}; i < Utils::numofLangs; ++i)
+    {
+        productsList[i].erase(id);
+        productsByLang[i].erase(id);
+    }
     updateFilesAfterPurchase();
 }

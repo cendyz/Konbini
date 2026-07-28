@@ -86,3 +86,10 @@ A_MENU_14;言語を日本語に変更
 A_MENU_15;アカウントを削除
 A_MENU_16;ログアウト
 A_MENU_17;終了
+EN_PRD_NAME;英語で商品の名前：
+JP_PRD_NAME;日本語で商品の生ね：
+PRD_AL_EXT;昇進はもうあります!
+NEW_PRD_PRICE;米ドルでの商品価格：
+WRN_PRD_PRICE;不正な価格金額です。
+PRD_ADD_ST;商品がストアに追加されました！
+PRD_REM_ST;商品はストアから削除されました！

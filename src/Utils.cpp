@@ -70,6 +70,23 @@ void Utils::lowerString(std::string& str)
                            });
 }
 
+std::string Utils::lowerFirstLetter(const std::string& str)
+{
+    std::string newStr{str};
+    for (size_t i{}; i < str.size(); ++i)
+    {
+        if (str[i] == ' ' && str[i + 1] != ' ')
+        {
+            newStr[i + 1] = static_cast<char>(std::toupper(str[i + 1]));
+        }
+        else if (i == 0)
+        {
+            newStr[i] = static_cast<char>(std::toupper(str[i]));
+        }
+    }
+    return newStr;
+}
+
 bool Utils::isInt(const std::string& str)
 {
     return !str.empty() && std::ranges::all_of(str,
