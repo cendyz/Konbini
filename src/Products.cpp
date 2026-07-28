@@ -232,3 +232,13 @@ void Products::deleteProductFromStore(const std::string& id)
     }
     updateFilesAfterPurchase();
 }
+
+void Products::updateProductQuantity(const std::string& id, const int newQnt)
+{
+    for (size_t i{}; i < Utils::numofLangs; ++i)
+    {
+        productsList[i][id].qnt = newQnt;
+        productsByLang[i][id].qnt = newQnt;
+    }
+    updateFilesAfterPurchase();
+}

@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <filesystem>
 #include <string>
 #include <unordered_map>
@@ -22,54 +23,52 @@ class Accounts
 
     Accounts();
 
-    static void addAccToDB(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr);
+    void addAccToDB(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr);
+    [[nodiscard]] static std::string_view getAdminAccType() ;
+    [[nodiscard]] static std::string_view getUserAccType() ;
 
-    [[nodiscard]] static std::string_view getAdminAccType();
+    [[nodiscard]] bool isCorrectNameEmail(const std::string& email, const std::string& name) const;
 
-    [[nodiscard]] static std::string_view getUserAccType();
+    [[nodiscard]] std::string getAccPassword(const std::string& email);
 
-    [[nodiscard]] static bool isCorrectNameEmail(const std::string& email, const std::string& name);
+    [[nodiscard]] bool isAccExists(const std::string& email) const;
 
-    [[nodiscard]] static std::string getAccPassword(const std::string& email);
+    [[nodiscard]] bool isEmailMatchingPassword(const std::string& email, const std::string& password) const;
 
-    [[nodiscard]] static bool isAccExists(const std::string& email);
+    void addAccToVar(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr);
 
-    [[nodiscard]] static bool isEmailMatchingPassword(const std::string& email, const std::string& password);
+    void addAccToFile(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr) const;
 
-    static void addAccToVar(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr);
+    void setLoggedAccEmail(const std::string& email);
 
-    static void addAccToFile(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr);
+    [[nodiscard]] std::string_view getAccType();
 
-    static void setLoggedAccEmail(const std::string& email);
+    [[nodiscard]] std::array<std::string, static_cast<size_t>(AccInfo::Size)>& getLoggedAcc();
 
-    [[nodiscard]] static std::string_view getAccType();
+    [[nodiscard]] std::string getAccEmail();
 
-    [[nodiscard]] static std::array<std::string, static_cast<size_t>(AccInfo::Size)> getLoggedAcc();
+    void updateAccsFile();
 
-    [[nodiscard]] static std::string getAccEmail();
+    void deleteAccFromVar();
 
-    void static updateAccsFile();
+    void setNewEmail(const std::string& newEmail);
 
-    void static deleteAccFromVar();
+    void setNewPassword(const std::string& newPass);
 
-    void static setNewEmail(const std::string& newEmail);
-
-    void static setNewPassword(const std::string& newPass);
-
-    static void clearAccs();
+    void clearAccs();
 
   private:
-    inline static std::unordered_map<std::string, AccData> accs;
+    std::unordered_map<std::string, AccData> accs;
 
-    static void loadAccounts();
+    void loadAccounts();
 
-    inline static std::filesystem::path accsFile{DATA_DIR "accounts.txt"};
+    std::filesystem::path accsFile{DATA_DIR "accounts.txt"};
 
     static constexpr std::string_view userAccType{"user"};
     static constexpr std::string_view adminAccType{"admin"};
 
-    static std::string loggedAccEmail;
-    static std::array<std::string, static_cast<size_t>(AccInfo::Size)> allAccInfo;
+    std::string loggedAccEmail;
+    std::array<std::string, static_cast<size_t>(AccInfo::Size)> allAccInfo;
 
-    static void setActualAccInfo(const std::string& email);
+    void setActualAccInfo(const std::string& email);
 };

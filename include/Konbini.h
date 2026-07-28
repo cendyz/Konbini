@@ -104,6 +104,8 @@ class Konbini
 
     static void checkCart(bool isUser = false);
 
+    [[nodiscard]] static std::optional<int> getOptionalPositiveInt(std::string_view inputMsg);
+
     static void changeQuantity();
 
     static void removeProductFromCart();
@@ -169,4 +171,6 @@ class Konbini
     [[nodiscard]] static newProductInputVariant getNewPoductPrice();
 
     static void removeProdcutFromStore();
+
+    static void changeStoreProductQuantity();
 };

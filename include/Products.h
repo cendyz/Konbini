@@ -50,6 +50,8 @@ class Products
 
     static void deleteProductFromStore(const std::string &id);
 
+    static void updateProductQuantity(const std::string &id, int newQnt);
+
   private:
     inline static std::array<std::filesystem::path, Utils::numofLangs> productsPath{
         DATA_DIR "products_en.txt",

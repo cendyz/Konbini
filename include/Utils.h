@@ -52,6 +52,7 @@ std::string lowerFirstLetter(const std::string &str);
 
 [[nodiscard]] bool isDouble(const std::string& str);
 
+
 void printSeparator();
 
 } // namespace Utils

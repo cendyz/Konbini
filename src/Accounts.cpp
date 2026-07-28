@@ -8,9 +8,6 @@ Accounts::Accounts()
     loadAccounts();
 }
 
-std::string Accounts::loggedAccEmail;
-std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> Accounts::allAccInfo;
-
 void Accounts::loadAccounts()
 {
     std::ifstream file{accsFile};
@@ -35,7 +32,7 @@ void Accounts::addAccToVar(const std::array<std::string, static_cast<size_t>(Acc
                      arr[static_cast<size_t>(AccInfo::Pass)], arr[static_cast<size_t>(AccInfo::AccType)]);
 }
 
-void Accounts::addAccToFile(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr)
+void Accounts::addAccToFile(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr) const
 {
     std::ofstream file{accsFile, std::ios::app};
 
@@ -68,33 +65,35 @@ std::string_view Accounts::getUserAccType()
     return userAccType;
 }
 
-bool Accounts::isCorrectNameEmail(const std::string& email, const std::string& name)
+bool Accounts::isCorrectNameEmail(const std::string& email, const std::string& name) const
 {
-    return accs.contains(email) && accs[email].name == name;
+    return accs.at(email).name == name;
 }
 
 std::string Accounts::getAccPassword(const std::string& email)
 {
-    return accs[email].password;
+    return accs.at(email).password;
 }
 
-bool Accounts::isAccExists(const std::string& email)
+bool Accounts::isAccExists(const std::string& email) const
 {
     return accs.contains(email);
 }
 
-bool Accounts::isEmailMatchingPassword(const std::string& email, const std::string& password)
+bool Accounts::isEmailMatchingPassword(const std::string& email, const std::string& password) const
 {
-    return accs[email].password == password;
+    return accs.at(email).password == password;
 }
 
 void Accounts::setActualAccInfo(const std::string& email)
 {
-    accs[email].name[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(accs[email].name[0])));
-    allAccInfo[static_cast<size_t>(AccInfo::Name)] = accs[email].name;
+    auto& [name, password, accType] = accs.at(email); // jeden lookup
+
+    name[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(name[0])));
+    allAccInfo[static_cast<size_t>(AccInfo::Name)] = name;
     allAccInfo[static_cast<size_t>(AccInfo::Email)] = email;
-    allAccInfo[static_cast<size_t>(AccInfo::Pass)] = accs[email].password;
-    allAccInfo[static_cast<size_t>(AccInfo::AccType)] = accs[email].accType;
+    allAccInfo[static_cast<size_t>(AccInfo::Pass)] = password;
+    allAccInfo[static_cast<size_t>(AccInfo::AccType)] = accType;
 }
 
 void Accounts::setLoggedAccEmail(const std::string& email)
@@ -105,7 +104,7 @@ void Accounts::setLoggedAccEmail(const std::string& email)
 
 std::string_view Accounts::getAccType()
 {
-    return accs[loggedAccEmail].accType;
+    return accs.at(loggedAccEmail).accType;
 }
 
 std::string Accounts::getAccEmail()
@@ -113,7 +112,7 @@ std::string Accounts::getAccEmail()
     return loggedAccEmail;
 }
 
-std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)> Accounts::getLoggedAcc()
+std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)>& Accounts::getLoggedAcc()
 {
     return allAccInfo;
 }
@@ -132,7 +131,7 @@ void Accounts::updateAccsFile()
     std::ofstream temp{Utils::tempPath};
     std::string line;
 
-    for (auto& [fst, snd] : accs)
+    for (const auto& [fst, snd] : accs)
     {
         temp << snd.name << ';' << fst << ';' << snd.password << ';' << snd.accType << '\n';
     }
@@ -145,12 +144,12 @@ void Accounts::updateAccsFile()
 
 void Accounts::deleteAccFromVar()
 {
-    accs.erase(allAccInfo[static_cast<size_t>(AccInfo::Email)]);
+    accs.erase(allAccInfo.at(static_cast<size_t>(AccInfo::Email)));
 }
 
 void Accounts::setNewPassword(const std::string& newPass)
 {
-    accs[allAccInfo[static_cast<size_t>(AccInfo::Email)]].password = newPass;
+    accs.at(allAccInfo[static_cast<size_t>(AccInfo::Email)]).password = newPass;
     allAccInfo[static_cast<size_t>(AccInfo::Pass)] = newPass;
 }
 

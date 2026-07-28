@@ -33,6 +33,7 @@ void Konbini::run()
     }
     products = std::make_unique<Products>(LanguageManager::getUserLang());
     Utils::printColorfullMsgNLine(COLORS::GREEN, LanguageManager::getText("REG_CUP"));
+    Utils::printMsgNLine("");
     while (true)
     {
         KonbiniUI::printMenu(LanguageManager::getMainMenu());
@@ -80,6 +81,27 @@ void Konbini::setSystemLang(const std::string& lang)
     LanguageManager::loadDict(lang);
     LanguageManager::loadMenus();
     LanguageManager::loadLoginMsgs();
+}
+
+std::optional<int> Konbini::getOptionalPositiveInt(const std::string_view inputMsg)
+{
+    while (true)
+    {
+        std::string input;
+        Utils::printMsgSpace(inputMsg);
+        getline(std::cin, input);
+
+        if (returnToMenu(input))
+        {
+            return std::nullopt;
+        }
+
+        if (Utils::isInt(input) && std::stoi(input) > 0)
+        {
+            return std::stoi(input);
+        }
+        Utils::printWrongMsgNLine(LanguageManager::getText("WRN_QNT"));
+    }
 }
 
 std::optional<std::string> Konbini::getOptionalInput(const std::string_view inputMsg)
@@ -691,6 +713,7 @@ bool Konbini::executeLoggedAdminTask(int command)
         addNewProductToStore();
         break;
     case LoggedAdminMenuOPTS::ChangeStoreProductQuantity:
+        changeStoreProductQuantity();
         break;
     case LoggedAdminMenuOPTS::RemoveProductFromTheStore:
         removeProdcutFromStore();
@@ -721,8 +744,8 @@ bool Konbini::executeLoggedAdminTask(int command)
 void Konbini::addNewProductToStore()
 {
     std::variant<std::string, int, double> newPrd;
-    std::array<std::function<newProductInputVariant()>, 3> inputFuncs{getNewProductName, getNewProductQnt,
-                                                                      getNewPoductPrice};
+    const std::array<std::function<newProductInputVariant()>, 3> inputFuncs{getNewProductName, getNewProductQnt,
+                                                                            getNewPoductPrice};
     std::array<newProductInputVariant, 3> newProductInfo;
 
     for (size_t i{}; i < 3; ++i)
@@ -746,12 +769,12 @@ void Konbini::addNewProductToStore()
 newProductInputVariant Konbini::getNewProductName()
 {
     std::string enJPprdName;
-    const std::array<std::string, 2> inputMsgs{"EN_PRD_NAME", "JP_PRD_NAME"};
+    const std::array<std::string, 2> inputMsg{"EN_PRD_NAME", "JP_PRD_NAME"};
     for (size_t i{}; i < 2; ++i)
     {
         while (true)
         {
-            auto input{getOptionalInput(LanguageManager::getText(inputMsgs[i]))};
+            auto input{getOptionalInput(LanguageManager::getText(inputMsg[i]))};
 
             if (!input.has_value())
             {
@@ -834,4 +857,24 @@ void Konbini::removeProdcutFromStore()
     }
 
     Utils::printSuccessMsg(LanguageManager::getText("PRD_REM_STR"));
+}
+
+void Konbini::changeStoreProductQuantity()
+{
+    const auto productId{getUserProductId()};
+
+    if (!productId.has_value())
+    {
+        return;
+    }
+
+    const auto quantity{getOptionalPositiveInt(LanguageManager::getText("PRD_N_QNT"))};
+
+    if (!quantity.has_value())
+    {
+        return;
+    }
+
+    Products::updateProductQuantity(productId.value(), quantity.value());
+    Utils::printSuccessMsg(LanguageManager::getText("QNT_CHN"));
 }

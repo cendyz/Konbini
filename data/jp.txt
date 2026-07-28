@@ -93,3 +93,4 @@ NEW_PRD_PRICE;米ドルでの商品価格：
 WRN_PRD_PRICE;不正な価格金額です。
 PRD_ADD_ST;商品がストアに追加されました！
 PRD_REM_ST;商品はストアから削除されました！
+QNT_CHN;数量が更新されました！
