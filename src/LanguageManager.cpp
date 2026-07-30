@@ -1,7 +1,7 @@
 #include <LanguageManager.h>
 #include <fstream>
 
-bool LanguageManager::isLangTypeAlreadySet()
+bool LanguageManager::isLangTypeAlreadySet() const
 {
     return !userLang.empty();
 }
@@ -12,12 +12,10 @@ void LanguageManager::loadLangTypeFile()
     std::string line;
     getline(file, line);
     userLang = line;
-    currLang = userLang == langsType[static_cast<size_t>(ActualLang::JP)]
-                   ? ActualLang::JP
-                   : ActualLang::EN;
+    currLang = userLang == langsType[static_cast<size_t>(ActualLang::JP)] ? ActualLang::JP : ActualLang::EN;
 }
 
-void LanguageManager::saveUserLangToFile()
+void LanguageManager::saveUserLangToFile() const
 {
     std::ofstream file{langTypePath};
     file << userLang << '\n';
@@ -75,18 +73,17 @@ std::string_view LanguageManager::getText(const std::string& text)
     return dict[text];
 }
 
-
-std::array<std::string_view, LanguageManager::mainMenuSize> LanguageManager::getMainMenu()
+std::array<std::string_view, LanguageManager::mainMenuSize> LanguageManager::getMainMenu() const
 {
     return mainMenu;
 }
 
-std::array<std::string_view, LanguageManager::userMenuSize> LanguageManager::getUserMenu()
+std::array<std::string_view, LanguageManager::userMenuSize> LanguageManager::getUserMenu() const
 {
     return userMenu;
 }
 
-std::array<std::string_view, LanguageManager::adminMenuSize> LanguageManager::getAdminMenu()
+std::array<std::string_view, LanguageManager::adminMenuSize> LanguageManager::getAdminMenu() const
 {
     return adminMenu;
 }

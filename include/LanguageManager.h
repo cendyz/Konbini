@@ -18,8 +18,6 @@ class LanguageManager
         JP,
     };
 
-
-
     enum class LoginMsg : std::uint8_t
     {
         Email,
@@ -27,23 +25,21 @@ class LanguageManager
         Size,
     };
 
-    LanguageManager() = default;
+    void loadLangTypeFile();
 
-    void static loadLangTypeFile();
+    [[nodiscard]] bool isLangTypeAlreadySet() const;
 
-    [[nodiscard]] static bool isLangTypeAlreadySet();
+    void saveUserLangToFile() const;
 
-    static void saveUserLangToFile();
+    [[nodiscard]] std::optional<std::string> isCorrectUserLang(int val);
 
-    [[nodiscard]] static std::optional<std::string> isCorrectUserLang(int val);
+    void loadDict(const std::string& lang);
 
-    static void loadDict(const std::string& lang);
+    void loadMenus();
 
-    static void loadMenus();
+    [[nodiscard]] std::string getUserLang();
 
-    [[nodiscard]] static std::string getUserLang();
-
-    [[nodiscard]] static std::string_view getText(const std::string& text);
+    [[nodiscard]] std::string_view getText(const std::string& text);
 
     [[nodiscard]] static size_t getMainMenuSize();
 
@@ -51,36 +47,36 @@ class LanguageManager
 
     [[nodiscard]] static size_t getAdminMenuSize();
 
-    [[nodiscard]] static std::array<std::string_view, mainMenuSize> getMainMenu();
+    [[nodiscard]] std::array<std::string_view, mainMenuSize> getMainMenu() const;
 
-    [[nodiscard]] static std::array<std::string_view, userMenuSize> getUserMenu();
+    [[nodiscard]] std::array<std::string_view, userMenuSize> getUserMenu() const;
 
-    [[nodiscard]] static std::array<std::string_view, adminMenuSize> getAdminMenu();
+    [[nodiscard]] std::array<std::string_view, adminMenuSize> getAdminMenu() const;
 
-    void static loadLoginMsgs();
+    void loadLoginMsgs();
 
-    [[nodiscard]] static std::string getLoginMsg(size_t i);
+    [[nodiscard]] std::string getLoginMsg(size_t i);
 
-    void static changeLang();
+    void changeLang();
 
-    void static clearDict();
+    void clearDict();
 
   private:
-    inline static std::filesystem::path dictPath{DATA_DIR};
-    inline static std::filesystem::path langTypePath{DATA_DIR "langType.txt"};
+    std::filesystem::path dictPath{DATA_DIR};
+    inline static const std::filesystem::path langTypePath{DATA_DIR "langType.txt"};
     inline static std::array<std::string, 2> langsType{"en", "jp"};
-    inline static ActualLang currLang;
-    inline static std::string userLang;
+    ActualLang currLang{};
+    std::string userLang;
 
     static constexpr std::string_view dictFormat{".txt"};
-    inline static std::unordered_map<std::string, std::string> dict;
-    inline static std::array<std::string_view, mainMenuSize> mainMenu;
-    inline static std::array<std::string_view, userMenuSize> userMenu;
-    inline static std::array<std::string_view, adminMenuSize> adminMenu;
+    std::unordered_map<std::string, std::string> dict;
+    std::array<std::string_view, mainMenuSize> mainMenu;
+    std::array<std::string_view, userMenuSize> userMenu;
+    std::array<std::string_view, adminMenuSize> adminMenu;
 
-    inline static std::array<std::string, static_cast<size_t>(LoginMsg::Size)> loginMsgs;
+    std::array<std::string, static_cast<size_t>(LoginMsg::Size)> loginMsgs;
 
-    template <size_t S> static void fullfillMenu(std::array<std::string_view, S>& arr, const std::string& msg)
+    template <size_t S> void fullfillMenu(std::array<std::string_view, S>& arr, const std::string& msg)
     {
         for (size_t i{}; i < S; ++i)
         {

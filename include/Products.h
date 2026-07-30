@@ -9,60 +9,60 @@ class Products
     enum class ProductsLang : std::uint8_t
     {
         EN = 0,
-        JP,
+        JP = 1
     };
 
   public:
     explicit Products(const std::string& finalLang);
 
-    static void setCurrencyAndActualProductsLang(const std::string& finalLang);
+    void setCurrencyAndActualProductsLang(const std::string& finalLang);
 
-    static void changeToOtherLangStore();
+    void changeToOtherLangStore();
 
-    [[nodiscard]] static bool isStoreEmpty();
+    [[nodiscard]] bool isStoreEmpty() const;
 
-    [[nodiscard]] static std::unordered_map<std::string, ProductData> getProducts();
+    [[nodiscard]] const std::unordered_map<std::string, ProductData>& getProducts();
 
-    [[nodiscard]] static std::string getCurrency();
+    [[nodiscard]] std::string getCurrency();
 
-    [[nodiscard]] static std::string getProductName(const std::string& id);
+    [[nodiscard]] std::string getProductName(const std::string& id);
 
-    [[nodiscard]] static std::optional<std::string> isProductExists(const std::string& str);
+    [[nodiscard]] std::optional<std::string> isProductExists(const std::string& str);
 
-    [[nodiscard]] static int getProductQnt(const std::string& id);
+    [[nodiscard]] int getProductQnt(const std::string& id) const;
 
-    [[nodiscard]] static double getProductPrice(const std::string& id);
+    [[nodiscard]] double getProductPrice(const std::string& id) const;
 
-    static void updateStoreAfterAddingToCart(const std::string& id, int qnt);
+    void updateStoreAfterAddingToCart(const std::string& id, int qnt);
 
-    void static updateStoreAfterQntChange(const std::string& id, int newQnt, int cartItemQnt);
+    void updateStoreAfterQntChange(const std::string& id, int newQnt, int cartItemQnt);
 
-    static void updateFilesAfterPurchase();
+    void updateFilesAfterStoreUpdate();
 
-    [[nodiscard]] static std::map<std::string, ProductData> getProductList();
+    [[nodiscard]] const std::map<std::string, ProductData>& getProductList();
 
-    static void updateStoreAfterCartItemRemoved(const std::string& id, int&& qnt);
+    void updateStoreAfterCartItemRemoved(const std::string& id, int&& qnt);
 
-    static void updateStoreAfterDeletingAccount(std::unordered_map<std::string, ProductData>&& cartItems);
+    void updateStoreAfterDeletingAccount(std::unordered_map<std::string, ProductData>&& cartItems);
 
-    static void addNewProductToDatabase(const ProductData& prdData);
+    void addNewProductToDatabase(const ProductData& prdData);
     static constexpr double jpCurrency{163.67};
 
-    static void deleteProductFromStore(const std::string &id);
+    void deleteProductFromStore(const std::string& id);
 
-    static void updateProductQuantity(const std::string &id, int newQnt);
+    void updateProductQuantity(const std::string& id, int newQnt);
 
   private:
-    inline static std::array<std::filesystem::path, Utils::numofLangs> productsPath{
+    inline static const std::array<std::filesystem::path, Utils::numofLangs> productsPath{
         DATA_DIR "products_en.txt",
         DATA_DIR "products_jp.txt",
     };
-    inline static std::size_t actualProductsLang{};
-    inline static std::array<std::map<std::string, ProductData>, Utils::numofLangs> productsList;
-    inline static std::array<std::unordered_map<std::string, ProductData>, Utils::numofLangs> productsByLang;
+    std::size_t actualProductsLang{};
+    std::array<std::map<std::string, ProductData>, Utils::numofLangs> productsList;
+    std::array<std::unordered_map<std::string, ProductData>, Utils::numofLangs> productsByLang;
     inline static const std::array<std::string, Utils::numofLangs> currencies{"$", "円"};
-    inline static std::string actualCurrency;
-    inline static ProductsLang actualProductsLangEnumType;
+    std::string actualCurrency;
+    ProductsLang actualProductsLangEnumType{};
 
-    static void loadProducts();
+    void loadProducts();
 };

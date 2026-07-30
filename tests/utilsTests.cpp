@@ -2,7 +2,21 @@
 #include "array"
 #include "gtest/gtest.h"
 
-TEST(isNumber, RecognizesVariousFormatsCorrectly)
+TEST(IsDouble, RecognizesVariousFormatsCorrectl)
+{
+    EXPECT_TRUE(Utils::isDouble("22.1"));
+    EXPECT_TRUE(Utils::isDouble(".9"));
+    EXPECT_TRUE(Utils::isDouble("3."));
+    EXPECT_FALSE(Utils::isDouble("22..1"));
+    EXPECT_FALSE(Utils::isDouble("22..1"));
+    EXPECT_FALSE(Utils::isDouble("22342344323423.11"));
+    EXPECT_FALSE(Utils::isDouble("11w.1"));
+    EXPECT_FALSE(Utils::isDouble("..1"));
+    EXPECT_FALSE(Utils::isDouble(""));
+    EXPECT_FALSE(Utils::isDouble(" 22.2w"));
+}
+
+TEST(isInt, RecognizesVariousFormatsCorrectly)
 {
     EXPECT_TRUE(Utils::isInt("93"));
     EXPECT_TRUE(Utils::isInt("3"));
@@ -28,13 +42,13 @@ TEST(isLoweringString, ChangeBigCharsToLow)
 
 TEST(isUpperingFirstLetter, firstLetterGoUp)
 {
-    std::string a{"iphone"};
-    std::string a1{"iphone "};
-    std::string a2{"iphone 2"};
-    std::string a3{"iphone pro"};
+    const std::string a{"iphone"};
+    const std::string a1{"iphone "};
+    const std::string a2{"iphone 2"};
+    const std::string a3{"iphone pro"};
 
-    EXPECT_EQ(Utils::lowerFirstLetter(a), "Iphone");
-    EXPECT_EQ(Utils::lowerFirstLetter(a1), "Iphone ");
-    EXPECT_EQ(Utils::lowerFirstLetter(a2), "Iphone 2");
-    EXPECT_EQ(Utils::lowerFirstLetter(a3), "Iphone Pro");
+    EXPECT_EQ(Utils::upperFirstLetter(a), "Iphone");
+    EXPECT_EQ(Utils::upperFirstLetter(a1), "Iphone ");
+    EXPECT_EQ(Utils::upperFirstLetter(a2), "Iphone 2");
+    EXPECT_EQ(Utils::upperFirstLetter(a3), "Iphone Pro");
 }

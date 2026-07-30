@@ -2,6 +2,8 @@
 
 int main()
 {
-    Konbini::getInstance().run();
+    Konbini program{};
+    program.run();
+
     return 0;
 }

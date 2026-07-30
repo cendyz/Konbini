@@ -1,12 +1,12 @@
 #pragma once
 #include <filesystem>
-#include <string>
 #include <regex>
+#include <string>
 
 enum class ActualLang : std::uint8_t
 {
-    EN,
-    JP,
+    EN = 0,
+    JP = 1,
 };
 
 struct ProductData
@@ -36,7 +36,7 @@ void printMsgSpace(std::string_view msg);
 
 void printWrongMsgNLine(std::string_view msg);
 
-[[nodiscard]] std::string getInput(std::string_view inputMsg);
+[[nodiscard]] std::string getFullLineInput(std::string_view inputMsg);
 
 void printTabOptionNLine(std::string_view msg, size_t numOption, std::string_view color);
 
@@ -46,12 +46,11 @@ void printSuccessMsg(std::string_view msg);
 
 void lowerString(std::string& str);
 
-std::string lowerFirstLetter(const std::string &str);
+std::string upperFirstLetter(const std::string& str);
 
 [[nodiscard]] bool isInt(const std::string& str);
 
 [[nodiscard]] bool isDouble(const std::string& str);
-
 
 void printSeparator();
 

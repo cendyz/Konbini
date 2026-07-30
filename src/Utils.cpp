@@ -38,7 +38,7 @@ void Utils::printWrongMsgNLine(const std::string_view msg)
     std::cout << COLORS::RED << msg << COLORS::RESET << '\n';
 }
 
-std::string Utils::getInput(const std::string_view inputMsg)
+std::string Utils::getFullLineInput(const std::string_view inputMsg)
 {
     std::string input;
     printMsgSpace(inputMsg);
@@ -70,7 +70,7 @@ void Utils::lowerString(std::string& str)
                            });
 }
 
-std::string Utils::lowerFirstLetter(const std::string& str)
+std::string Utils::upperFirstLetter(const std::string& str)
 {
     std::string newStr{str};
     for (size_t i{}; i < str.size(); ++i)
@@ -103,5 +103,5 @@ void Utils::printSeparator()
 
 bool Utils::isDouble(const std::string& str)
 {
-    return std::regex_match(str, doubleRegex);
+    return str.size() < 7 && std::regex_match(str, doubleRegex);
 }

@@ -1,33 +1,31 @@
 #pragma once
 #include "Utils.h"
-#include <unordered_map>
 #include <map>
+#include <unordered_map>
 
 class Cart
 {
   public:
-    Cart() = default;
+    [[nodiscard]] bool isCartEmpty() const;
 
-    [[nodiscard]] static bool isCartEmpty();
+    [[nodiscard]] std::unordered_map<std::string, ProductData> getCartItems();
 
-    [[nodiscard]] static std::unordered_map<std::string, ProductData> getCartItems();
+    [[nodiscard]] bool isItemInCart(const std::string& id) const;
 
-    [[nodiscard]] static bool isItemInCart(const std::string& id);
+    [[nodiscard]] int getCartItemQnt(const std::string& id) const;
 
-    [[nodiscard]] static int getCartItemQnt(const std::string& id);
+    void setNewProductQnty(const std::string& id, int newQnt);
 
-    static void setNewProductQnty(const std::string& id, int newQnt);
+    void cleanCart();
 
-    static void cleanCart();
+    void addProductToCart(const std::string& id, const ProductData& newProduct);
 
-    static void addProductToCart(const std::string& id, const ProductData& newProduct);
+    void reloadCartAfterLangChange(const std::map<std::string, ProductData>& allItemsList);
 
-    static void reloadCartAfterLangChange(const std::map<std::string, ProductData>& allItemsList);
+    [[nodiscard]] std::array<double, 2> getCartSummaries(bool isUser = false);
 
-    [[nodiscard]] static std::array<double, 2> getCartSummaries(bool isUser = false);
-
-    static void removeCartItem(const std::string& id);
+    void removeCartItem(const std::string& id);
 
   private:
-    inline static std::unordered_map<std::string, ProductData> cartItems;
+    std::unordered_map<std::string, ProductData> cartItems;
 };

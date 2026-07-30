@@ -67,55 +67,44 @@ class Konbini
     };
 
   public:
-    Konbini(const Konbini& obj) = delete;
-
-    Konbini& operator=(Konbini& obj) = delete;
-
-    static Konbini& getInstance()
-    {
-        static Konbini obj;
-        return obj;
-    }
-
+    Konbini();
     void run();
 
   private:
-    Konbini();
-
     std::unique_ptr<KonbiniUI> ui{nullptr};
     std::unique_ptr<LanguageManager> lng{nullptr};
     std::unique_ptr<Products> products{nullptr};
     std::unique_ptr<Cart> cart{nullptr};
     std::unique_ptr<Accounts> accounts{nullptr};
 
-    [[nodiscard]] static std::string userSelectingLanguage();
+    [[nodiscard]] std::string userSelectingLanguage() const;
 
-    static void setSystemLang(const std::string& lang);
+    void setSystemLang(const std::string& lang) const;
 
-    [[nodiscard]] static std::optional<int> getUserCommand();
+    [[nodiscard]] std::optional<int> getUserCommand() const;
 
-    [[nodiscard]] static bool executeMainMenuTask(int userOption);
+    [[nodiscard]] bool executeMainMenuTask(int userOption) const;
 
-    [[nodiscard]] static bool returnToMenu(const std::string& input);
+    [[nodiscard]] bool returnToMenu(const std::string& input) const;
 
     static constexpr std::string_view backToMenuKey{"0"};
 
-    static void browseTheStore();
+    void browseTheStore() const;
 
-    static void checkCart(bool isUser = false);
+    void checkCart(bool isUser = false) const;
 
-    [[nodiscard]] static std::optional<int> getOptionalPositiveInt(std::string_view inputMsg);
+    [[nodiscard]] std::optional<int> getOptionalPositiveInt(std::string_view inputMsg) const;
 
-    static void changeQuantity();
+    void changeQuantity() const;
 
-    static void removeProductFromCart();
+    void removeProductFromCart() const;
 
-    [[nodiscard]] static bool isNewQuantityOK(const std::string& id, int qnt);
+    [[nodiscard]] bool isNewQuantityOK(const std::string& id, int qnt) const;
 
-    static void registerNew(std::string_view accType);
+    void registerNew(std::string_view accType) const;
 
-    [[nodiscard]] static std::optional<std::string>
-    getOptionalCorrectInput(std::string_view inputMsg, const std::regex& inputRegex, std::string_view wrongInput);
+    [[nodiscard]] std::optional<std::string>
+    getOptionalCorrectInput(std::string_view inputMsg, const std::regex& inputRegex, std::string_view wrongInput) const;
 
     inline static const std::array<std::string, 3> inputMsgs{"NAME", "EMAIL", "PSWD"};
     inline static const std::array<std::string, 3> wrongInputsMsgs{"NAME_ERR", "EMAIL_ERR", "PSWD_ERR"};
@@ -123,54 +112,54 @@ class Konbini
         std::regex{"^[a-zA-Z]{2,15}$"}, std::regex{"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.][a-zA-Z]{2,}$"},
         std::regex{"(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,20}$"}};
 
-    [[nodiscard]] static std::optional<std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)>>
-    getnewAcc(std::string_view accType);
+    [[nodiscard]] std::optional<std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)>>
+    getnewAcc(std::string_view accType) const;
 
-    static void remindPassword();
+    void remindPassword() const;
 
-    [[nodiscard]] static std::optional<std::string> getOptionalInput(std::string_view inputMsg);
+    [[nodiscard]] std::optional<std::string> getOptionalInput(std::string_view inputMsg) const;
 
-    static void addItemToCart();
+    void addItemToCart() const;
 
-    [[nodiscard]] static std::optional<std::string> isValidUserProduct(std::string& product);
+    [[nodiscard]] std::optional<std::string> isValidUserProduct(std::string& product) const;
 
-    [[nodiscard]] static std::optional<std::string> getUserProductId();
+    [[nodiscard]] std::optional<std::string> getUserProductId() const;
 
-    [[nodiscard]] static std::optional<int> getUserQnt(const std::string& id);
+    [[nodiscard]] std::optional<int> getUserQnt(const std::string& id) const;
 
-    [[nodiscard]] static bool isValidUserQnt(const std::string& id, const std::string& userQnt);
+    [[nodiscard]] bool isValidUserQnt(const std::string& id, const std::string& userQnt) const;
 
-    static void finalizePurchase();
+    void finalizePurchase() const;
 
-    static void changeLanguage();
+    void changeLanguage() const;
 
-    [[nodiscard]] static std::optional<std::string> login();
+    [[nodiscard]] std::optional<std::string> login() const;
 
-    [[nodiscard]] static bool isLoginOk(const std::string& email, const std::string& pass);
+    [[nodiscard]] bool isLoginOk(const std::string& email, const std::string& pass) const;
 
-    static void executeUserMenu();
+    void executeUserMenu() const;
 
-    [[nodiscard]] static bool executeLoggedUserTask(int command);
+    [[nodiscard]] bool executeLoggedUserTask(int command) const;
 
-    static void showAccountDetails();
+    void showAccountDetails() const;
 
-    static void changeEmail();
+    void changeEmail() const;
 
-    static void changePassword();
+    void changePassword() const;
 
-    static void executeAdminMenu();
+    void executeAdminMenu() const;
 
-    [[nodiscard]] static bool executeLoggedAdminTask(int command);
+    [[nodiscard]] bool executeLoggedAdminTask(int command) const;
 
-    static void addNewProductToStore();
+    void addNewProductToStore() const;
 
-    [[nodiscard]] static newProductInputVariant getNewProductName();
+    [[nodiscard]] newProductInputVariant getNewProductName() const;
 
-    [[nodiscard]] static newProductInputVariant getNewProductQnt();
+    [[nodiscard]] newProductInputVariant getNewProductQnt() const;
 
-    [[nodiscard]] static newProductInputVariant getNewPoductPrice();
+    [[nodiscard]] newProductInputVariant getNewPoductPrice() const;
 
-    static void removeProdcutFromStore();
+    void removeProdcutFromStore() const;
 
-    static void changeStoreProductQuantity();
+    void changeStoreProductQuantity() const;
 };

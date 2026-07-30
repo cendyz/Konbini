@@ -27,14 +27,14 @@ void KonbiniUI::printLngMenu()
     }
 }
 
-void KonbiniUI::printStoreProducts(std::unordered_map<std::string, ProductData>&& products,
+void KonbiniUI::printStoreProducts(const std::unordered_map<std::string, ProductData>& products,
                                    const std::string_view currency, const std::string_view qnt)
 {
 
     for (const auto& [name, price, quantity] : products | std::views::values)
     {
-        std::cout << COLORS::BLU << Utils::lowerFirstLetter(name) << COLORS::RESET << " | " << price << currency << " | " << qnt << quantity
-                  << '\n';
+        std::cout << COLORS::BLU << Utils::upperFirstLetter(name) << COLORS::RESET << " | " << price << currency
+                  << " | " << qnt << quantity << '\n';
     }
 }
 
@@ -43,19 +43,20 @@ void KonbiniUI::printCartItems(const std::unordered_map<std::string, ProductData
 {
     for (const auto& [name, price, qnt] : cartItems | std::views::values)
     {
-        std::cout << COLORS::BLU << Utils::lowerFirstLetter(name) << COLORS::RESET << " | " << qnt << " | " << price << currency << '\n';
+        std::cout << COLORS::BLU << Utils::upperFirstLetter(name) << COLORS::RESET << " | " << qnt << " | " << price
+                  << currency << '\n';
     }
 }
 
-void KonbiniUI::printCartSummary(const std::array<double, 2>& summaries, const std::string& currency, const bool isUser)
+void KonbiniUI::printCartSummary(const std::array<double, 2>& summaries, const std::string& currency,
+                                 const std::string_view msg, const bool isUser)
 {
 
     Utils::printSeparator();
-    const std::string textSum{isUser ? LanguageManager::getText("DSC_CRT_SUM") : LanguageManager::getText("CRT_SUM")};
-    std::string label{textSum};
+    std::string label{msg};
     const size_t i{static_cast<size_t>(isUser ? 1 : 0)};
     std::cout << std::format("{:>17}", label) << " ";
-    std::string priceBeforeDiscount{
+    const std::string priceBeforeDiscount{
         isUser ? "\033[9;93m" +
                      (currency == "円" ? std::format("{:.0f}", summaries[0]) : std::format("{:.2f}", summaries[0])) +
                      currency + "\033[0m "

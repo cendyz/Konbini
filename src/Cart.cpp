@@ -1,7 +1,7 @@
 #include "Cart.h"
 #include <ranges>
 
-bool Cart::isCartEmpty()
+bool Cart::isCartEmpty() const
 {
     return cartItems.empty();
 }
@@ -11,14 +11,14 @@ std::unordered_map<std::string, ProductData> Cart::getCartItems()
     return cartItems;
 }
 
-bool Cart::isItemInCart(const std::string& id)
+bool Cart::isItemInCart(const std::string& id) const
 {
     return cartItems.contains(id);
 }
 
-int Cart::getCartItemQnt(const std::string& id)
+int Cart::getCartItemQnt(const std::string& id) const
 {
-    return cartItems[id].qnt;
+    return cartItems.at(id).qnt;
 }
 
 void Cart::addProductToCart(const std::string& id, const ProductData& newProduct)
@@ -67,7 +67,7 @@ void Cart::cleanCart()
 
 void Cart::setNewProductQnty(const std::string& id, const int newQnt)
 {
-    cartItems[id].price = (cartItems[id].price / cartItems[id].qnt) * newQnt;
+    cartItems.at(id).price = (cartItems[id].price / cartItems[id].qnt) * newQnt;
     cartItems[id].qnt = newQnt;
 }
 

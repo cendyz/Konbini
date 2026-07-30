@@ -24,8 +24,8 @@ class Accounts
     Accounts();
 
     void addAccToDB(const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& arr);
-    [[nodiscard]] static std::string_view getAdminAccType() ;
-    [[nodiscard]] static std::string_view getUserAccType() ;
+    [[nodiscard]] static std::string_view getAdminAccType();
+    [[nodiscard]] static std::string_view getUserAccType();
 
     [[nodiscard]] bool isCorrectNameEmail(const std::string& email, const std::string& name) const;
 
@@ -43,7 +43,7 @@ class Accounts
 
     [[nodiscard]] std::string_view getAccType();
 
-    [[nodiscard]] std::array<std::string, static_cast<size_t>(AccInfo::Size)>& getLoggedAcc();
+    [[nodiscard]] const std::array<std::string, static_cast<size_t>(AccInfo::Size)>& getLoggedAcc();
 
     [[nodiscard]] std::string getAccEmail();
 

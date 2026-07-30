@@ -1,7 +1,6 @@
 #include "Products.h"
 #include "LanguageManager.h"
 #include "Utils.h"
-
 #include <fstream>
 #include <iostream>
 
@@ -21,13 +20,13 @@ void Products::setCurrencyAndActualProductsLang(const std::string& finalLang)
     {
         actualProductsLangEnumType = ProductsLang::EN;
     }
-    actualCurrency = currencies[static_cast<size_t>(actualProductsLangEnumType)];
+    actualCurrency = currencies.at(static_cast<size_t>(actualProductsLangEnumType));
     actualProductsLang = static_cast<size_t>(actualProductsLangEnumType);
 }
 
-bool Products::isStoreEmpty()
+bool Products::isStoreEmpty() const
 {
-    return productsByLang[actualProductsLang].empty();
+    return productsByLang.at(actualProductsLang).empty();
 }
 
 void Products::loadProducts()
@@ -57,9 +56,9 @@ void Products::loadProducts()
     }
 }
 
-std::unordered_map<std::string, ProductData> Products::getProducts()
+const std::unordered_map<std::string, ProductData>& Products::getProducts()
 {
-    return productsByLang[actualProductsLang];
+    return productsByLang.at(actualProductsLang);
 }
 
 std::string Products::getCurrency()
@@ -69,12 +68,12 @@ std::string Products::getCurrency()
 
 std::string Products::getProductName(const std::string& id)
 {
-    return productsByLang[actualProductsLang][id].name;
+    return productsByLang[actualProductsLang].at(id).name;
 }
 
 std::optional<std::string> Products::isProductExists(const std::string& str)
 {
-    for (const auto& [id, data] : productsList[actualProductsLang])
+    for (const auto& [id, data] : productsList.at(actualProductsLang))
     {
         if (data.name == str)
         {
@@ -84,32 +83,31 @@ std::optional<std::string> Products::isProductExists(const std::string& str)
     return std::nullopt;
 }
 
-double Products::getProductPrice(const std::string& id)
+double Products::getProductPrice(const std::string& id) const
 {
-    return productsByLang[actualProductsLang][id].price;
+    return productsByLang[actualProductsLang].at(id).price;
 }
 
-int Products::getProductQnt(const std::string& id)
+int Products::getProductQnt(const std::string& id) const
 {
     if (!productsByLang[actualProductsLang].contains(id))
     {
         return 0;
     }
-    return productsByLang[actualProductsLang][id].qnt;
+    return productsByLang[actualProductsLang].at(id).qnt;
 }
 
 void Products::updateStoreAfterAddingToCart(const std::string& id, const int qnt)
 {
     for (size_t i{}; i < Utils::numofLangs; ++i)
     {
-        if (const int newQnt{productsByLang[i][id].qnt - qnt}; newQnt == 0)
+        if (const int newQnt{productsByLang[i].at(id).qnt - qnt}; newQnt == 0)
         {
-            std::cout << "usuwam: " << productsByLang[i][id].name << '\n';
             productsByLang[i].erase(id);
         }
         else
         {
-            productsByLang[i][id].qnt = newQnt;
+            productsByLang[i].at(id).qnt = newQnt;
         }
     }
 }
@@ -143,12 +141,12 @@ void Products::updateStoreAfterQntChange(const std::string& id, const int newQnt
     }
 }
 
-std::map<std::string, ProductData> Products::getProductList()
+const std::map<std::string, ProductData>& Products::getProductList()
 {
-    return productsList[actualProductsLang];
+    return productsList.at(actualProductsLang);
 }
 
-void Products::updateFilesAfterPurchase()
+void Products::updateFilesAfterStoreUpdate()
 {
     const std::filesystem::path tempPath{DATA_DIR "temp.txt"};
 
@@ -177,7 +175,7 @@ void Products::updateStoreAfterCartItemRemoved(const std::string& id, int&& qnt)
 {
     for (size_t i{}; i < static_cast<size_t>(Utils::numofLangs); ++i)
     {
-        productsByLang[i][id].qnt += qnt;
+        productsByLang[i].at(id).qnt += qnt;
     }
 }
 
@@ -212,7 +210,7 @@ void Products::addNewProductToDatabase(const ProductData& prdData)
         newId[i] = '0';
         if (i == 0)
         {
-            newId = "1" + newId;
+            newId.insert(0, "1");
         }
     }
 
@@ -220,7 +218,7 @@ void Products::addNewProductToDatabase(const ProductData& prdData)
     productsList[static_cast<size_t>(ActualLang::JP)].emplace(newId, jpProduct);
     productsByLang[static_cast<size_t>(ActualLang::JP)].emplace(newId, jpProduct);
     productsByLang[static_cast<size_t>(ActualLang::EN)].emplace(newId, enProduct);
-    updateFilesAfterPurchase();
+    updateFilesAfterStoreUpdate();
 }
 
 void Products::deleteProductFromStore(const std::string& id)
@@ -230,15 +228,15 @@ void Products::deleteProductFromStore(const std::string& id)
         productsList[i].erase(id);
         productsByLang[i].erase(id);
     }
-    updateFilesAfterPurchase();
+    updateFilesAfterStoreUpdate();
 }
 
 void Products::updateProductQuantity(const std::string& id, const int newQnt)
 {
     for (size_t i{}; i < Utils::numofLangs; ++i)
     {
-        productsList[i][id].qnt = newQnt;
-        productsByLang[i][id].qnt = newQnt;
+        productsList[i].at(id).qnt = newQnt;
+        productsByLang[i].at(id).qnt = newQnt;
     }
-    updateFilesAfterPurchase();
+    updateFilesAfterStoreUpdate();
 }

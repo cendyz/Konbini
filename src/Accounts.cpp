@@ -112,7 +112,7 @@ std::string Accounts::getAccEmail()
     return loggedAccEmail;
 }
 
-std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)>& Accounts::getLoggedAcc()
+const std::array<std::string, static_cast<size_t>(Accounts::AccInfo::Size)>& Accounts::getLoggedAcc()
 {
     return allAccInfo;
 }
