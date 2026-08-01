@@ -70,7 +70,7 @@ void LanguageManager::loadMenus()
 
 std::string_view LanguageManager::getText(const std::string& text)
 {
-    return dict[text];
+    return dict.at(text);
 }
 
 std::array<std::string_view, LanguageManager::mainMenuSize> LanguageManager::getMainMenu() const
@@ -123,4 +123,14 @@ std::string LanguageManager::getLoginMsg(const size_t i)
 void LanguageManager::clearDict()
 {
     dict.clear();
+}
+
+size_t LanguageManager::getDictSize() const
+{
+    return dict.size();
+}
+
+bool LanguageManager::isKeyExist(const std::string& key) const
+{
+    return dict.contains(key);
 }

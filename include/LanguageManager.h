@@ -15,14 +15,14 @@ class LanguageManager
     enum class Langs : std::uint8_t
     {
         EN = 1,
-        JP,
+        JP = 2,
     };
 
     enum class LoginMsg : std::uint8_t
     {
-        Email,
-        Password,
-        Size,
+        Email = 1,
+        Password = 2,
+        Size = 3,
     };
 
     void loadLangTypeFile();
@@ -60,6 +60,10 @@ class LanguageManager
     void changeLang();
 
     void clearDict();
+
+    [[nodiscard]] size_t getDictSize() const;
+
+    [[nodiscard]] bool isKeyExist(const std::string& key) const;
 
   private:
     std::filesystem::path dictPath{DATA_DIR};
