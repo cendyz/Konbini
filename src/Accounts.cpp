@@ -87,7 +87,7 @@ bool Accounts::isEmailMatchingPassword(const std::string& email, const std::stri
 
 void Accounts::setActualAccInfo(const std::string& email)
 {
-    auto& [name, password, accType] = accs.at(email); // jeden lookup
+    auto& [name, password, accType] = accs.at(email);
 
     name[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(name[0])));
     allAccInfo[static_cast<size_t>(AccInfo::Name)] = name;

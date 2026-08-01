@@ -2,28 +2,35 @@
 #include "array"
 #include "gtest/gtest.h"
 
-TEST(IsDouble, RecognizesVariousFormatsCorrectl)
+TEST(IsDouble, RecognizesVariousFormatsCorrect)
 {
     EXPECT_TRUE(Utils::isDouble("22.1"));
     EXPECT_TRUE(Utils::isDouble(".9"));
     EXPECT_TRUE(Utils::isDouble("3."));
-    EXPECT_FALSE(Utils::isDouble("22..1"));
-    EXPECT_FALSE(Utils::isDouble("22..1"));
-    EXPECT_FALSE(Utils::isDouble("22342344323423.11"));
-    EXPECT_FALSE(Utils::isDouble("11w.1"));
-    EXPECT_FALSE(Utils::isDouble("..1"));
+}
+
+TEST(IsDouble, RecognizesVariousFormatsIncorrect)
+{
+    EXPECT_FALSE(Utils::isDouble("2223..1"));
     EXPECT_FALSE(Utils::isDouble(""));
-    EXPECT_FALSE(Utils::isDouble(" 22.2w"));
+    EXPECT_FALSE(Utils::isDouble(" 3."));
+    EXPECT_FALSE(Utils::isDouble("3.#11a"));
+    EXPECT_FALSE(Utils::isDouble("w3.a3"));
+    EXPECT_FALSE(Utils::isDouble("22222222111112.3"));
 }
 
 TEST(isInt, RecognizesVariousFormatsCorrectly)
 {
     EXPECT_TRUE(Utils::isInt("93"));
     EXPECT_TRUE(Utils::isInt("3"));
+}
+
+TEST(isInt, RecognizesVariousFormatsInCorrectly)
+{
     EXPECT_FALSE(Utils::isInt(""));
     EXPECT_FALSE(Utils::isInt(" 2"));
     EXPECT_FALSE(Utils::isInt("78 "));
-    EXPECT_FALSE(Utils::isInt("782222222222222222222222222222"));
+    EXPECT_FALSE(Utils::isInt("78222222222222222222222222222222"));
     EXPECT_FALSE(Utils::isInt("ww"));
     EXPECT_FALSE(Utils::isInt("ske$2a"));
 }

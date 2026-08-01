@@ -372,7 +372,8 @@ void Konbini::remindPassword() const
             acc[i] = input.value();
         }
 
-        if (accounts->isCorrectNameEmail(acc[static_cast<size_t>(Accounts::AccInfo::Email)],
+        if (accounts->isAccExists(acc[static_cast<size_t>(Accounts::AccInfo::Email)]) &&
+            accounts->isCorrectNameEmail(acc[static_cast<size_t>(Accounts::AccInfo::Email)],
                                          acc[static_cast<size_t>(Accounts::AccInfo::Name)]))
         {
             KonbiniUI::printPassword(lng->getText("YOUR_PASS"),
