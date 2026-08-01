@@ -1,6 +1,6 @@
 MENU_WELCOME;Welcome to the store!
 REG_CUP;Registered users have 10% discount
-M_BACK_OPT;You can back to menu by command '0'
+M_BACK_OPT;You can go back to menu with command '0'
 M_OPT_1;Browse the store
 M_OPT_2;Check cart
 M_OPT_3;Add item to cart
@@ -9,7 +9,7 @@ M_OPT_5;Remove product from the cart
 M_OPT_6;Finalize purchase
 M_OPT_7;Login
 M_OPT_8;Register
-M_OPT_9;Become a employee
+M_OPT_9;Become an employee
 M_OPT_10;Remind password
 M_OPT_11;Change language to Japanese
 M_OPT_12;Exit
@@ -34,7 +34,7 @@ EMAIL_ERR;This is not a valid email.
 EMAIL_EXST;This email already exists.
 EMAIL_CHANGED;Email changed!
 ACC_CREATED;Account successfully created!
-SUCC_LOG;Successfull login!
+SUCC_LOG;Successful login!
 WRN_NAME_EMAIL;Wrong e-mail or name.
 YOUR_PASS;Your password:
 NEW_PASS;New password:
@@ -42,8 +42,8 @@ NEW_PASS_CHNGD;Password updated!
 EMP_CART;Cart is empty!
 WRN_PRD;This product is not in store!
 PRD_NAME;Product name:
-NOT_IN_C;This product is not in cart!;
-ITM_REMV;Product removed from the cart!;
+NOT_IN_C;This product is not in cart!
+ITM_REMV;Product removed from the cart!
 CRT_SUM;Cart summary:
 DSC_CRT_SUM;Cart summary after discount:
 LNG_CHN;Language changed!
@@ -56,11 +56,11 @@ U_MENU_3;Change password
 U_MENU_4;Browse the store
 U_MENU_5;Purchase history
 U_MENU_6;Check cart
-U_MENU_7;Add item to cart  Change
+U_MENU_7;Add item to cart
 U_MENU_8;Change cart item quantity
 U_MENU_9;Remove product from the cart
 U_MENU_10;Finalize purchase
-U_MENU_11;Change language to japanese
+U_MENU_11;Change language to Japanese
 U_MENU_12;Delete account
 U_MENU_13;Logout
 U_MENU_14;Exit
@@ -77,19 +77,19 @@ A_MENU_5;Purchase history
 A_MENU_6;Check cart
 A_MENU_7;Add item to cart
 A_MENU_8;Change cart item quantity
-A_MENU_9;Remove product from cart
+A_MENU_9;Remove product from the cart
 A_MENU_10;Finalize purchase
 A_MENU_11;Add new product to store
 A_MENU_12;Change store product quantity
-A_MENU_13;Remove product from store
-A_MENU_14;Change language to japanese
+A_MENU_13;Remove product from the store
+A_MENU_14;Change language to Japanese
 A_MENU_15;Delete account
 A_MENU_16;Logout
 A_MENU_17;Exit
 EN_PRD_NAME;English product name:
 JP_PRD_NAME;Japanese product name:
 PRD_AL_EXT;Product already exists!
-NEW_PRD_PRICE;Product price in usd:
+NEW_PRD_PRICE;Product price in USD:
 WRN_PRD_PRICE;Illegal price amount.
 PRD_ADD_ST;Product added to the store!
 PRD_REM_ST;Product removed from the store!
