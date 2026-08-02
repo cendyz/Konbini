@@ -8,8 +8,8 @@
 class LanguageManager
 {
     static constexpr size_t mainMenuSize{12};
-    static constexpr size_t userMenuSize{14};
-    static constexpr size_t adminMenuSize{17};
+    static constexpr size_t userMenuSize{13};
+    static constexpr size_t adminMenuSize{16};
 
   public:
     enum class Langs : std::uint8_t
@@ -68,7 +68,7 @@ class LanguageManager
   private:
     std::filesystem::path dictPath{DATA_DIR};
     inline static const std::filesystem::path langTypePath{DATA_DIR "langType.txt"};
-    inline static std::array<std::string, 2> langsType{"en", "jp"};
+    inline static std::array<std::string, 2> langsType{"jp", "en"};
     ActualLang currLang{};
     std::string userLang;
 

@@ -25,11 +25,11 @@ std::optional<std::string> LanguageManager::isCorrectUserLang(int val)
 {
     switch (static_cast<Langs>(val))
     {
-    case Langs::JP:
-        currLang = ActualLang::JP;
-        break;
     case Langs::EN:
         currLang = ActualLang::EN;
+        break;
+    case Langs::JP:
+        currLang = ActualLang::JP;
         break;
     default:
         return std::nullopt;

@@ -89,11 +89,13 @@ std::string Utils::upperFirstLetter(const std::string& str)
 
 bool Utils::isInt(const std::string& str)
 {
-    return !str.empty() && str.size() < 11 &&  std::ranges::all_of(str,
-                                               [](const char c)
-                                               {
-                                                   return std::isdigit(c);
-                                               });
+    return !str.empty() && str.size() < 11 &&
+           std::ranges::all_of(
+               str,
+               [](const char c)
+               {
+                   return std::isdigit(c);
+               });
 }
 
 void Utils::printSeparator()

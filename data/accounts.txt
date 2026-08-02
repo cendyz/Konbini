@@ -1,5 +1,0 @@
-michal;b;1;admin
-michal;mich@gm.com;michal12#;admin
-michal;d;1;user
-michal;meh@gm.com;michal12#;user
-michal;mech@gm.com;michal12#;admin

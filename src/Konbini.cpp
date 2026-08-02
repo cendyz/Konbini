@@ -104,7 +104,7 @@ std::optional<int> Konbini::getOptionalPositiveInt(const std::string_view inputM
     }
 }
 
-std::optional<double> Konbini::getOptionalPositiveDouble(std::string_view inputMsg) const
+std::optional<double> Konbini::getOptionalPositiveDouble(const std::string_view inputMsg) const
 {
     while (true)
     {
@@ -608,8 +608,6 @@ bool Konbini::executeLoggedUserTask(int command) const
     case LoggedUserMenuOPTS::BrowseTheStore:
         browseTheStore();
         break;
-    case LoggedUserMenuOPTS::PurchaseHistory:
-        break;
     case LoggedUserMenuOPTS::CheckCart:
         checkCart(true);
         break;
@@ -731,8 +729,6 @@ bool Konbini::executeLoggedAdminTask(int command) const
     case LoggedAdminMenuOPTS::BrowseTheStore:
         browseTheStore();
         break;
-    case LoggedAdminMenuOPTS::PurchaseHistory:
-        break;
     case LoggedAdminMenuOPTS::CheckCart:
         checkCart(true);
         break;
@@ -828,12 +824,6 @@ newProductInputVariant Konbini::getNewProductName() const
             if (!input.has_value())
             {
                 return std::monostate{};
-            }
-
-            if (!std::regex_match(input.value(), registerRegexes[static_cast<size_t>(Accounts::AccInfo::Name)]))
-            {
-                Utils::printWrongMsgNLine(lng->getText("WRN_PRD_NAME"));
-                continue;
             }
 
             Utils::lowerString(input.value());

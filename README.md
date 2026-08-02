@@ -28,7 +28,7 @@ A console application written in modern C++, simulating a shop with various addi
 3. Create build folder and make cmake files.
 
 ```bash
-New-Item build
+mkdir build
 cmake -S . -B build
 ```
 
@@ -42,7 +42,7 @@ cmake --build ./build
 
 ```bash
 cd build/Debug
-./system
+./konbini
 ## For tests:
 ./tests
 ```

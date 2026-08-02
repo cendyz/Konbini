@@ -4,7 +4,7 @@
 
 namespace
 {
-class IsCorrectAccountsFuncs : public ::testing::Test
+class IsCorrectAccountsFuncs : public testing::Test
 {
   protected:
     Accounts accounts;

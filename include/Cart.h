@@ -12,7 +12,7 @@ class Cart
 
     [[nodiscard]] bool isItemIdInCart(const std::string& id) const;
 
-    [[nodiscard]] std::optional<std::string> isProductExistsInCart(const std::string &name);
+    [[nodiscard]] std::optional<std::string> isProductExistsInCart(const std::string& name);
 
     [[nodiscard]] int getCartItemQnt(const std::string& id) const;
 

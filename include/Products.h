@@ -29,7 +29,7 @@ class Products
 
     [[nodiscard]] std::optional<std::string> isProductExistsInDatabase(const std::string& name);
 
-    [[nodiscard]] bool isItemExistInStore(const std::string &id) const;
+    [[nodiscard]] bool isItemExistInStore(const std::string& id) const;
 
     [[nodiscard]] int getProductQnt(const std::string& id) const;
 

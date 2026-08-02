@@ -3,6 +3,7 @@
 #include "Utils.h"
 #include <fstream>
 #include <iostream>
+#include <ranges>
 
 Products::Products(const std::string& finalLang)
 {
@@ -141,7 +142,7 @@ void Products::updateStoreAfterQntChange(const std::string& id, const int newQnt
             }
             else
             {
-                productsByLang[i][id].qnt -= (newQnt - cartItemQnt);
+                productsByLang[i][id].qnt -= newQnt - cartItemQnt;
             }
         }
     }
@@ -207,7 +208,12 @@ void Products::updateStoreAfterDeletingAccount(const std::unordered_map<std::str
 
 void Products::addNewProductToDatabase(const ProductData& prdData)
 {
-    std::string newId{productsList[0].rbegin()->first};
+    int newId{1};
+
+    if (!productsList[0].empty())
+    {
+        newId = std::stoi(productsList[0].rbegin()->first) + 1;
+    }
     std::string enName, jpName;
     std::stringstream ss(prdData.name);
     std::getline(ss, enName, ';');
@@ -217,25 +223,13 @@ void Products::addNewProductToDatabase(const ProductData& prdData)
     ProductData jpProduct{prdData};
     jpProduct.price = std::round(enProduct.price * jpCurrency);
     jpProduct.name = jpName;
-    const int newIdLen{static_cast<int>(newId.size())};
-    for (int i{newIdLen - 1}; i >= 0; --i)
-    {
-        if (newId[i] != '9')
-        {
-            newId[i] += 1;
-            break;
-        }
-        newId[i] = '0';
-        if (i == 0)
-        {
-            newId.insert(0, "1");
-        }
-    }
 
-    productsList[static_cast<size_t>(ActualLang::EN)].emplace(newId, enProduct);
-    productsList[static_cast<size_t>(ActualLang::JP)].emplace(newId, jpProduct);
-    productsByLang[static_cast<size_t>(ActualLang::JP)].emplace(newId, jpProduct);
-    productsByLang[static_cast<size_t>(ActualLang::EN)].emplace(newId, enProduct);
+    std::string strNewId{std::to_string(newId)};
+
+    productsList[static_cast<size_t>(ActualLang::EN)].emplace(strNewId, enProduct);
+    productsList[static_cast<size_t>(ActualLang::JP)].emplace(strNewId, jpProduct);
+    productsByLang[static_cast<size_t>(ActualLang::JP)].emplace(strNewId, jpProduct);
+    productsByLang[static_cast<size_t>(ActualLang::EN)].emplace(strNewId, enProduct);
     updateFilesAfterStoreUpdate();
 }
 

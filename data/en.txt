@@ -54,16 +54,15 @@ U_MENU_1;Show account details
 U_MENU_2;Change e-mail
 U_MENU_3;Change password
 U_MENU_4;Browse the store
-U_MENU_5;Purchase history
-U_MENU_6;Check cart
-U_MENU_7;Add item to cart
-U_MENU_8;Change cart item quantity
-U_MENU_9;Remove product from the cart
-U_MENU_10;Finalize purchase
-U_MENU_11;Change language to Japanese
-U_MENU_12;Delete account
-U_MENU_13;Logout
-U_MENU_14;Exit
+U_MENU_5;Check cart
+U_MENU_6;Add item to cart
+U_MENU_7;Change cart item quantity
+U_MENU_8;Remove product from the cart
+U_MENU_9;Finalize purchase
+U_MENU_10;Change language to Japanese
+U_MENU_11;Delete account
+U_MENU_12;Logout
+U_MENU_13;Exit
 S_ACC_0;Name
 S_ACC_1;Email
 S_ACC_2;Password
@@ -73,19 +72,18 @@ A_MENU_1;Show account details
 A_MENU_2;Change e-mail
 A_MENU_3;Change password
 A_MENU_4;Browse the store
-A_MENU_5;Purchase history
-A_MENU_6;Check cart
-A_MENU_7;Add item to cart
-A_MENU_8;Change cart item quantity
-A_MENU_9;Remove product from the cart
-A_MENU_10;Finalize purchase
-A_MENU_11;Add new product to store
-A_MENU_12;Change store product quantity
-A_MENU_13;Remove product from the store
-A_MENU_14;Change language to Japanese
-A_MENU_15;Delete account
-A_MENU_16;Logout
-A_MENU_17;Exit
+A_MENU_5;Check cart
+A_MENU_6;Add item to cart
+A_MENU_7;Change cart item quantity
+A_MENU_8;Remove product from the cart
+A_MENU_9;Finalize purchase
+A_MENU_10;Add new product to store
+A_MENU_11;Change store product quantity
+A_MENU_12;Remove product from the store
+A_MENU_13;Change language to Japanese
+A_MENU_14;Delete account
+A_MENU_15;Logout
+A_MENU_16;Exit
 EN_PRD_NAME;English product name:
 JP_PRD_NAME;Japanese product name:
 PRD_AL_EXT;Product already exists!
