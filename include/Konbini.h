@@ -95,6 +95,9 @@ class Konbini
 
     [[nodiscard]] std::optional<int> getOptionalPositiveInt(std::string_view inputMsg) const;
 
+    inline static const std::regex doubleRegex{R"(^(?:[1-9]\d*(?:\.\d+)?|0\.\d*[1-9]\d*)$)"};
+    [[nodiscard]] std::optional<double> getOptionalPositiveDouble(std::string_view inputMsg) const;
+
     void changeQuantity() const;
 
     void removeProductFromCart() const;
@@ -159,7 +162,7 @@ class Konbini
 
     [[nodiscard]] newProductInputVariant getNewPoductPrice() const;
 
-    void removeProdcutFromStore() const;
+    void removeProductFromStore() const;
 
     void changeStoreProductQuantity() const;
 };

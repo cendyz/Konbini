@@ -6,14 +6,26 @@ bool Cart::isCartEmpty() const
     return cartItems.empty();
 }
 
-std::unordered_map<std::string, ProductData> Cart::getCartItems()
+const std::unordered_map<std::string, ProductData>& Cart::getCartItems()
 {
     return cartItems;
 }
 
-bool Cart::isItemInCart(const std::string& id) const
+bool Cart::isItemIdInCart(const std::string& id) const
 {
     return cartItems.contains(id);
+}
+
+std::optional<std::string> Cart::isProductExistsInCart(const std::string& name)
+{
+    for (const auto& [id, data] : cartItems)
+    {
+        if (data.name == name)
+        {
+            return id;
+        }
+    }
+    return std::nullopt;
 }
 
 int Cart::getCartItemQnt(const std::string& id) const

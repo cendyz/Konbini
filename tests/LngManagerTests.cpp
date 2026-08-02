@@ -9,8 +9,8 @@ class LanguageManagerTest : public ::testing::Test
     LanguageManager lng;
 
     inline static const std::array<std::string, 2> langs{"jp", "en"};
-    static constexpr size_t numOfLines{96};
-    inline static const std::array<std::string, 96> dictKeys{
+    static constexpr size_t numOfLines{97};
+    inline static const std::array<std::string, numOfLines> dictKeys{
         "MENU_WELCOME", "REG_CUP",        "M_BACK_OPT",    "M_OPT_1",    "M_OPT_2",        "M_OPT_3",
         "M_OPT_4",      "M_OPT_5",        "M_OPT_6",       "M_OPT_7",    "M_OPT_8",        "M_OPT_9",
         "M_OPT_10",     "M_OPT_11",       "M_OPT_12",      "OPT_SELECT", "WRN_M_COMMAND",  "STORE_EMPT",
@@ -27,7 +27,7 @@ class LanguageManagerTest : public ::testing::Test
         "A_MENU_8",     "A_MENU_9",       "A_MENU_10",     "A_MENU_11",  "A_MENU_12",      "A_MENU_13",
         "A_MENU_14",    "A_MENU_15",      "A_MENU_16",     "A_MENU_17",  "EN_PRD_NAME",    "JP_PRD_NAME",
         "PRD_AL_EXT",   "NEW_PRD_PRICE",  "WRN_PRD_PRICE", "PRD_ADD_ST", "PRD_REM_ST",     "QNT_CHN",
-    };
+        "WRN_PRD_NAME"};
 };
 } // namespace
 

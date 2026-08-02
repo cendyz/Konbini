@@ -27,7 +27,9 @@ class Products
 
     [[nodiscard]] std::string getProductName(const std::string& id);
 
-    [[nodiscard]] std::optional<std::string> isProductExists(const std::string& str);
+    [[nodiscard]] std::optional<std::string> isProductExistsInDatabase(const std::string& name);
+
+    [[nodiscard]] bool isItemExistInStore(const std::string &id) const;
 
     [[nodiscard]] int getProductQnt(const std::string& id) const;
 
@@ -43,7 +45,7 @@ class Products
 
     void updateStoreAfterCartItemRemoved(const std::string& id, int&& qnt);
 
-    void updateStoreAfterDeletingAccount(std::unordered_map<std::string, ProductData>&& cartItems);
+    void updateStoreAfterDeletingAccount(const std::unordered_map<std::string, ProductData>& cartItems);
 
     void addNewProductToDatabase(const ProductData& prdData);
     static constexpr double jpCurrency{163.67};

@@ -34,7 +34,7 @@ void KonbiniUI::printStoreProducts(const std::unordered_map<std::string, Product
     for (const auto& [name, price, quantity] : products | std::views::values)
     {
         std::cout << COLORS::BLU << Utils::upperFirstLetter(name) << COLORS::RESET << " | " << price << currency
-                  << " | " << qnt << quantity << '\n';
+                  << " | " << qnt << " " << quantity << '\n';
     }
 }
 

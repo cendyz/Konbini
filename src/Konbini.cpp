@@ -104,6 +104,27 @@ std::optional<int> Konbini::getOptionalPositiveInt(const std::string_view inputM
     }
 }
 
+std::optional<double> Konbini::getOptionalPositiveDouble(std::string_view inputMsg) const
+{
+    while (true)
+    {
+        std::string input;
+        Utils::printMsgSpace(inputMsg);
+        getline(std::cin, input);
+
+        if (returnToMenu(input))
+        {
+            return std::nullopt;
+        }
+
+        if (std::regex_match(input, doubleRegex))
+        {
+            return std::stod(input);
+        }
+        Utils::printWrongMsgNLine(lng->getText("WRN_PRD_PRICE"));
+    }
+}
+
 std::optional<std::string> Konbini::getOptionalInput(const std::string_view inputMsg) const
 {
     std::string input;
@@ -197,8 +218,7 @@ void Konbini::browseTheStore() const
         Utils::printWarningMsgNLine(lng->getText("STORE_EMPT"));
         return;
     }
-
-    KonbiniUI::printStoreProducts(products->getProducts(), products->getCurrency(), lng->getText("QNT"));
+    KonbiniUI::printStoreProducts(products->getProducts(), products->getCurrency(), lng->getText("PRD_QNT"));
 }
 
 void Konbini::checkCart(const bool isUser) const
@@ -232,27 +252,26 @@ void Konbini::changeQuantity() const
         {
             return;
         }
-
-        if (!cart->isItemInCart(productId.value()))
+        if (!cart->isItemIdInCart(productId.value()))
         {
             Utils::printWrongMsgNLine(lng->getText("NOT_IN_C"));
             continue;
         }
 
-        const auto newQuantity{getOptionalInput(lng->getText("PRD_N_QNT"))};
+        const auto newQuantity{getOptionalPositiveInt(lng->getText("PRD_N_QNT"))};
 
         if (!newQuantity.has_value())
         {
             return;
         }
 
-        if (!Utils::isInt(newQuantity.value()) || !isNewQuantityOK(productId.value(), std::stoi(newQuantity.value())))
+        if (!isNewQuantityOK(productId.value(), newQuantity.value()))
         {
             Utils::printWrongMsgNLine(lng->getText("WRN_QNT"));
             continue;
         }
 
-        const int newQnt{std::stoi(newQuantity.value())};
+        const int newQnt{newQuantity.value()};
 
         products->updateStoreAfterQntChange(productId.value(), newQnt, cart->getCartItemQnt(productId.value()));
         cart->setNewProductQnty(productId.value(), newQnt);
@@ -263,9 +282,8 @@ void Konbini::changeQuantity() const
 
 bool Konbini::isNewQuantityOK(const std::string& id, const int qnt) const
 {
-
     const int qntFromStore{products->getProductQnt(id)};
-    const bool isToLowerQntOk{qnt < qntFromStore};
+    const bool isToLowerQntOk{qnt <= qntFromStore};
     const bool isToBiggerQntOK{qnt <= qntFromStore + cart->getCartItemQnt(id)};
     return qnt != cart->getCartItemQnt(id) && qnt > 0 && (isToLowerQntOk || isToBiggerQntOK);
 }
@@ -307,15 +325,13 @@ void Konbini::removeProductFromCart() const
         {
             return;
         }
-
-        if (cart->isItemInCart(input.value()))
+        if (cart->isItemIdInCart(input.value()))
         {
             products->updateStoreAfterCartItemRemoved(input.value(), cart->getCartItemQnt(input.value()));
             cart->removeCartItem(input.value());
             Utils::printSuccessMsg(lng->getText("ITM_REMV"));
             return;
         }
-
         Utils::printWrongMsgNLine(lng->getText("NOT_IN_C"));
     }
 }
@@ -334,10 +350,23 @@ Konbini::getnewAcc(const std::string_view accType) const
         {
             return std::nullopt;
         }
-        if (i == static_cast<size_t>(Accounts::AccInfo::Email) || i == static_cast<size_t>(Accounts::AccInfo::Name))
+
+        if (i == static_cast<size_t>(Accounts::AccInfo::Name))
         {
             Utils::lowerString(input.value());
         }
+
+        if (i == static_cast<size_t>(Accounts::AccInfo::Email))
+        {
+            Utils::lowerString(input.value());
+            if (accounts->isAccExists(input.value()))
+            {
+                --i;
+                Utils::printWrongMsgNLine(lng->getText("EMAIL_EXST"));
+                continue;
+            }
+        }
+
         newAcc[i] = input.value();
     }
     newAcc[static_cast<size_t>(Accounts::AccInfo::AccType)] = static_cast<std::string>(accType);
@@ -393,31 +422,40 @@ void Konbini::addItemToCart() const
         return;
     }
 
-    const auto productId{getUserProductId()};
-
-    if (!productId.has_value())
+    while (true)
     {
+        const auto productId{getUserProductId()};
+
+        if (!productId.has_value())
+        {
+            return;
+        }
+
+        if (!products->isItemExistInStore(productId.value()))
+        {
+            Utils::printWrongMsgNLine(lng->getText("WRN_PRD"));
+            continue;
+        }
+
+        const std::string prdName{products->getProductName(productId.value())};
+
+        const auto quantity{getUserQnt(productId.value())};
+
+        if (!quantity.has_value())
+        {
+            return;
+        }
+
+        const ProductData newProduct{
+            .name = prdName,
+            .price = products->getProductPrice(productId.value()) * quantity.value(),
+            .qnt = quantity.value(),
+        };
+        cart->addProductToCart(productId.value(), newProduct);
+        products->updateStoreAfterAddingToCart(productId.value(), quantity.value());
+        Utils::printSuccessMsg(lng->getText("PRD_ADD_CART"));
         return;
     }
-
-    const std::string prdName{products->getProductName(productId.value())};
-
-    const auto quantity{getUserQnt(productId.value())};
-
-    if (!quantity.has_value())
-    {
-        return;
-    }
-
-    const ProductData newProduct{
-        .name = prdName,
-        .price = products->getProductPrice(productId.value()) * quantity.value(),
-        .qnt = quantity.value(),
-    };
-    cart->addProductToCart(productId.value(), newProduct);
-    products->updateStoreAfterAddingToCart(productId.value(), quantity.value());
-
-    Utils::printSuccessMsg(lng->getText("PRD_ADD_CART"));
 }
 
 std::optional<std::string> Konbini::getUserProductId() const
@@ -430,12 +468,10 @@ std::optional<std::string> Konbini::getUserProductId() const
         {
             return std::nullopt;
         }
-
         if (const auto id{isValidUserProduct(input.value())}; id.has_value())
         {
             return id.value();
         }
-
         Utils::printWrongMsgNLine(lng->getText("WRN_PRD"));
     }
 }
@@ -443,7 +479,8 @@ std::optional<std::string> Konbini::getUserProductId() const
 std::optional<std::string> Konbini::isValidUserProduct(std::string& product) const
 {
     Utils::lowerString(product);
-    if (const auto id{products->isProductExists(product)}; id.has_value())
+
+    if (const auto id{products->isProductExistsInDatabase(product)}; id.has_value())
     {
         return id.value();
     }
@@ -509,7 +546,7 @@ std::optional<std::string> Konbini::login() const
     size_t i{};
     while (true)
     {
-        auto input{getOptionalInput(lng->getLoginMsg(i))};
+        auto input{getOptionalInput(lng->getLoginMsg(i + 1))};
 
         if (!input.has_value())
         {
@@ -718,7 +755,7 @@ bool Konbini::executeLoggedAdminTask(int command) const
         changeStoreProductQuantity();
         break;
     case LoggedAdminMenuOPTS::RemoveProductFromTheStore:
-        removeProdcutFromStore();
+        removeProductFromStore();
         break;
     case LoggedAdminMenuOPTS::ChangelanguageToJapanese:
         changeLanguage();
@@ -793,12 +830,20 @@ newProductInputVariant Konbini::getNewProductName() const
                 return std::monostate{};
             }
 
-            if (products->isProductExists(input.value()))
+            if (!std::regex_match(input.value(), registerRegexes[static_cast<size_t>(Accounts::AccInfo::Name)]))
+            {
+                Utils::printWrongMsgNLine(lng->getText("WRN_PRD_NAME"));
+                continue;
+            }
+
+            Utils::lowerString(input.value());
+
+            if (products->isProductExistsInDatabase(input.value()))
             {
                 Utils::printWrongMsgNLine(lng->getText("PRD_AL_EXT"));
                 continue;
             }
-            Utils::lowerString(input.value());
+
             enJPprdName += input.value();
             if (i == 0)
             {
@@ -812,48 +857,30 @@ newProductInputVariant Konbini::getNewProductName() const
 
 newProductInputVariant Konbini::getNewProductQnt() const
 {
-    while (true)
+    auto input{getOptionalPositiveInt(lng->getText("PRD_QNT"))};
+
+    if (!input.has_value())
     {
-        auto input{getOptionalInput(lng->getText("PRD_QNT"))};
-
-        if (!input.has_value())
-        {
-            return std::monostate{};
-        }
-
-        if (!Utils::isInt(input.value()))
-        {
-            Utils::printWrongMsgNLine(lng->getText("WRN_QNT"));
-            continue;
-        }
-
-        return std::stoi(input.value());
+        return std::monostate{};
     }
+
+    return input.value();
 }
 
 newProductInputVariant Konbini::getNewPoductPrice() const
 {
 
-    while (true)
+    auto input{getOptionalPositiveDouble(lng->getText("NEW_PRD_PRICE"))};
+
+    if (!input.has_value())
     {
-        auto input{getOptionalInput(lng->getText("NEW_PRD_PRICE"))};
-
-        if (!input.has_value())
-        {
-            return std::monostate{};
-        }
-
-        if (!Utils::isDouble(input.value()))
-        {
-            Utils::printWrongMsgNLine(lng->getText("WNR_PRD_PRICE"));
-            continue;
-        }
-
-        return std::stod(input.value());
+        return std::monostate{};
     }
+
+    return input.value();
 }
 
-void Konbini::removeProdcutFromStore() const
+void Konbini::removeProductFromStore() const
 {
     const auto productId{getUserProductId()};
 
@@ -862,13 +889,16 @@ void Konbini::removeProdcutFromStore() const
         return;
     }
 
-    products->deleteProductFromStore(productId.value());
-    if (cart->isItemInCart(productId.value()))
+    if (products->isItemExistInStore(productId.value()))
+    {
+        products->deleteProductFromStore(productId.value());
+    }
+    if (cart->isItemIdInCart(productId.value()))
     {
         cart->removeCartItem(productId.value());
     }
 
-    Utils::printSuccessMsg(lng->getText("PRD_REM_STR"));
+    Utils::printSuccessMsg(lng->getText("PRD_REM_ST"));
 }
 
 void Konbini::changeStoreProductQuantity() const

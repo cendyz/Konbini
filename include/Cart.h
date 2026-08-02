@@ -8,9 +8,11 @@ class Cart
   public:
     [[nodiscard]] bool isCartEmpty() const;
 
-    [[nodiscard]] std::unordered_map<std::string, ProductData> getCartItems();
+    [[nodiscard]] const std::unordered_map<std::string, ProductData>& getCartItems();
 
-    [[nodiscard]] bool isItemInCart(const std::string& id) const;
+    [[nodiscard]] bool isItemIdInCart(const std::string& id) const;
+
+    [[nodiscard]] std::optional<std::string> isProductExistsInCart(const std::string &name);
 
     [[nodiscard]] int getCartItemQnt(const std::string& id) const;
 

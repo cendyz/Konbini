@@ -94,3 +94,4 @@ WRN_PRD_PRICE;Illegal price amount.
 PRD_ADD_ST;Product added to the store!
 PRD_REM_ST;Product removed from the store!
 QNT_CHN;Quantity updated!
+WRN_PRD_NAME;Wrong product name!
